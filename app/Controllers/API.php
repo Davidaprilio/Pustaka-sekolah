@@ -1,0 +1,121 @@
+<?php 
+namespace App\Controllers;
+use \App\Models\BukuModel;
+
+class API extends BaseController
+{
+	protected $buku, $guru;
+
+	public function __construct()
+	{
+		$this->buku = new BukuModel();
+	}
+	public function index()
+	{
+		return view('API/index');
+	}
+
+	//-----------------------	Json 	---------------------------
+	public function getBookOn($kategori,$lotsV=3)
+	{
+		$data = [];
+		$get = (object) $this->buku->getLimit($kategori, $lotsV);
+		$data['status'] = 'OK';
+		$data['lots'] = count((array)$get);
+		$in = 0;
+		foreach ($get as $key) {
+			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key->sampul;
+			$data['items'][$in]['sampulOri'] = '/img/book/'.$key->sampul;
+			$data['items'][$in]['pemilikBuku'] = $key->author;
+			$data['items'][$in]['diunggah'] = $key->created_at;
+			$data['items'][$in]['kategori'] = $key->forClass;
+			$data['items'][$in]['judulBuku'] = $key->judul_buku;
+			$data['items'][$in]['unduhan'] = $key->download;
+			$data['items'][$in]['dibaca'] = $key->reader;
+			$data['items'][$in]['penerbit'] = $key->penerbit;
+			$data['items'][$in]['penulis'] = $key->penulis;
+			$data['items'][$in]['idBuku'] = $key->slug_buku;
+			$in++;
+		}
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+	public function searchBook($nameBook,$maxL = 5)
+	{
+		$data = [];
+		$get = (object) $this->buku->search($nameBook, $maxL);
+		$data['status'] = 'OK';
+		$data['lots'] = count((array)$get);
+		$in = 0;
+		foreach ($get as $key) {
+			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key->sampul;
+			$data['items'][$in]['sampulOri'] = '/img/book/'.$key->sampul;
+			$data['items'][$in]['pemilikBuku'] = $key->author;
+			$data['items'][$in]['diunggah'] = $key->created_at;
+			$data['items'][$in]['kategori'] = $key->forClass;
+			$data['items'][$in]['judulBuku'] = $key->judul_buku;
+			$data['items'][$in]['unduhan'] = $key->download;
+			$data['items'][$in]['dibaca'] = $key->reader;
+			$data['items'][$in]['penerbit'] = $key->penerbit;
+			$data['items'][$in]['penulis'] = $key->penulis;
+			$data['items'][$in]['idBuku'] = $key->slug_buku;
+			$in++;
+		}
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+	public function book($slugBook)
+	{
+		$data = [];
+		helper('helpmy');
+		$get = $this->buku->where('slug_buku', $slugBook)->first();
+		if (is_null($get)) {
+			$data['status'] = 'Not_Found';
+			$data['message'] = 'Tidak menemukan buku yang dicari pastikan id buku benar, id terdiri 12 karakter acak dan di akhiri 2 angka';
+		} else {
+			$data['status'] = 'OK';
+			$data['items']['sampulMin'] = base_url('/').'/img/book/min/'.$get['sampul'];
+			$data['items']['sampulOri'] = base_url('/').'/img/book/'.$get['sampul'];
+			$data['items']['pemilikBuku'] = $get['author'];
+			$data['items']['diunggah'] = $get['created_at'];
+			$data['items']['diunggahParse'] = tgl_Id(date('Y-m-d', strtotime($get['created_at'])) );
+			$data['items']['kategori'] = $get['forClass'];
+			$data['items']['judulBuku'] = $get['judul_buku'];
+			$data['items']['unduhan'] = $get['download'];
+			$data['items']['dibaca'] = $get['reader'];
+			$data['items']['penerbit'] = $get['penerbit'];
+			$data['items']['penulis'] = $get['penulis'];
+			$data['items']['rating'] = $get['rating'];
+			$data['items']['idBuku'] = $get['slug_buku'];
+			$data['items']['deskripsi'] = $get['deskripsi'];
+		}
+		$data['inputParams'] = $slugBook;
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+	public function getDataGuru($idU)
+	{
+		$get = $this->guru->where('idUniq', $idU)->first();
+		if (is_null($get)) {
+			$data['status'] = 'Not_Found';
+			$data['message'] = 'Tidak menemukan profil duru yang dicari pastikan id guru benar';
+		} else {
+			helper('helpmy');
+			$data['status'] = 'OK';
+			$data['items']['id'] = $get['idUniq'];
+			$data['items']['nama'] = $get['nama'];
+			$data['items']['namaLengkap'] = $get['nama_lengkap'];
+			$data['items']['Jk'] = $get['JK'];
+			$data['items']['foto'] = '/'.$get['fotoprofile'];
+			$data['items']['tglLahir'] = tgl_Id( date('Y-m-d', strtotime($get['tgl_lahir'])));
+			$data['items']['waliKelas'] = (is_null($get['wali']))? 'tidak menjadi wali kelas' : $get['wali'];
+			$data['items']['pengajar'] = $get['pengajar'];
+			$data['items']['alamat'] = $get['alamat'];
+			$data['items']['email'] = $get['email'];
+			$data['items']['NIP'] = $get['NIP'];
+		}
+		$data['inputParams'] = $idU;
+		header('Content-Type: application/json');
+		echo json_encode($data);
+	}
+}

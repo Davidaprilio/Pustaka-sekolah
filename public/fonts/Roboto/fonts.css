@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Roboto_400_normal.eot); /* http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5A.eot */
+    src: local('☺'),
+        url(Roboto_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5A.eot */
+        url(Roboto_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me4A.woff2 */
+        url(Roboto_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5g.woff */
+        url(Roboto_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5WZNCzc.ttf */
+        url(Roboto_400_normal.svg#Roboto_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=KFOmCnqEu92Fr1Me5w&skey=a0a0114a1dcab3ac&v=v20#Roboto */
+}
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    src: url(Roboto_300_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Roboto_300_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Roboto_300_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5vBg.woff2 */
+        url(Roboto_300_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5vAA.woff */
+        url(Roboto_300_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5vAx0_IsE.ttf */
+        url(Roboto_300_normal.svg#Roboto_300_normal) format('svg'); /* {{svg-gf-url}} */
+}

@@ -1,0 +1,49 @@
+body {
+	background: #F2F8F6;
+	overflow-x: hidden;
+}
+.svgTop {
+	z-index: -1;
+    top: -267px;
+    right: -100px;
+    width: 70%;
+    max-width: 992px;
+    transform: scale(1.5);
+    max-height: 50em;
+}
+.top-0 {
+	top: 0;
+}
+.bg-back {
+	z-index: -1;
+}
+.img-Appicon {
+	width: 70px;
+}
+.cardApp {
+	border: 1px solid #eeefff;
+}
+.cardApp p {
+	font-size: 13.5px;
+}
+.itemAppBg {
+	width: 40%;
+	top: 20%;
+	left: -200px;
+}
+.row .col-12 {
+	margin-bottom: 10px !important;
+}
+.navbar {
+	transition: .3s;
+}
+.navbar.stiky {
+	position: sticky;
+	top: 0px;
+	background: #EAF4F9;
+	z-index: 1000;
+	box-shadow: 0 0 5px #ddd
+}
+.navbar.stiky {
+	color: #fff;
+}

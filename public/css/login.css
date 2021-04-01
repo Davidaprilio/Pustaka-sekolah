@@ -1,0 +1,140 @@
+@import url('../fonts/NotoSans/fonts.css');
+* {
+  font-family: 'Noto Sans', sans-serif;
+}
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group > input,
+.form-label-group > label {
+  height: 3.125rem;
+  padding: .75rem;
+}
+
+.form-label-group > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  color: #495057;
+  pointer-events: none;
+  cursor: text; /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+
+.purple-gradient {
+ background:linear-gradient(40deg,#ff6ec4,#7873f5) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.peach-gradient {
+ background:linear-gradient(40deg,#ffd86f,#fc6262) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.aqua-gradient {
+ background:linear-gradient(40deg,#2096ff,#05ffa3) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.blue-gradient {
+ background:linear-gradient(40deg,#45cafc,#303f9f) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.purple-gradient-rgba {
+ background:linear-gradient(40deg,rgba(255,110,196,0.9),rgba(120,115,245,0.9)) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.peach-gradient-rgba {
+ background:linear-gradient(40deg,rgba(255,216,111,0.9),rgba(252,98,98,0.9)) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.aqua-gradient-rgba {
+ background:linear-gradient(40deg,rgba(32,150,255,0.9),rgba(5,255,163,0.9)) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}
+.blue-gradient-rgba {
+ background:linear-gradient(40deg,rgba(69,202,252,0.9),rgba(48,63,159,0.9)) !important;
+ background-repeat: no-repeat;
+ background-size: contain;
+}

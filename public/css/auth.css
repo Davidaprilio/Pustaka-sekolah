@@ -1,0 +1,126 @@
+@import url('../fonts/Roboto/fonts.css');
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.card {
+	max-width: 450px;
+	margin-top: 40px;
+	padding: 20px;
+	box-shadow: 0 10px 10px rgba(9,9,9,.1);
+	border: 1px solid rgba(9,9,9,.2);
+	border-radius: 8px;
+  border-top: 5px solid #007BFF;
+}
+.card h1, .card h3 {
+	margin: 15px auto;
+	text-align: center;
+}
+.invalid-feedback {
+  border-bottom: none !important;
+}
+.form-control.is-invalid:focus, .was-validated .form-control:invalid:focus {
+  box-shadow: none !important;
+}
+.form-signin {
+  width: 100%;
+  max-width: 420px;
+  min-height: 500px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group > input,
+.form-label-group > label {
+  height: 3.125rem;
+  padding: .75rem;
+}
+
+.form-label-group > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  color: #495057;
+  pointer-events: none;
+  cursor: text; /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-moz-placeholder-shown) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #007BFF;
+  margin-top: -10px;
+  background: #fff;
+  width: auto;
+  height: 0;
+  padding: 0;
+}
+
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #007BFF;
+  margin-top: -10px;
+  width: auto;
+  height: auto;
+  padding: 0 7px;
+  background: #fff !important;
+  z-index: 100;
+  margin-left: 6px;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+  .form-label-group > label {
+    display: none;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}

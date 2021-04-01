@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Noto+Sans_400_normal.eot); /* http://fonts.gstatic.com/s/notosans/v11/o-0IIpQlx3QUlC5A4PNb4w.eot */
+    src: local('☺'),
+        url(Noto+Sans_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/notosans/v11/o-0IIpQlx3QUlC5A4PNb4w.eot */
+        url(Noto+Sans_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/notosans/v11/o-0IIpQlx3QUlC5A4PNb5w.woff2 */
+        url(Noto+Sans_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/notosans/v11/o-0IIpQlx3QUlC5A4PNb4Q.woff */
+        url(Noto+Sans_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/notosans/v11/o-0IIpQlx3QUlC5A4PNb4j5Ha_w.ttf */
+        url(Noto+Sans_400_normal.svg#Noto+Sans_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=o-0IIpQlx3QUlC5A4PNb4A&skey=2b960fe17823056f&v=v11#NotoSans */
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: italic;
+    font-weight: 400;
+    src: url(Noto+Sans_400_italic.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Noto+Sans_400_italic.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Noto+Sans_400_italic.woff2) format('woff2'), /* http://fonts.gstatic.com/s/notosans/v11/o-0OIpQlx3QUlC5A4PNr4DRA.woff2 */
+        url(Noto+Sans_400_italic.woff) format('woff'), /* http://fonts.gstatic.com/s/notosans/v11/o-0OIpQlx3QUlC5A4PNr4DRG.woff */
+        url(Noto+Sans_400_italic.ttf) format('truetype'), /* http://fonts.gstatic.com/s/notosans/v11/o-0OIpQlx3QUlC5A4PNr4DRFSf6M7Q.ttf */
+        url(Noto+Sans_400_italic.svg#Noto+Sans_400_italic) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url(Noto+Sans_700_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Noto+Sans_700_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Noto+Sans_700_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/notosans/v11/o-0NIpQlx3QUlC5A4PNjXhFlZg.woff2 */
+        url(Noto+Sans_700_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/notosans/v11/o-0NIpQlx3QUlC5A4PNjXhFlYA.woff */
+        url(Noto+Sans_700_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/notosans/v11/o-0NIpQlx3QUlC5A4PNjXhFlY9aG5Wg.ttf */
+        url(Noto+Sans_700_normal.svg#Noto+Sans_700_normal) format('svg'); /* {{svg-gf-url}} */
+}
