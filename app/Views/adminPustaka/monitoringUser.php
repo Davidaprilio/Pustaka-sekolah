@@ -18,7 +18,6 @@
 		color: #fff;
 	}
 </style>
-<div class="container mt-1">
 		<!-- Modal -->
 		<div class="modal fade" id="modalInfo" aria-labelledby="modalInfoLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-lg">
@@ -35,50 +34,72 @@
 		  </div>
 		</div>
 
-	<div class="card p-1">
-		<div class="card-header p-1 d-flex justify-content-between">
+	<div class="card p-1 p-md-3 rounded-0 border-0 container-xxl">
+		<div class="card-header mb-2 shadow-sm border p-1 d-flex justify-content-between">
 			<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalFilter"> Filter </button>
 			<form>
 				<input type="text" class="form-control" id="searchName" placeholder=" Cari Nama">
 			</form>
 		</div>
-		<div id="tableMon">
-		<table class="table table-sm table-striped border table-hover table-light table-responsive-md">
-		  <thead class="bg-dark text-white">
-		    <tr class="text-center">
-		      <th>#</th>
-		      <th>Nama</th>
-		      <th>status</th>
-		      <th>baca</th>
-		      <th>waktu</th>
-		      <th>mulai</th>
-		      <th>detail</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  	<?php 
-		  	$no = 1;
-		  	foreach ($users as $user): ?>
-			    <tr>
-				    <th><?= $no++ ?></th>
-				    <td><span class="badge badge-success"><?= $user['kelas'] ?></span> <?= $user['nama'] ?></td>
-				    <td><span class="badge badge-<?php 
-					    if ($user['state']=='baca') { 
-					    	echo 'primary';
-					    } else if ($user['state']=='online') {
-					    	echo 'success';
-					    } else {
-					    	echo 'danger';
-					    }?> "><?= $user['state'] ?></span></td>
-				    <td><?= (is_null($user['judulBuku']))? '-' : $user['judulBuku']; ?></td>
-				    <td><?= (is_null($user['readTime']))? '-' : $user['readTime']; ?></td>
-				    <td><?= (is_null($user['start']))? '-' : $user['start']; ?></td>
-				    <td><button class="badge badge-info border-0" id="btnInfo" data-info="<?= $user['idUniq'] ?>" data-toggle="modal" data-target="#modalInfo">&nbsp&nbspInfo&nbsp&nbsp</button></td>
+		<div class="card-body shadow-sm border rounded p-2 table-responsive" id="tableMon">
+			<table class="table table-sm table-striped table-borderless table-hover" style="min-width: 673px">
+			  <thead class="border-bottom">
+			    <tr class="text-center">
+			      <th scope="col">#</th>
+			      <th scope="col">Nama</th>
+			      <th scope="col">status</th>
+			      <th scope="col">baca</th>
+			      <th scope="col">waktu</th>
+			      <th scope="col">mulai</th>
+			      <th scope="col">detail</th>
 			    </tr>
-		  	<?php endforeach ?>
-		  </tbody>
-		</table>
+			  </thead>
+			  <tbody>
+			    <?php 
+			    for ($i=0; $i < 10; $i++) { 
+			    $no = 1;
+			    foreach ($users as $user): ?>
+			      <tr>
+			        <th scope="row"><?= $no++ ?></th>
+			        <td><span class="badge badge-success"><?= $user['kelas'] ?></span> <?= $user['nama'] ?></td>
+			        <td><span class="badge badge-<?php 
+			          if ($user['state']=='baca') { 
+			            echo 'primary';
+			          } else if ($user['state']=='online') {
+			            echo 'success';
+			          } else {
+			            echo 'danger';
+			          }?> "><?= $user['state'] ?></span></td>
+			        <td><?= (is_null($user['judulBuku']))? '-' : $user['judulBuku']; ?></td>
+			        <td><?= (is_null($user['readTime']))? '-' : $user['readTime']; ?></td>
+			        <td><?= (is_null($user['start']))? '-' : $user['start']; ?></td>
+			        <td><button class="badge badge-info border-0" id="btnInfo" data-info="<?= $user['idUniq'] ?>" data-toggle="modal" data-target="#modalInfo">&nbsp&nbspInfo&nbsp&nbsp</button></td>
+			      </tr>
+			    <?php endforeach; } ?>
+			  </tbody>
+			  <caption>Menampilkan <?= count($users) ?> dari 380 pengguna</caption>
+			</table>
 		</div>
+		<div class="card-footer">
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination">
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="#">1</a></li>
+			    <li class="page-item"><a class="page-link" href="#">2</a></li>
+			    <li class="page-item"><a class="page-link" href="#">3</a></li>
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>
+	</div>
 
 		<!-- Modal -->
 		<div class="modal fade" id="modalFilter" aria-labelledby="modalFilterLabel" aria-hidden="true">
@@ -90,8 +111,8 @@
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
+			<form action="<?= base_url('/Petugaspustaka/monitor') ?>" method="GET">
 		      <div class="modal-body p-1 p-md-2">
-				<form action="<?= base_url('/Petugaspustaka/monitor') ?>" method="GET">
 		        <div class="row">
 					<div class="col-12">
 						<div class="form-check">
@@ -123,16 +144,11 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="submit" class="btn mx-auto btn-primary">Terapkan</button>
-				</form>
 		      </div>
+			</form>
 		    </div>
 		  </div>
 		</div>
-
-
-			
-	</div>
-</div>
 
 <script>
 function toggleCheck(source) {
@@ -143,11 +159,7 @@ function toggleCheck(source) {
   }
 }
 $(document).ready(function() {
-	setInterval(function(){ 
-		$.post('<?= base_url('/Petugaspustaka/monitor/sync') ?>'+window.location.search,{ key: $('#searchName').val() },function(data) {
-			$('#tableMon').html(data);
-		});
-	}, 10000);
+	
 	$('#searchName').on('keyup', function() {
 		$.post('<?= base_url('/Petugaspustaka/monitor/sync') ?>'+window.location.search,{ key: $('#searchName').val() },function(data) {
 			$('#tableMon').html(data);
