@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class BookReaderModel extends Model
 {
-	protected $table = 'bookReader';
+	protected $table = 'historyReading';
 	protected $useTimestamps = true;
 	protected $primaryKey = 'id';
 	protected $allowedFields = ['idUser','idBook','time','startTime','start'];

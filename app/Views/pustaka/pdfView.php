@@ -11,6 +11,12 @@
   <script src="<?= base_url('js/jquery-3.5.1.min.js'); ?>"></script>
   <script type="text/javascript">
     $(document).ready(function() {
+      $('#pageNumber').on('keyup', function() {
+          console.log( $(this).val() )
+      });
+      $('iframe').on('load', function() {
+    alert('frame has (re)loaded ');
+});
       const param = '<?= $idB."/".$idU ?>';
       let active = true;
       let tim = 0;
