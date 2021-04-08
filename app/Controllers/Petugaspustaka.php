@@ -61,7 +61,7 @@ class Petugaspustaka extends BaseController
 			$dataBuku = $this->buku;
 		}
 		$data = [
-			'table' => $dataBuku->paginate(5),
+			'table' => $dataBuku->paginate(20),
 			'pager' => $dataBuku->pager,
 			'currentPage' => $currentPage,
 			'tema' => $this->theme,

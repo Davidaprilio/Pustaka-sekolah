@@ -1,5 +1,6 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
+<link href="<?= base_url('/css/inputTag.css') ?>" rel="stylesheet" type="text/css">
 <div class="container">
 	<?php 
 	// session()->getFlashdata('pesan')
@@ -62,6 +63,10 @@
 				    </select>
 				</div>
 				<div class="form-group input-group-sm">
+				    <label for="tag">Tag</label>
+				    <input type="text" required="" class="form-control" id="tag" name="tag">
+				</div>
+				<div class="form-group input-group-sm">
 				    <label for="kate">Deskripsi</label>
 				    <textarea class="form-control" required="" name="deskripsi"></textarea>
 				</div>
@@ -72,6 +77,7 @@
 
 	</div>
 </div>
+<script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
 
 	function previewIMG() {

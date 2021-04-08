@@ -17,25 +17,25 @@
       </div>
     </div>
     <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title"><?= $user['nama'] ?></h5>
-        <table class="table-sm table table-light table-striped">
+      <div class="card-body text-center">
+        <h5 class="card-title mb-0"><?= $user['nama'] ?></h5>
+        <small class="text-muted"><?= $user['kelas'] ?></small>
+        <table class="table-sm table table-borderless card bg-light p-0">
         	<tbody>
         		<tr>
-        			<td>kelas</td>
-        			<td><?= $user['kelas'] ?></td>
+        			<td class="text-right">total waktu baca</td>
+              <td>:</td>
+        			<td class="text-left"><?= $timeRead ?></td>
         		</tr>
         		<tr>
-        			<td>total waktu baca</td>
-        			<td><?= $timeRead ?></td>
-        		</tr>
-        		<tr>
-        			<td>rata-rata baca perhari</td>
-        			<td><?= $user['kelas'] ?></td>
+        			<td class="text-right">rata-rata baca perhari</td>
+              <td>:</td>
+        			<td class="text-left"><?= $user['kelas'] ?></td>
         		</tr>
             <tr>
-              <td>banyak buku yang dibaca</td>
-              <td><?= $bukuDibaca ?> buku</td>
+              <td class="text-right">banyak buku yang dibaca</td>
+              <td>:</td>
+              <td class="table-left"><?= $bukuDibaca ?> buku</td>
             </tr>
         	</tbody>
         </table>

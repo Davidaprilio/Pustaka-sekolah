@@ -13,7 +13,7 @@
     <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/dataTables.bootstrap4.min.js') ?>"></script>
 </head>
-<body class="sb-nav-fixed <?= $tema ?>">
+<body class="sb-nav-fixed <?= $tema ?> bg-light">
     <nav class="navbar navbar-expand shadow-sm sticky-top sb-topnav py-0 border-bottom border-warning">
         <div class="container-fluid">
             <button class="btn btn-link btn-sm ml-2 text-light order-1 order-md-2" id="sidebarToggle" type="button">
@@ -88,11 +88,8 @@
             </div>
         </div>
         <div id="layoutSidenav_content">
-            <main>
-                <div class="bg-back"></div>
-           
+            <main class="bg-light">
                 <?=$this->renderSection('Admin');?>
-            
             </main>
         </div>
         <div class="settings" id="settPanel">

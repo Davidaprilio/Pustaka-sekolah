@@ -1,7 +1,7 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
-<div class="container bg-white rounded shadow p-4" style="min-height: 90vh;">
-  <div class="d-flex justify-content-between mb-3">
+<div class="container-xxl mt-4 p-2 position-relative" style="min-height: 90vh;">
+  <div class="d-flex justify-content-between mb-3 bg-white rounded border shadow-sm p-2 mx-1 mx-md-3 mx-xl-5 position-sticky" style="top: 60px; z-index: 2">
     <select id="" class="form-control" style="max-width: 70px;">
       <option value="5">5</option>
       <option value="10">10</option>
@@ -10,10 +10,11 @@
     </select>
     <input type="text" class="form-control px-3" style="max-width: 270px;" id="searchInput" placeholder=" Cari ...">
   </div>
-  <div id="Tbody">
-    <table class="table table-striped table-sm">
-      <thead class="thead-dark rounded">
-        <tr>
+
+  <div id="Tbody" class="card p-2 position-relative" style="background: url('http://smektaliterasi.com/img/bg-pattern.png') repeat , #fbfbfb; background-size: 50px">
+    <table class="table table-borderless table-hover table-sm" style="z-index: 1;">
+      <thead class="border-bottom">
+        <tr class="text-white">
           <th scope="col">no.</th>
           <th scope="col">Judul</th>
           <th scope="col">Download</th>
@@ -26,16 +27,22 @@
         <?php
         $no =  1 + (5 * ($currentPage-1)) ;
         foreach ($table as $data) : ?>
-          <tr id="<?= $data['slug_buku'] ?>">
+          <tr id="<?= $data['slug_buku'] ?>" class="border-bottom">
             <th scope="row"><?= $no++ ?></th>
             <td title="<?= $data['judul_buku'] ?>" fc="1" class="tdup"><?= $data['judul_buku'] ?></td>
             <td title="<?= $data['download'] ?>"><?= $data['download'] ?></td>
             <td title="<?= $data['reader'] ?>"><?= $data['reader'] ?></td>
             <td title="<?= $data['rating'] ?>"><?= $data['rating'] ?></td>
             <td id="opsi">
-              <a class="badge badge-info text-white mb-1" id="getInfo" data-check="<?= $data['slug_buku'] ?>" style="cursor: pointer;" data-toggle="modal" data-target="#detailBuku">detail</a>
-              <a class="badge badge-primary text-white" style="cursor: pointer;" data-toggle="modal" data-target="#modalEdit" data-edit="$data['slug_buku'] ?>" class="badge badge-primary">edit</a>
-              <a href="<?= base_url('/Engine/dropBuku/').'/'.$data['slug_buku'] ?>" class="badge badge-danger" onclick="return confirm('Anda ingin menghapus data ini')">hapus</a>
+              <a class="badge badge-info text-white mb-1" title="Detail buku" id="getInfo" data-check="<?= $data['slug_buku'] ?>" style="cursor: pointer;" data-toggle="modal" data-target="#detailBuku">
+                <i class="fa fa-info-circle"></i>
+              </a>
+              <a class="badge badge-primary text-white" title="Edit data buku" style="cursor: pointer;" data-toggle="modal" data-target="#modalEdit" data-edit="$data['slug_buku'] ?>" class="badge badge-primary">
+                <i class="fa fa-pencil-square-o"></i>
+              </a>
+              <a href="<?= base_url('/Engine/dropBuku/').'/'.$data['slug_buku'] ?>" title="Hapus buku ini" class="badge badge-danger" onclick="return confirm('Anda ingin menghapus data ini')">
+                <i class="fa fa-trash"></i>
+              </a>
             </td>
           </tr>
         <?php endforeach ?>

@@ -34,14 +34,14 @@
 		  </div>
 		</div>
 
-	<div class="card p-1 p-md-3 rounded-0 border-0 container-xxl">
-		<div class="card-header mb-2 shadow-sm border p-1 d-flex justify-content-between">
-			<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalFilter"> Filter </button>
+	<div class="p-1 p-md-3 rounded-0 border-0 container-xxl">
+		<div class="card mb-2 mx-1 mx-md-3 mx-xl-5 shadow-sm border p-2 justify-content-between" style="flex-direction: row;">
+			<button type="button" class="badge badge-pill border-0 badge-primary px-4" data-toggle="modal" data-target="#modalFilter">Filter</button>
 			<form>
 				<input type="text" class="form-control" id="searchName" placeholder=" Cari Nama">
 			</form>
 		</div>
-		<div class="card-body shadow-sm border rounded p-2 table-responsive" id="tableMon">
+		<div class="card shadow-sm border rounded p-2 table-responsive" id="tableMon">
 			<table class="table table-sm table-striped table-borderless table-hover" style="min-width: 673px">
 			  <thead class="border-bottom">
 			    <tr class="text-center">
@@ -80,7 +80,7 @@
 			  <caption>Menampilkan <?= count($users) ?> dari 380 pengguna</caption>
 			</table>
 		</div>
-		<div class="card-footer">
+		<div class="card">
 			<nav aria-label="Page navigation example">
 			  <ul class="pagination">
 			    <li class="page-item">
@@ -105,7 +105,7 @@
 		<div class="modal fade" id="modalFilter" aria-labelledby="modalFilterLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-xl">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header bg-light">
 		        <h5 class="modal-title" id="modalFilterLabel">Filter</h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
