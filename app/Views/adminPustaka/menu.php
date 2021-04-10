@@ -2,7 +2,7 @@
 
 <?= $this->section('Admin'); ?>
 <style>
-	ul, li { list-style: none; margin: 0; padding: 0; }
+	/*ul, li { list-style: none; margin: 0; padding: 0; }
 	ul { padding-left: 1em; }
 	li { 
 	  padding-left: 1em;
@@ -20,60 +20,92 @@
 	  background: white;
 	  position: relative;
 	  top: 0.5em; 
+	}*/
+	fieldset {
+		border-radius: 10px;
+	}
+	fieldset li, .placeItem {
+		background: #f7f7f7;
+		border: 1px solid #ddd;
+		padding: 5px 10px;
+		border-radius: 5px;
+	}
+	fieldset li ul li{
+		background-color: var(--light);
+	}
+	i.fa-pencil {
+		font-size: 15px;
+	}
+	#editKat, #editSub {
+		cursor: pointer;
+	}
+	.editMenu {
+	    width: 100%;
+	    border: none;
+	    background: transparent;
+	    margin-bottom: 4px;
+	    border-color: var(--info) !important;
+	}
+	.placeCard {
+		background: var(--light);
+		width: 100%;
+		height: 100px;
+		border: 1px solid #eee;
+		margin-bottom: 4px;
+	}
+	.lockUl {
+		margin-bottom: 4px;
 	}
 </style>
 <div class="container">
 	<div class="row">
-		<div class="col-12 pt-2">
-			<div class="card">
-				<div class="card-header">
-					Kelola Menu
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-12 col-sm-6 col-md-4">
-							<fieldset class="border rounded pb-4 position-relative">
-								<button type="button" class="badge badge-primary border-0 position-absolute" data-toggle="modal" style="top: -25px; right: 9px;" data-target="#prodi">
-								  Tambah
-								</button>
-								<legend class="w-auto mb-0 ml-2">
-									<span class="h5 px-2">Buku Produktif</span>
-								</legend>
-								<ul class="mt-0">
-									<?php foreach ($menuProduktif as $val): ?>
-										<li>
-											<p>
-												<?= $val['kat_menu'] ?>
-												<a onclick="confirm('Yakin ingin menghapus kategori ini? kemunkinan buku yang didalam kategori ini tidak akan bisa diakses lagi!')" href="<?= base_url('/Engine/rmKategori/'.$val['id']) ?>" class="badge badge-danger" style="font-size: 13px !important ">Hapus</a>
-											</p>
-										</li>
+		<div class="col-7 pt-2">
+				
+				<fieldset class="border shadow bg-white p-2 position-relative">
+					<button type="button" class="badge badge-primary border-0 position-absolute" data-toggle="modal" style="top: -25px; right: 9px;" data-target="#prodi">
+					  Tambah
+					</button>
+					<legend class="w-auto mb-0 ml-2">
+						<span class="h5 px-2 rounded p-1 bg-white">Kategori Menu Editor</span>
+					</legend>
+					<ul class="mt-0 list-unstyled mb-0">
+						<?php foreach ($menuLock as $val => $subMenu): ?>
+							<li class="mb-2 grub-kategori">
+								<div>
+									<span><?= $val ?></span>
+									<span id="editKat" class="text-primary ml-1"><i class="fa fa-pencil"></i></span>
+								</div>
+								<ul class="pl-3 lockUl" id="subKatSort">
+									<?php foreach ($subMenu as $val): ?>
+											<li class="mb-1 d-flex justify-content-between">
+												<span><?= $val['alias'] ?></span>
+												<span id="editKat" class="text-primary"><i class="fa fa-pencil"></i></span>
+											</li>
 									<?php endforeach ?>
 								</ul>
-							</fieldset>
-						</div>
-						<div class="col-12 col-sm-6 col-md-4">
-							<fieldset class="border rounded pb-4 position-relative">
-								<button type="button" class="badge badge-primary border-0 position-absolute" data-toggle="modal" style="top: -25px; right: 9px;" data-target="#umumM">
-								  Tambah
-								</button>
-								<legend class="w-auto mb-0 ml-2">
-									<span class="h5 px-2">Lainya</span>
-								</legend>
-								<ul class="mt-0">
-									<?php foreach ($Umum as $val): ?>
-										<li>
-											<p>
-												<?= $val['kat_menu'] ?>
-												<a onclick="confirm('Yakin ingin menghapus kategori ini? kemunkinan buku yang didalam kategori ini tidak akan bisa diakses lagi!')" href="<?= base_url('/Engine/rmKategori/'.$val['id']) ?>" class="badge badge-danger" style="font-size: 13px !important ">Hapus</a>
-											</p>
-										</li>
+							</li>
+						<?php endforeach ?>
+					</ul>
+					<ul class="mt-0 list-unstyled" id="katSort">
+						<?php foreach ($menu as $val => $subMenu): ?>
+							<li class="mb-2 grub-kategori">
+								<div>
+									<span><?= $val ?></span>
+									<span id="editKat" class="text-primary ml-1"><i class="fa fa-pencil"></i></span>
+								</div>
+								<ul class="pl-3 lockUl" id="subKatSort">
+									<?php foreach ($subMenu as $val): ?>
+											<li class="mb-1 d-flex justify-content-between">
+												<span><?= $val['alias'] ?></span>
+												<span id="editKat" class="text-primary"><i class="fa fa-pencil"></i></span>
+											</li>
 									<?php endforeach ?>
 								</ul>
-							</fieldset>
-						</div>
-					</div>					
-				</div>
-			</div>
+							</li>
+						<?php endforeach ?>
+					</ul>
+				</fieldset>
+
 		</div>
 	</div>
 </div>
@@ -125,4 +157,28 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('/js/jquery-ui.js') ?>"></script>
+<script type="text/javascript">
+	$('fieldset').on('click', '#editKat', function() {
+		const txt = $(this).prev().text();
+		$(this).parent().html('<input type="text" id="editKatIn" class="editMenu border-bottom" value="'+txt+'">');
+		$(this).parent().focus();
+	})
+	$('fieldset').on('keyup', '#editKatIn', function(e) {
+		if (e.which === 13) {
+			const txt = $(this).val();
+			$(this).parent().html(`<span>${txt}</span><span id="editKat" class="text-primary ml-1"><i class="fa fa-pencil"></i>`);
+		}
+	})
+
+	$(function() {
+	    $( "#subKatSort").sortable({
+	    	placeholder: "placeItem"
+	    }).disableSelection();
+	    $( "#katSort").sortable({
+	    	placeholder: "placeCard",
+	    	cancel: ".lockUl"
+	    }).disableSelection();
+ 	});
+</script>
 <?= $this->endSection(); ?>">

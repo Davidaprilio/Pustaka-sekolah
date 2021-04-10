@@ -7,16 +7,13 @@
   <link rel="stylesheet" href="<?= base_url('/bootstrap/css/bootstrap.min.css'); ?>">
 </head>
 <body class="w-100 vh-100 position-relative overflow-hidden">
-  <iframe src="<?= base_url('/pdfjs/web/viewer.html?file=') . $fileBook ?>" class="position-absolute border-0 w-100 h-100"></iframe>
+  <iframe id="frame" src="<?= base_url('/pdfjs/web/viewer.html?file=') . $fileBook ?>" class="position-absolute border-0 w-100 h-100"></iframe>
   <script src="<?= base_url('js/jquery-3.5.1.min.js'); ?>"></script>
   <script type="text/javascript">
+    var frame = document.getElementById("frame");
+    var no = frame.contentDocument.getElementById("pageNumber");
+
     $(document).ready(function() {
-      $('#pageNumber').on('keyup', function() {
-          console.log( $(this).val() )
-      });
-      $('iframe').on('load', function() {
-    alert('frame has (re)loaded ');
-});
       const param = '<?= $idB."/".$idU ?>';
       let active = true;
       let tim = 0;

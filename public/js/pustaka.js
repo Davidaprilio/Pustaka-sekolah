@@ -1,6 +1,7 @@
 touchsurface = document.getElementById('main');
 touchsurface.addEventListener("swap", function(event){alert('Swaped ' + event.detail.direction + ' at ' + event.target.id);}, false);
-var bUrl = 'http://' + window.location.host;
+const bUrl = 'http://' + window.location.host;
+let tmpData=null;
 
 function openNav() {
     $('#mySidenav').addClass('show');
@@ -20,17 +21,17 @@ function allBook() {
     let kategori = document.getElementById('menuBook').getElementsByTagName('li');
     let urlj = '';
     let cekNull = 0;
-    for ( i = 1; i < kategori.length; i++) {
-        let val = kategori[i].innerText;
-        kateVal = encodeURIComponent(val);
-        let noId = i;
-        if (kategori.length == i) {
+    const allKode = dpjsc.subMenu;
+    allKode.forEach((data,i) => {
+        if ((allKode.length) == i) {
             if (cekNull == 0) {
                 $('#buku').append(`<div class="d-flex w-100 align-items-center justify-content-center text-muted display-3" style="height: 60vh">Kosong</div>`);
             }
         }
+        let noInd = i;
+        // console.log(bUrl + '/API/getBookOn/' + data.kode + '/6');
         $.ajax({
-            url: bUrl + '/API/getBookOn/' + kateVal + '/6',
+            url: bUrl + '/API/getBookOn/' + data.kode + '/6',
             type: 'get',
             dataType: 'json',
             success: function(result) {
@@ -39,15 +40,16 @@ function allBook() {
                     $('#buku').append(`
                         <div class="shadow-sm border drap rounded mb-1 p-2">
                             <div class="d-flex justify-content-between align-conten-center">
-                                <h5>`+val+`</h5>
-                                <span class="d-inline text-primary" id="moreBook" goTo="`+val+`" >Lainya</span>
+                                <h5>`+data.alias+`</h5>
+                                <span class="d-inline text-primary" id="moreBook" goTo="`+data.kode+`" >Lainya</span>
                             </div>
-                            <div class="mb-1 conten-scroll" id="dtlbk`+noId+`">
+                            <div class="mb-1 conten-scroll" id="dtlbk`+noInd+`">
                             </div>
                         </div>
                     `); 
+
                     $.each(result.items, function(i,data) {
-                       $('#dtlbk'+noId).append(`
+                       $('#dtlbk'+noInd).append(`
                             <div class="card d-inline-block shadow-sm mb-1 mx-1" >
                                 <img src="`+bUrl+data.sampulMin+`" class="card-img-top mx-auto">
                                 <div class="p-1 p-sm-2">
@@ -66,7 +68,7 @@ function allBook() {
                 // ERRRORR...
             }
         });
-    }
+    });
     function cek() {
         if (cekNull == 0) {
             $('#buku').append(`<div class="d-flex w-100 align-items-center justify-content-center text-muted display-3" style="height: 60vh">Kosong</div>`);
@@ -75,8 +77,10 @@ function allBook() {
 }
 function inCategory (kategori) {
     window.scrollTo(0,0);
+    const uu = bUrl + '/API/getBookOn/' + kategori + '/0';
+    // console.log(uu);
     $.ajax({
-        url: bUrl + '/API/getBookOn/' + kategori + '/0',
+        url: uu,
         type: 'get',
         dataType: 'json',
         success: function(result) {
@@ -95,30 +99,27 @@ function inCategory (kategori) {
                         `);
                 });
                 if (result.lots == 0) {
-                    console.log(result);
                     $('#buku').append(`<div class="d-flex w-100 align-items-center justify-content-center text-muted display-3" style="height: 60vh">Kosong</div>`);
                 }
             }
     });
 }
 function cekKategori(htmlTextMenu) {
-    let kategori = document.getElementById('menuBook').getElementsByTagName('li');
-    let cek = [];
+    let kategori = dpjsc.subMenu, cek = [];
     cek['status'] = false;
-    for ( i = 0; i < kategori.length; i++) {
-        let val = kategori[i].innerText;
-        if (htmlTextMenu == val) {
-            var p = kategori[i].childNodes[1];
+    kategori.forEach((data,i) => {
+        if (htmlTextMenu == data.alias) {
+            const p = $(`[key=${data.kode}]`);
             cek['status'] = true;
             cek['attrib'] = {
-                value: p.innerText,
-                id: p.getAttribute('id'),
-                key: p.getAttribute('key'),
-                code: p.getAttribute('uniccode'),
-                spacialAttr: p.getAttribute('spacialatt')
+                subMenu: data.alias,
+                menu: $('#k'+p.attr('id')).html(),
+                key: data.kode,
+                id: p.attr('id'),
+                code: p.attr('uniccode'),
             };
         }
-    }
+    })
     if (!cek.status) {
         errorView('Ketgori tidak ada');
     }
@@ -135,6 +136,8 @@ function detailBuku(id) {
         type: 'get',
         dataType: 'json',
         success: function(result) {
+            saveResult(result);
+            updateURL( bUrl+'/DetailBuku/'+id, 'DetailBukuPagexyz', 'detailBook-'+id, id);
             if (result.status == 'OK') {
                 let likeBtn = '';
                 let cB = getCookie('Bk-'+result.items.idBuku);
@@ -207,6 +210,9 @@ function getCookie(cname) {
   }
   return false;
 }
+function saveResult(data) {
+    tmpData = data;
+}
 function like(id) {
     let t = $('#valLike').html();
     t++;
@@ -235,6 +241,7 @@ function searchBook(n,l){
         type: 'get',
         dataType: 'json',
         success: function(result) {
+            saveResult(result.keyword);
             if (result.status == 'OK') {
                 $('#buku').html(`<div class="row" id="rowBook"></div>`);
                 $.each(result.items, function(i, data) {
@@ -257,16 +264,20 @@ function searchBook(n,l){
         }
     });
 }
-function updateBreadcrumb(G,M,P='list') {
+function updateBreadcrumb(G,M,P=false) {
     $('.breadcrumb').empty();
     $('.breadcrumb').html(`
         <li class="breadcrumb-item">Pustaka</li>
-        <li class="breadcrumb-item" id="katGrub">`+G+`</li>
     `);
-    if (P == 'detail') {
+    if (G != null) {
+        $('.breadcrumb').append(`
+            <li class="breadcrumb-item" id="katGrub">`+G+`</li>
+        `);
+    }
+    if (P) {
         $('.breadcrumb').append(`
             <li class="breadcrumb-item" id="katMenu">`+M+`</li>
-            <li class="breadcrumb-item active" id="Dbuku" aria-current="page"></li>
+            <li class="breadcrumb-item active" id="Dbuku" aria-current="page">`+P+`</li>
         `);
     } else {
         $('.breadcrumb').append(`
@@ -278,7 +289,7 @@ function updateURL(url,id=null,preMenu=null,idbook='') {
     history.pushState(
         {
             idPage: id, //namaPage
-            previousMenu: preMenu, // kodeUnik menu
+            previousMenu: preMenu, // kodeUnik menu (kode kategori)
             book: idbook, //id Buku
         },'BarTitel',url
     );
@@ -292,26 +303,34 @@ function loading() {
         </div>
     `);
 }
+/*
+<script>alert(1)</script>
+*/
 function runSearch() {
+    window.scrollTo(0,0);
+    const keyword = $('#search-Book').val();
     loading();
     $('#mySidenav').removeClass('show');
     $('#menuBook .nav-link').removeClass('activeMenu');
-    $('#G1').addClass('activeMenu');
-    kMenu = $('#k'+$('#G1').attr('id')).html(); 
+    $('[spacialatt]').addClass('activeMenu');
     $('#buku').html('');
-    updateBreadcrumb(kMenu, $('#G1').html());
-    searchBook($('#search-Book').val(),0);
-    $('#search-Book').val('');
-    const u = $('#G1').html().replace(/ /g,"-");
-    updateURL( bUrl + '/' + u, u, $('#G1').attr('unicCode'));
+    searchBook(keyword,0);
+     $('#search-Book').val('').blur();
+    setTimeout(function() {
+        updateBreadcrumb('Semua Buku', 'Cari buku', tmpData);
+    },1000);
 }
 
 // ==================================>  Navigation
 let kMenu;
+//klik menu
 $('#menuBook .nav-link').on('click', function() {
     $('#menuBook .nav-link').removeClass('activeMenu');
     $(this).addClass('activeMenu');
+
+    //memperbarui attr dengan value attr unicCode btn yang di klik
     $('#menuBook').attr('act',$(this).attr('unicCode'));
+    //mengambil nama btn yang di klik
     kMenu = $('#k'+$(this).attr('id')).html(); 
     $('#buku').html('');
     loading();
@@ -319,27 +338,31 @@ $('#menuBook .nav-link').on('click', function() {
     $('#main').removeClass('show');
     $('#mySidenav').removeClass('show');
     var u = $(this).html().replace(/ /g,"-");
-    updateURL( bUrl + '/' + u, u,$(this).attr('unicCode'));
+    updateURL( bUrl + '/' + u, u,$(this).attr('key'));
     if ( $(this).attr('spacialatt') == 'true') {
         allBook();
     } else {
-        inCategory( encodeURIComponent( $(this).html() ) );
+        inCategory( $(this).attr('key') );
     }
     // cekKategori($(this).html());
 });
+
+//klik buku lainya pada page semua buku
 $('#buku').on('click', '#moreBook', function() {
     $('#menuBook .nav-link').removeClass('activeMenu');
     $('#buku').html('');
     loading();
-    var menu = $('[key='+$(this).attr('goTo').replace(/ /g, "")+']');
-    menu.addClass('activeMenu');
-    kMenu = $('#k'+menu.attr('id')).html(); 
-    $('#menuBook').attr('act',menu.attr('unicCode'));
-    updateBreadcrumb(kMenu, $(this).attr('goTo'));
-    var u = $(this).attr('goTo').replace(/ /g,"-");
-    updateURL( bUrl + '/' + u, u,menu.attr('unicCode'));
-    inCategory( encodeURIComponent( $(this).attr('goTo') ) );
+    const menu = $('[key='+$(this).attr('goTo').replace(/ /g, "")+']'); //cari btnnya submenu di sidebar
+    menu.addClass('activeMenu'); 
+    kMenu = $('#k'+menu.attr('id')).html(); // ambil path submenu
+    $('#menuBook').attr('act',menu.attr('unicCode')); //update attr act di sidebar
+    updateBreadcrumb(kMenu, menu.text());
+    var u = menu.text().replace(/ /g,"-");
+    updateURL( bUrl + '/' + u, u,menu.attr('key'));
+    inCategory( $(this).attr('goTo') );
 });
+
+//klik lihat buku
 $('#buku').on('click', '#titleBook', function() {
     $('#buku').html('');
     var uib = $(this).attr('uisb');
@@ -347,7 +370,6 @@ $('#buku').on('click', '#titleBook', function() {
     $('.breadcrumb-item').removeClass('active');
     $('ol.breadcrumb').append('<li class="breadcrumb-item active" id="Dbuku" aria-current="page"></li>');
     detailBuku(uib);
-    updateURL( bUrl + '/DetailBuku/' + uib, 'DetailBukuPagexyz', $('#menuBook').attr('act'), uib);
 });
 $('#search-Book').on('keyup', function(e){
     if (e.keyCode === 13) {
@@ -367,29 +389,24 @@ $(document).ready(function() {
     var p = $('#menuBook').attr('baseMenu');
     loading();
     if (p == 'DetailBuku') { //jika akses ke detail buku
-        var t = window.location.href;
-        var idB = t.replace(bUrl+'/DetailBuku/', '');
+        var t = window.location.pathname;
+        var idB = t.replace('/DetailBuku/', '');
         detailBuku(idB);
-        var ck = cekKategori('Semua Buku');
-        if (!ck.status) {return; }
-        var G = $('#k'+ck.attrib.id).html(), M = $('[uniccode='+ck.attrib.code+']').html();
-        updateBreadcrumb(G,M,'detail');
-        updateURL( t, 'DetailBukuPagexyz', ck.attrib.code, idB);
-        $('[uniccode='+ck.attrib.code+']').addClass('activeMenu');
+        setTimeout(function() {
+            const br = tmpData.pathBook.arr;
+            updateBreadcrumb(br[1],br[2],tmpData.items.judulBuku);
+        }, 1500);
+        $('[spacialatt]').addClass('activeMenu');
     } else if (p == 'Semua Buku') { //jika akses ke semua buku
-        var k = cekKategori(p);
-        if (!k.status) {return; }
-        var G = $('#k'+k.attrib.id).html(), M = $('[uniccode='+k.attrib.code+']').html();
         allBook();
-        updateURL(bUrl + '/Semua-Buku' , 'Semua Buku', 'go2m');
-        updateBreadcrumb(G,M);
+        updateURL(bUrl + '/Semua-Buku' , 'Semua Buku', '4llB00k-xyz');
+        updateBreadcrumb(null,'Semua Buku');
     } else { //jika akses menu kategori yang bukan kategori semua buku
-        var k = cekKategori(p);
-        if (!k.status) {return; }
-        var G = $('#k'+k.attrib.id).html(), M = $('[uniccode='+k.attrib.code+']').html();
-        inCategory( encodeURIComponent(p) );
-        updateURL(bUrl + '/' + M.replace(/ /g,"-") , M, k.attrib.code);
-        updateBreadcrumb(G,M);
+        const a = cekKategori(p), k = a.attrib, slug = k.subMenu.replace(/ /g,"-");
+        if (!a.status) {return false; }
+        updateBreadcrumb(k.menu,k.subMenu);
+        updateURL(bUrl + '/' +  slug, slug, k.key);
+        inCategory( k.key );
     }
 });
 
@@ -397,19 +414,20 @@ $(document).ready(function() {
 window.onpopstate = function (event) {
     var p = history.state.idPage.replace(/-/g," "),
         uC = history.state.previousMenu,
-        menu = $('[unicCode='+uC+']');
+        menu = $('[key='+uC+']');
     $('#menuBook .nav-link').removeClass('activeMenu');
     menu.addClass('activeMenu');
     $('#buku').html('');
     loading();
+    console.log(p+' - '+uC);
     if (p == 'DetailBukuPagexyz') {
         detailBuku(history.state.book);
-        updateBreadcrumb( $('#k'+menu.attr('id')).html(), menu.html(), 'detail');
+        updateBreadcrumb( $('#k'+menu.attr('id')).html(), p, 'detail');
     } else if (p == 'Semua Buku') {
         allBook();
-        updateBreadcrumb( $('#k'+menu.attr('id')).html(), menu.html() );
+        updateBreadcrumb( $('#k'+menu.attr('id')).html(), p );
     } else {
-        inCategory( encodeURIComponent(p) );
-        updateBreadcrumb( $('#k'+menu.attr('id')).html(), menu.html() );
+        inCategory( uC );
+        updateBreadcrumb( $('#k'+menu.attr('id')).html(), p );
     }
 };

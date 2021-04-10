@@ -56,15 +56,23 @@
         </div>
 
         <ul class="nav navbar-nav pt-2 pb-3 overflow-auto" id="menuBook" act="" baseMenu="<?= $baseM ?>" style="margin-bottom: 6rem!important;">
+            <li role="presentation" class="nav-item btn-bar-menu">
+                    <a class="nav-link <?= ('Semua-buku' == $baseM) ? 'activeMenu' : ''; ?>" id="B1" spacialAtt="true" unicCode='21' key="allBook">Semua Buku</a>
+                </li>    
             <?php 
             $noAct = 1; $kNO = 1;
-            foreach ($kate as $grub => $val): ?> 
+            foreach ($kategori as $grub => $val): ?> 
                 <span id="kG<?= $kNO ?>"><?= $grub ?></span>
-                <?php foreach ($val as $key): ?>
+                <?php
+                $in = 0;
+                 foreach ($val as $key): 
+                 if ($in == 0) {
+                    $in++;
+                 } else { ?>
                 <li role="presentation" class="nav-item btn-bar-menu">
-                    <a class="nav-link <?= ($key == $baseM) ? 'activeMenu' : ''; ?>" id="G<?= $kNO ?>" <?= ($noAct++ == 1) ? 'spacialAtt="true"' : 'spacialAtt="false"'; ?> unicCode='go<?= $noAct ?>m' key="<?= str_replace(' ', '', $key) ?>"><?= $key ?></a>
+                    <a class="nav-link <?= ($key['alias'] == $baseM) ? 'activeMenu' : ''; ?>" id="G<?= $kNO ?>" unicCode='go<?= $noAct ?>m' key="<?= $key['kode'] ?>"><?= $key['alias'] ?></a>
                 </li>                    
-                <?php endforeach ?>
+                <?php } endforeach ?>
             <?php $kNO++; endforeach ?>
         </ul>
     </div>
@@ -76,6 +84,9 @@
     
     <script src="<?= base_url('js/jquery-3.5.1.min.js'); ?>"></script>
     <script src="<?= base_url('/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script>
+        const dpjsc = <?= $dataJson ?>;
+    </script>
     <script src="<?= base_url('js/pustaka.js'); ?>"></script>
 </body>
 </html>

@@ -11,22 +11,17 @@ class BukuModel extends Model
 	public function getLimit($where,$limit)
 	{
 		$db = \Config\Database::connect();
+		$kode = str_replace('Formal', '', $where);
+		$fieldTB = ($where == $kode)? 'kategori' : 'forClass';
 		if ($limit == 0) {
-			if (($where == 'Buku Kelas 11') || ($where == 'Buku Kelas 10') || ($where == 'Buku Kelas 12')) {
-				$sql = "SELECT * FROM `book` WHERE forClass='{$where}'";
-			} else {
-				$sql = "SELECT * FROM `book` WHERE kategori LIKE '%{$where}%'";
-			}
+			$ddd = $this->table('book')->where($fieldTB, $kode)->findAll();
 		} else {
-			if (($where == 'Buku Kelas 11') || ($where == 'Buku Kelas 10') || ($where == 'Buku Kelas 12')) {
-				$sql = "SELECT * FROM `book` WHERE forClass='{$where}' LIMIT $limit";
-			} else {
-				$sql = "SELECT * FROM `book` WHERE kategori LIKE '%{$where}%' LIMIT $limit";
-			}
+			$ddd = $this->table('book')->where($fieldTB, $kode)->limit($limit)->findAll();
 		}
-		$result = $db->query($sql);
-		$row = $result->getResult();
-		return $row;
+		// $result = $db->query($sql);
+		// $row = $result->getResult();
+		// dd($row,$ddd);		
+		return $ddd;
 	}
 	public function ubahData($field, $value, $idBuku)
 	{

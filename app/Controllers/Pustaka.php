@@ -4,8 +4,12 @@ use \App\Models\KategoriModel;
 use \App\Models\UsersModel;
 use CodeIgniter\I18n\Time;
 
+use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\API\ResponseTrait;
+
 class Pustaka extends BaseController
 {
+	use ResponseTrait;
 	protected $kate, $buku, $userInfo;
 
 	public function __construct()
@@ -20,15 +24,19 @@ class Pustaka extends BaseController
 	}
 	public function index($getKategori='Semua Buku')
 	{
-		$dataKate = $this->kate->ambilKategori($getKategori);
+		$dataKate = $this->kate->getCategory(($getKategori === 'Semua Buku')? '/' : $getKategori);
+
+		// return $this->respond($dataKate, 200);
 		$data = [
 			'titleBar' => 'Perpustakaan Elektronik | SMK Negeri 1 Tanjunganom',
-			'kate' => $dataKate['data'],
+			'kategori' => $dataKate['data'],
 			'baseM' => str_replace('-', ' ', $getKategori),
+			'dataJson' => json_encode($dataKate),
 			'bGk' => 'Buku Kelas',
 			'bK' => 'Semua Buku',
 			'userInfo' => $this->userInfo
 		];
+		// dd($data['baseM']);
 		// if ($dataKate['status']) {
 			return view('pustaka/index', $data);
 		// } else {
@@ -38,15 +46,18 @@ class Pustaka extends BaseController
 	public function detail($id)
 	{
 		$buku = $this->buku->select('forClass')->where('slug_buku', $id)->first();
+
+
 		if (is_null($buku)) {
 			return view('errors/html/error_404');
 			exit();
 		} 
-
+		$dataKate = $this->kate->getCategory('/', false);
 		$data = [
 			'titleBar' => 'Perpustakaan Elektronik | SMK Negeri 1 Tanjunganom',
-			'kate' => $this->kate->jsonKategori(),
+			'kategori' => $dataKate['data'],
 			'baseM' => 'DetailBuku',
+			'dataJson' => json_encode($dataKate),
 			'bGk' => 'Buku Kelas',
 			'bK' => $buku['forClass'],
 			'userInfo' => $this->userInfo

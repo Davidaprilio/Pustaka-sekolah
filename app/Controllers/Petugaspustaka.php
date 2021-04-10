@@ -144,11 +144,26 @@ class Petugaspustaka extends BaseController
 
 	public function menu()
 	{
+		$menu = $this->kategori->getCategory('', false);
+		$no = 'aa';
+		$b = [];
+		foreach ($menu['data'] as $val => $key) {
+			unset($key[0]);
+			if ($no === 'aa') {
+				$a = [$val => $key];
+				$no = 0;
+			} else {
+				$b[$val] = $key;
+				$no++;
+			}
+		}
 		$data = [
 			'tema' => $this->theme,
-			'menuProduktif' => $this->kategori->select('kat_menu,id')->where('kat_grub', 'Buku Produktif')->findAll(),
-			'Umum' => $this->kategori->select('kat_menu,id')->where('kat_grub', 'Lainnya')->findAll(),
-			'dataAdmin' => $this->dataAdmin
+			// 'menuProduktif' => $this->kategori->select('kat_menu,id')->where('kat_grub', 'Buku Produktif')->findAll(),
+			// 'Umum' => $this->kategori->select('kat_menu,id')->where('kat_grub', 'Lainnya')->findAll(),
+			'dataAdmin' => $this->dataAdmin,
+			'menuLock' => $a,
+			'menu' => $b,
 		];
 		return view('adminPustaka/menu', $data);	
 	}

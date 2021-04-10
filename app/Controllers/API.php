@@ -1,14 +1,19 @@
 <?php 
 namespace App\Controllers;
 use \App\Models\BukuModel;
+use \App\Models\KategoriModel;
 
+use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\API\ResponseTrait;
 class API extends BaseController
 {
-	protected $buku, $guru;
+	use ResponseTrait;
+	protected $buku, $guru, $kategori;
 
 	public function __construct()
 	{
 		$this->buku = new BukuModel();
+		$this->kategori = new KategoriModel();
 	}
 	public function index()
 	{
@@ -24,51 +29,53 @@ class API extends BaseController
 		$data['lots'] = count((array)$get);
 		$in = 0;
 		foreach ($get as $key) {
-			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key->sampul;
-			$data['items'][$in]['sampulOri'] = '/img/book/'.$key->sampul;
-			$data['items'][$in]['pemilikBuku'] = $key->author;
-			$data['items'][$in]['diunggah'] = $key->created_at;
-			$data['items'][$in]['kategori'] = $key->forClass;
-			$data['items'][$in]['judulBuku'] = $key->judul_buku;
-			$data['items'][$in]['unduhan'] = $key->download;
-			$data['items'][$in]['dibaca'] = $key->reader;
-			$data['items'][$in]['penerbit'] = $key->penerbit;
-			$data['items'][$in]['penulis'] = $key->penulis;
-			$data['items'][$in]['idBuku'] = $key->slug_buku;
+			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['pemilikBuku'] = $key['author'];
+			$data['items'][$in]['diunggah'] = $key['created_at'];
+			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
+			$data['items'][$in]['unduhan'] = $key['download'];
+			$data['items'][$in]['dibaca'] = $key['reader'];
+			$data['items'][$in]['penerbit'] = $key['penerbit'];
+			$data['items'][$in]['penulis'] = $key['penulis'];
+			$data['items'][$in]['idBuku'] = $key['slug_buku'];
 			$in++;
 		}
-		header('Content-Type: application/json');
-		echo json_encode($data);
+		return $this->respond($data, 200);
 	}
 	public function searchBook($nameBook,$maxL = 5)
 	{
-		$data = [];
-		$get = (object) $this->buku->search($nameBook, $maxL);
-		$data['status'] = 'OK';
-		$data['lots'] = count((array)$get);
+		$gett = $this->buku->like('judul_buku', $nameBook)->orLike('penulis', $nameBook)->orLike('penerbit', $nameBook)->findAll();
+		$data = [
+			'status' => 'OK',
+			'lots' => count($gett),
+			'keyword' => htmlspecialchars($nameBook),
+		];
 		$in = 0;
-		foreach ($get as $key) {
-			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key->sampul;
-			$data['items'][$in]['sampulOri'] = '/img/book/'.$key->sampul;
-			$data['items'][$in]['pemilikBuku'] = $key->author;
-			$data['items'][$in]['diunggah'] = $key->created_at;
-			$data['items'][$in]['kategori'] = $key->forClass;
-			$data['items'][$in]['judulBuku'] = $key->judul_buku;
-			$data['items'][$in]['unduhan'] = $key->download;
-			$data['items'][$in]['dibaca'] = $key->reader;
-			$data['items'][$in]['penerbit'] = $key->penerbit;
-			$data['items'][$in]['penulis'] = $key->penulis;
-			$data['items'][$in]['idBuku'] = $key->slug_buku;
+		foreach ($gett as $key) {
+			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['pemilikBuku'] = $key['author'];
+			$data['items'][$in]['diunggah'] = $key['created_at'];
+			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
+			$data['items'][$in]['unduhan'] = $key['download'];
+			$data['items'][$in]['dibaca'] = $key['reader'];
+			$data['items'][$in]['penerbit'] = $key['penerbit'];
+			$data['items'][$in]['penulis'] = $key['penulis'];
+			$data['items'][$in]['idBuku'] = $key['slug_buku'];
 			$in++;
 		}
-		header('Content-Type: application/json');
-		echo json_encode($data);
+		return $this->respond($data, 200);
 	}
 	public function book($slugBook)
 	{
 		$data = [];
 		helper('helpmy');
 		$get = $this->buku->where('slug_buku', $slugBook)->first();
+		$pathBook = $this->kategori->findPathBook($slugBook);
+		$data['inputParams'] = $slugBook;
 		if (is_null($get)) {
 			$data['status'] = 'Not_Found';
 			$data['message'] = 'Tidak menemukan buku yang dicari pastikan id buku benar, id terdiri 12 karakter acak dan di akhiri 2 angka';
@@ -89,9 +96,11 @@ class API extends BaseController
 			$data['items']['idBuku'] = $get['slug_buku'];
 			$data['items']['deskripsi'] = $get['deskripsi'];
 		}
-		$data['inputParams'] = $slugBook;
-		header('Content-Type: application/json');
-		echo json_encode($data);
+		$data['pathBook'] = [
+			'arr' => $pathBook['path'],
+			'parse' => $pathBook['parse'],
+		];
+		return $this->respond($data, 200);
 	}
 	public function getDataGuru($idU)
 	{
