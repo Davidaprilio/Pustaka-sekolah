@@ -62,17 +62,13 @@
             <?php 
             $noAct = 1; $kNO = 1;
             foreach ($kategori as $grub => $val): ?> 
-                <span id="kG<?= $kNO ?>"><?= $grub ?></span>
-                <?php
-                $in = 0;
-                 foreach ($val as $key): 
-                 if ($in == 0) {
-                    $in++;
-                 } else { ?>
+                <span id="kG<?= $kNO ?>"><?= $val[0] ?></span>
+                <?php unset($val[0]);
+                 foreach ($val as $key): ?>
                 <li role="presentation" class="nav-item btn-bar-menu">
                     <a class="nav-link <?= ($key['alias'] == $baseM) ? 'activeMenu' : ''; ?>" id="G<?= $kNO ?>" unicCode='go<?= $noAct ?>m' key="<?= $key['kode'] ?>"><?= $key['alias'] ?></a>
                 </li>                    
-                <?php } endforeach ?>
+                <?php endforeach ?>
             <?php $kNO++; endforeach ?>
         </ul>
     </div>

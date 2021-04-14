@@ -57,17 +57,19 @@ class KategoriModel extends Model
 	 	$keyKode = null;
 		$p = str_replace('-', ' ', $getKategori);
 		$tmpMenu = '';
-		$sql = "SELECT * FROM `tb_subKategoriBuku` JOIN tb_kategoriBuku WHERE tb_subKategoriBuku.path=tb_kategoriBuku.kode_kategori";
-		$kate = $db->query($sql)->getResultArray();
+		// $sql = "SELECT * FROM `tb_subKategoriBuku` JOIN tb_kategoriBuku WHERE tb_subKategoriBuku.path=tb_kategoriBuku.kode_kategori ORDER BY tb_subKategoriBuku.sort ASC";
+		$sql = "SELECT * FROM `tb_subKategoriBuku` ORDER BY sort ASC";
+		$sub = $db->query($sql)->getResultArray();
+		$sql = "SELECT * FROM `tb_kategoriBuku` ORDER BY sortid ASC";
+		$menu = $db->query($sql)->getResultArray();
 		//Array Kategori
 		$aKAT = [];
 		$subMenu = [];
-		foreach ($kate as $grub) {
-			$aKAT[$grub['nama']] = [];
+		foreach ($menu as $grub) {
+			$aKAT[$grub['kode_kategori']][0] = $grub['nama'];
 		}
-		foreach ($kate as $grub) {
-			$aKAT[$grub['nama']][0] = $grub['path'];
-			array_push($aKAT[$grub['nama']], [
+		foreach ($sub as $grub) {
+			array_push($aKAT[$grub['path']], [
 				'alias' => $grub['sub_nama'],
 				'kode' => $grub['slug_subKbuku']
 			]);

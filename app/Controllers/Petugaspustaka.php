@@ -3,15 +3,18 @@ use \App\Models\BukuModel;
 use \App\Models\UsersModel;
 use \App\Models\KategoriModel;
 use \App\Models\BookReaderModel;
+use \App\Models\KategoriMenuModel;
+use \App\Models\KategoriSubmenuModel;
+
 use CodeIgniter\I18n\Time;
 
 class Petugaspustaka extends BaseController
 {
-	protected $buku, $user, $theme, $kategori, $reader, $dataAdmin;
+	protected $buku, $user, $theme, $kategori, $reader, $dataAdmin, $menu, $submenu;
 
 	public function __construct()
 	{
-		helper('helpmy');
+		helper(['helpmy','text']);
 		$sesi = getSession('appsPtgLog', 'loginPetugas');
 		// dd($sesi);
 		// dd( session('appsPtgLog') );
@@ -25,6 +28,8 @@ class Petugaspustaka extends BaseController
 		$this->user = new UsersModel();
 		$this->reader = new BookReaderModel();
 		$this->kategori = new KategoriModel();
+		$this->menu = new KategoriMenuModel();
+		$this->submenu = new KategoriSubmenuModel();
 		$sys = new \App\Models\Sys();
 		$get = $sys->select('value')->where('keyword','themeAdmin')->first();
 		$this->theme = $get['value'];
@@ -146,9 +151,8 @@ class Petugaspustaka extends BaseController
 	{
 		$menu = $this->kategori->getCategory('', false);
 		$no = 'aa';
-		$b = [];
+
 		foreach ($menu['data'] as $val => $key) {
-			unset($key[0]);
 			if ($no === 'aa') {
 				$a = [$val => $key];
 				$no = 0;
@@ -214,6 +218,85 @@ class Petugaspustaka extends BaseController
 	{
 		$sys = new \App\Models\Sys();
 		$sys->SysUpTheme($value);
+	}
+	public function updateMenu()
+	{
+		$menu = $this->request->getPost('menu');
+		$sub = $this->request->getPost('subMenu');
+		// if (isset($menu) && isset($sub)) {
+		$cekNew = false;
+		$idx = 1;
+ 		foreach ($menu as $key) {
+ 			if ($key['kode'] == 'new') {
+ 				$this->menu->insert([
+ 					'nama' => $key['alias'],
+ 					'sortid' => $idx++,
+ 					'kode_kategori' => random_string('alnum', 5)
+ 				]);
+ 				$cekNew = true;
+ 			} else {
+	 			$this->menu->set('sortid', $idx++)->set('nama', $key['alias'])->where('kode_kategori', $key['kode'])->update();
+ 			}
+ 		}
+ 		$idx = 1;
+ 		foreach ($sub as $key) {
+ 			if ($key['kode'] == 'new') {
+ 				$this->submenu->insert([
+ 					'sub_nama' => $key['alias'],
+ 					'slug_subKbuku' => random_string('alnum', 4),
+ 					'path' => $key['parent'],
+ 					'sort' => $idx++,
+ 				]);
+ 				$cekNew = true;
+ 			} else {
+	 			$this->submenu->set([
+	 				'sort' => $idx++,
+	 				'nama' => $key['alias'],
+	 			])->where('slug_subKbuku', $key['kode'])->update();
+ 			}
+ 		}
+ 		// dd('selesai');
+		// } else {
+		// 	return redirect()->to(base_url('/Petugaspustaka/menu'));
+		// }
+		if ($cekNew) {
+			$menu = $this->kategori->getCategory('', false);
+			$no = 'aa';
+			foreach ($menu['data'] as $val => $key) {
+				if ($no === 'aa') {
+					$a = [$val => $key];
+					$no = 0;
+				} else {
+					$b[$val] = $key;
+					$no++;
+				}
+			}
+			$data = [
+				'tema' => $this->theme,
+				'dataAdmin' => $this->dataAdmin,
+				'menuLock' => $a,
+				'menu' => $b,
+			];
+			return view('/adminPustaka/cardEditMenu', $data);
+		} else {
+			return 'updated';
+		}
+	}
+	public function removeMenu()
+	{
+		$id = $this->request->getPost('id');
+		$el = $this->request->getPost('el');
+		if ($el == 'child') {
+			$cek = $this->submenu->where('slug_subKbuku', $id)->delete();
+		} else {
+			$cek = $this->menu->where('kode_kategori', $id)->delete();			
+			$this->submenu->where('path', $id)->delete();
+		}
+		if ($cek) {
+			return json_encode(['id'=>$id, 'el' => $el]);
+		} else {
+			return 'gagal menghapus';
+		}
 	}
 	public function out()
 	{
