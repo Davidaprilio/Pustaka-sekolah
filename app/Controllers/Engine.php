@@ -43,7 +43,8 @@ class Engine extends BaseController
 
 					$book->move('book', $namebook);
 					$sampul->move('img/book', $namesampul);
-					$resizeIMG->withFile('img/book/'.$namesampul)->resize(350, 250, true)->save('img/book/min/'.$namesampul);
+					$resizeIMG->withFile('img/book/'.$namesampul)->resize(240, 300, false, 'height')->save('img/book/mid/'.$namesampul);
+					$resizeIMG->withFile('img/book/'.$namesampul)->resize(140, 200, false, 'height')->save('img/book/min/'.$namesampul);
 				}
 
 				$data = [

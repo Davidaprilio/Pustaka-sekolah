@@ -79,16 +79,16 @@ class Petugaspustaka extends BaseController
 		}
 	}
 
-	public function pengguna()
-	{
-		$dataUser = $this->user->select('idUniq,nama,kelas,jk,bookColection,updated_at')->findAll();
-		$data = [
-			'dataUser' => $dataUser,
-			'tema' => $this->theme,
-			'dataAdmin' => $this->dataAdmin
-		];
-		return view('adminPustaka/usersList', $data);
-	}
+	// public function pengguna()
+	// {
+	// 	$dataUser = $this->user->select('idUniq,nama,kelas,jk,bookColection,updated_at')->findAll();
+	// 	$data = [
+	// 		'dataUser' => $dataUser,
+	// 		'tema' => $this->theme,
+	// 		'dataAdmin' => $this->dataAdmin
+	// 	];
+	// 	return view('adminPustaka/usersList', $data);
+	// }
 
 	public function monitor($sys = null)
 	{
@@ -145,6 +145,15 @@ class Petugaspustaka extends BaseController
 			$this->user->sysUserState();
 			return view('adminPustaka/monitoringUser', $data);	
 		}
+	}
+
+	public function rekomendasi()
+	{
+		$data = [
+			'tema' => $this->theme,
+			'dataAdmin' => $this->dataAdmin
+		];
+		return view('adminPustaka/rekomendasi', $data);
 	}
 
 	public function menu()

@@ -64,6 +64,10 @@
                                 <div class="sb-nav-link-icon">
                                     <i class="fa fa-dashboard"></i>
                                 </div><span>Monitoring</span></a>
+                            <a class="nav-link" href="<?= base_url('/Petugaspustaka/rekomendasi'); ?>">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa fa-dashboard"></i>
+                                </div><span>Rekomendasi</span></a>
                         </div>
                         <div>
                             <div class="sb-sidenav-menu-heading"><span>Kelola Pustaka</span></div>

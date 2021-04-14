@@ -30,6 +30,11 @@
                 <span class="dropdown-item">
                     <?= $userInfo->nama_lengkap ?></span>
                 <div class="dropdown-divider"></div>
+                <?php if ($userInfo->akun == 'guru'): ?>
+                    <a class="dropdown-item" role="presentation" href="<?= base_url('/PanelGuru/dashboard') ?>">Dashboard Guru</a>
+                <?php else : ?>                    
+                    <a class="dropdown-item" role="presentation" href="<?= base_url('/') ?>">Dashboard</a>
+                <?php endif ?>
                 <a class="dropdown-item" role="presentation" href="<?= base_url('/Engine/out') ?>">Log out</a>
             </div>
         </div>

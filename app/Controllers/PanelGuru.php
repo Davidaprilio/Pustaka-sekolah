@@ -81,4 +81,12 @@ class PanelGuru extends BaseController
 
 		return view('panel_guru/dashboard', $data);
 	}
+
+	public function penugasan()
+	{
+		$data = [
+			'tema' => $this->theme,
+		];
+		return view('panel_guru/penugasan', $data);
+	}
 }

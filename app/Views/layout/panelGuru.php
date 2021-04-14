@@ -61,10 +61,10 @@
                                 <div class="sb-nav-link-icon">
                                     <i class="fa fa-dashboard"></i>
                                 </div><span>Dashboard</span></a>
-                            <a class="nav-link" href="<?= base_url('/PanelGuru/monitor'); ?>">
+                            <a class="nav-link" href="<?= base_url('/PanelGuru/penugasan'); ?>">
                                 <div class="sb-nav-link-icon">
                                     <i class="fa fa-dashboard"></i>
-                                </div><span>Monitoring</span></a>
+                                </div><span>Penugasan</span></a>
                         </div>
                     </div>
                 </div>
