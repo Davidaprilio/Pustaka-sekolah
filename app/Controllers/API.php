@@ -26,7 +26,7 @@ class API extends BaseController
 		$data = [];
 		$get = (object) $this->buku->getLimit($kategori, $lotsV);
 		$data['status'] = 'OK';
-		$data['lots'] = count((array)$get);
+		$data['count'] = count((array)$get);
 		$in = 0;
 		foreach ($get as $key) {
 			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
@@ -49,7 +49,7 @@ class API extends BaseController
 		$gett = $this->buku->like('judul_buku', $nameBook)->orLike('penulis', $nameBook)->orLike('penerbit', $nameBook)->findAll();
 		$data = [
 			'status' => 'OK',
-			'lots' => count($gett),
+			'count' => count($gett),
 			'keyword' => htmlspecialchars($nameBook),
 		];
 		$in = 0;

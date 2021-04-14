@@ -29,13 +29,12 @@ function allBook() {
             }
         }
         let noInd = i;
-        // console.log(bUrl + '/API/getBookOn/' + data.kode + '/6');
         $.ajax({
-            url: bUrl + '/API/getBookOn/' + data.kode + '/6',
+            url: bUrl + '/API/getBookOn/' + data.kode + '/7',
             type: 'get',
             dataType: 'json',
             success: function(result) {
-                if (result.lots > 0) {
+                if (result.count > 0) {
                     cekNull++;
                     $('#buku').append(`
                         <div class="shadow-sm border drap rounded mb-1 p-2">
@@ -98,7 +97,7 @@ function inCategory (kategori) {
                         </div>
                         `);
                 });
-                if (result.lots == 0) {
+                if (result.count == 0) {
                     $('#buku').append(`<div class="d-flex w-100 align-items-center justify-content-center text-muted display-3" style="height: 60vh">Kosong</div>`);
                 }
             }
@@ -257,7 +256,7 @@ function searchBook(n,l){
                         </div>
                     `);
                 });
-                if (result.lots == 0) {
+                if (result.count == 0) {
                     $('#buku').append(`<div class="d-flex w-100 align-items-center justify-content-center text-muted display-3" style="height: 60vh">Kosong</div>`);
                 }
             }

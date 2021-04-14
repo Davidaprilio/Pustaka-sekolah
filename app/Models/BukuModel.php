@@ -16,7 +16,7 @@ class BukuModel extends Model
 		if ($limit == 0) {
 			$ddd = $this->table('book')->where($fieldTB, $kode)->findAll();
 		} else {
-			$ddd = $this->table('book')->where($fieldTB, $kode)->limit($limit)->findAll();
+			$ddd = $this->table('book')->where($fieldTB, $kode)->limit($limit)->get()->getResultArray();
 		}
 		// $result = $db->query($sql);
 		// $row = $result->getResult();
