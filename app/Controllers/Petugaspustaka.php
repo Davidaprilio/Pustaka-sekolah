@@ -15,13 +15,9 @@ class Petugaspustaka extends BaseController
 	public function __construct()
 	{
 		helper(['helpmy','text']);
-		$sesi = getSession('appsPtgLog', 'loginPetugas');
-		// dd($sesi);
-		// dd( session('appsPtgLog') );
-		if (is_null( $sesi )) {
-			// if ( $_SERVER['REQUEST_URI'] == '/Petugaspustaka' ) {
-				direct('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
-			// }
+		$sesi = session()->get('adminApp');
+		if (is_null($sesi)) {
+			direct('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
 		}
 		$this->dataAdmin = $sesi;
 		$this->buku = new BukuModel();
@@ -149,9 +145,12 @@ class Petugaspustaka extends BaseController
 
 	public function rekomendasi()
 	{
+		$buku = curl_getAPI('http://smektaliterasi.com/API/getBook/30', true);
+		dd($buku['items']);
 		$data = [
 			'tema' => $this->theme,
-			'dataAdmin' => $this->dataAdmin
+			'dataAdmin' => $this->dataAdmin,
+			'buku' => $buku['items']
 		];
 		return view('adminPustaka/rekomendasi', $data);
 	}
@@ -182,11 +181,10 @@ class Petugaspustaka extends BaseController
 	}
 	public function login()
 	{
-		if (!is_null(session()->get('sPetugasPutaka') )) {
-			return redirect()->to(base_url('/Petugaspustaka/dashboard'));
+		if (is_null( session()->get('adminApp') )) {
+			return redirect()->to('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
 		}
-		// return view('adminPustaka/login');	
-		return redirect()->to('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
+		return redirect()->to(base_url('/Petugaspustaka/dashboard'));
 
 	}
 	public function infoUser($idUser)
@@ -309,7 +307,7 @@ class Petugaspustaka extends BaseController
 	}
 	public function out()
 	{
-		session_destroy();
+		session()->destroy();
 		return redirect()->to(base_url('/'));
 	}
 }

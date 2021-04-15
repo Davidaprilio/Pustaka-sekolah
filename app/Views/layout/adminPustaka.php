@@ -37,7 +37,7 @@
                 <li class="nav-item float-right justify-content-end align-items-center border-0" role="presentation">
                     <div class="nav-item dropdown no-arrow">
                         <a class="dropdown-toggle active text-white" data-toggle="dropdown" aria-expanded="false" href="#">
-                            <img class="rounded-circle" src="<?= base_url('/img/'.$dataAdmin['fotoprofile']); ?>">
+                            <img class="rounded-circle" src="<?= base_url('/img/'.$dataAdmin->foto); ?>">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow" role="menu" style="margin-top: 16px;padding-left: 13px;">
                             <span class="dropdown-item" id="settIddropdown">Pengaturan</span>
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div id="layoutSidenav_content">
-            <main class="bg-light">
+            <main class="bg-light" style="overflow-x: hidden;">
                 <?=$this->renderSection('Admin');?>
             </main>
         </div>

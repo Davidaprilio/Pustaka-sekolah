@@ -21,6 +21,28 @@ class API extends BaseController
 	}
 
 	//-----------------------	Json 	---------------------------
+	public function getBook($lotsV=15)
+	{
+		$data = [];
+		if ($lotsV == 0) {
+			$get = $this->buku->findAll();
+		} else {
+			$get = $this->buku->limit($lotsV)->get()->getResultArray();
+		}
+		$data['status'] = 'OK';
+		$data['count'] = count($get);
+		$in = 0;
+		foreach ($get as $key) {
+			$data['items'][$in]['sampulMid'] = '/img/book/mid/'.$key['sampul'];
+			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
+			$data['items'][$in]['idBuku'] = $key['slug_buku'];
+			$in++;
+		}
+		return $this->respond($data, 200);
+	}
 	public function getBookOn($kategori,$lotsV=3)
 	{
 		$data = [];

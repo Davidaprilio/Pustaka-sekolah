@@ -232,24 +232,20 @@ class Engine extends BaseController
 		}
 	}
 
- 	// public function loginPetugasPustaka()
- 	// {
- 	// 	$u = $this->request->getPost('uname');
- 	// 	$p = $this->request->getPost('pass');
- 	// 	$a = $this->guru->where(['user'=>$u,'rules'=>'petugasPustaka'])->first();
- 	// 	if (is_null($a)) {
- 	// 		return redirect()->to(base_url('/Petugaspustaka'));
- 	// 		exit(0);
- 	// 	} else {
- 	// 		if (password_verify($p, $a['pass'])) {
- 	// 			session()->set('sPetugasPutaka', $a);
- 	// 		}else{
- 	// 			return redirect()->to(base_url('/Petugaspustaka'));
- 	// 		}
- 	// 	}
- 	// 	return redirect()->to(base_url('/Petugaspustaka/dashboard'));
- 	// }
-	//--------------------------------------------------------------------
+ 	public function sysAdmin()
+ 	{
+ 		$t = $this->request->getGet('token');
+ 		if (isset($t)) {
+	 		$cek = curl_getAPI('http://appsschool.smektaliterasi.com/OAuth/Token/'.$t, true);
+	 		if ($cek['valid']) {
+	 			session()->set('adminApp', json_decode(base64_decode($t)));
+	 			return redirect()->to(base_url('/Petugaspustaka'));
+	 		}
+ 		}
+ 		throw new \CodeIgniter\Exceptions\PageNotFoundException();
+ 	}
+
+	// --------------------------------------------------------------------
 
 	public function updataTableBuku($idbuku,$fieldTable,$value)
 	{

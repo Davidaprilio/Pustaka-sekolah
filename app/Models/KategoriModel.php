@@ -67,6 +67,7 @@ class KategoriModel extends Model
 		$subMenu = [];
 		foreach ($menu as $grub) {
 			$aKAT[$grub['kode_kategori']][0] = $grub['nama'];
+			$breadcrumb1 =($p == '/')? 'Buku' : $grub['nama'];
 		}
 		foreach ($sub as $grub) {
 			array_push($aKAT[$grub['path']], [
@@ -82,7 +83,7 @@ class KategoriModel extends Model
 			 	$keyKode = $grub['slug_subKbuku'];
 				$go = [
 					0 => 'Pustaka',
-					1 => ($p == '/')? 'Buku' : $grub['nama'],
+					1 => ($p == '/')? 'Buku' : $aKAT[$grub['path']][0],
 					2 => ($p == '/')? 'Semua' : $grub['sub_nama'],
 				];
 			};
