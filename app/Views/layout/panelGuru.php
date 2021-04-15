@@ -43,7 +43,7 @@
                         <div class="dropdown-menu dropdown-menu-right shadow" role="menu" style="margin-top: 16px;padding-left: 13px;">
                             <span class="dropdown-item" id="settIddropdown">Pengaturan</span>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" role="presentation" href="<?= base_url('/PanelGuru/out/') ?>">Keluar</a>
+                            <a class="dropdown-item" role="presentation" href="<?= base_url('/Engine/out/') ?>">Keluar</a>
                         </div>
                     </div>
                 </li>

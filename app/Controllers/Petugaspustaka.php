@@ -5,12 +5,13 @@ use \App\Models\KategoriModel;
 use \App\Models\BookReaderModel;
 use \App\Models\KategoriMenuModel;
 use \App\Models\KategoriSubmenuModel;
+use \App\Models\RekomendasiModel;
 
 use CodeIgniter\I18n\Time;
 
 class Petugaspustaka extends BaseController
 {
-	protected $buku, $user, $theme, $kategori, $reader, $dataAdmin, $menu, $submenu;
+	protected $buku, $user, $theme, $kategori, $reader, $dataAdmin, $menu, $submenu, $Rekomendasi;
 
 	public function __construct()
 	{
@@ -26,6 +27,7 @@ class Petugaspustaka extends BaseController
 		$this->kategori = new KategoriModel();
 		$this->menu = new KategoriMenuModel();
 		$this->submenu = new KategoriSubmenuModel();
+		$this->Rekomendasi = new RekomendasiModel();
 		$sys = new \App\Models\Sys();
 		$get = $sys->select('value')->where('keyword','themeAdmin')->first();
 		$this->theme = $get['value'];
@@ -143,16 +145,34 @@ class Petugaspustaka extends BaseController
 		}
 	}
 
-	public function rekomendasi()
+	public function rekomendasi($p=null)
 	{
-		$buku = curl_getAPI('http://smektaliterasi.com/API/getBook/30', true);
-		dd($buku['items']);
+		if (is_null($p)) {
+			// null
+		} else if ($p == 'drop') {
+			$id = $this->request->getPost('data');
+			$this->Rekomendasi->where('slug_book', $id)->delete();
+		} else if ($p == 'add') {
+			$id = $this->request->getPost('data');
+			$this->Rekomendasi->insert([
+				'slug_book' => $id,
+				'for_user' => 'all',
+			]);
+		} else {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException();
+		}
 		$data = [
 			'tema' => $this->theme,
 			'dataAdmin' => $this->dataAdmin,
-			'buku' => $buku['items']
+			'buku' => $this->buku->notSuggestBook(),
+			'suggest' => $this->buku->suggestBook(),
 		];
-		return view('adminPustaka/rekomendasi', $data);
+		dd($data['buku'], $data['suggest']);
+		if (is_null($p)) {
+			return view('adminPustaka/rekomendasi', $data);
+		} else {
+			return view('adminPustaka/rowBookRecommend', $data);
+		}
 	}
 
 	public function menu()

@@ -7,10 +7,14 @@ class BukuModel extends Model
 	protected $table = 'book';
 	protected $useTimestamps = true;
 	protected $allowedFields = ['file_enc','slug_buku','author','judul_buku','penulis','penerbit','sampul','kategori','forClass','type','deskripsi','download','reader','rating','status','pesan'];
-
+	protected $db;
+	public function __construct()
+	{
+		$this->db = \Config\Database::connect();
+	}
 	public function getLimit($where,$limit)
 	{
-		$db = \Config\Database::connect();
+		// $db = \Config\Database::connect();
 		$kode = str_replace('Formal', '', $where);
 		$fieldTB = ($where == $kode)? 'kategori' : 'forClass';
 		if ($limit == 0) {
@@ -22,6 +26,18 @@ class BukuModel extends Model
 		// $row = $result->getResult();
 		// dd($row,$ddd);		
 		return $ddd;
+	}
+	public function suggestBook()
+	{
+		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.forClass FROM `rekomendasi` JOIN book ON rekomendasi.slug_book=book.slug_buku";
+		$res = $this->db->query($sql)->getResultArray();
+		return $res;
+	}
+	public function notSuggestBook()
+	{
+		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.forClass FROM `rekomendasi` LEFT JOIN book ON rekomendasi.slug_book=book.slug_buku WHERE book.slug_buku IS NULL" ;
+		$res = $this->db->query($sql)->getResultArray();
+		return $res;
 	}
 	public function ubahData($field, $value, $idBuku)
 	{

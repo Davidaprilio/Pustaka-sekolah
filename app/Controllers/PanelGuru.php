@@ -13,14 +13,10 @@ class PanelGuru extends BaseController
 	public function __construct()
 	{
 		helper('helpmy');
-		// $sesi = getSession('appsPtgLog', 'loginPetugas');
-		// // dd($sesi);
-		// // dd( session('appsPtgLog') );
-		// if (is_null( $sesi )) {
-		// 	// if ( $_SERVER['REQUEST_URI'] == '/Petugaspustaka' ) {
-		// 		direct('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
-		// 	// }
-		// }
+		$sesi = getSession('appsSch', 'userLogin');
+		if (is_null($sesi) || $sesi['akun'] != 'guru') {
+			direct(base_url('/'));
+		}
 		// $this->dataAdmin = $sesi;
 		$this->buku = new BukuModel();
 		$this->user = new UsersModel();
@@ -88,5 +84,13 @@ class PanelGuru extends BaseController
 			'tema' => $this->theme,
 		];
 		return view('panel_guru/penugasan', $data);
+	}
+
+	public function tugas($kelas)
+	{
+		$data = [
+			'tema' => $this->theme,
+		];
+		return view('panel_guru/viewtugas', $data);
 	}
 }
