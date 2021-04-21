@@ -15,7 +15,8 @@ class Pustaka extends BaseController
 	public function __construct()
 	{
 		helper('helpmy');
-		$uL = getSession('appsSch', 'userLogin');
+		// $uL = getSession('appsSch', 'userLogin');
+		$uL = session()->get('userLogin');
 		// dd($uL);
 		$this->userInfo = ($uL)? (object) $uL : null;
 		$this->kate = new KategoriModel();
@@ -155,5 +156,13 @@ class Pustaka extends BaseController
 	public function Pengurus($value='')
 	{
 		echo randomString(3).date('m').randomString(5).date('d');
+	}
+
+	public function login()
+	{
+		$direct = $this->request->getGet('ke');
+		return view('layout/loginUser', [
+			'direct' => $direct,
+		]);
 	}
 }

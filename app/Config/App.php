@@ -162,7 +162,7 @@ class App extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $sessionCookieName = 'ci_session';
+	public $sessionCookieName = 'X-Pustaka-S';
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -286,7 +286,7 @@ class App extends BaseConfig
 	 *
 	 * @var boolean
 	 */
-	public $cookieHTTPOnly = false;
+	public $cookieHTTPOnly = true;
 
 	/**
 	 * --------------------------------------------------------------------------

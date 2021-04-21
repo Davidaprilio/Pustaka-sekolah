@@ -8,13 +8,8 @@ class BukuModel extends Model
 	protected $useTimestamps = true;
 	protected $allowedFields = ['file_enc','slug_buku','author','judul_buku','penulis','penerbit','sampul','kategori','forClass','type','deskripsi','download','reader','rating','status','pesan'];
 	protected $db;
-	public function __construct()
-	{
-		$this->db = \Config\Database::connect();
-	}
 	public function getLimit($where,$limit)
 	{
-		// $db = \Config\Database::connect();
 		$kode = str_replace('Formal', '', $where);
 		$fieldTB = ($where == $kode)? 'kategori' : 'forClass';
 		if ($limit == 0) {
@@ -22,9 +17,6 @@ class BukuModel extends Model
 		} else {
 			$ddd = $this->table('book')->where($fieldTB, $kode)->limit($limit)->get()->getResultArray();
 		}
-		// $result = $db->query($sql);
-		// $row = $result->getResult();
-		// dd($row,$ddd);		
 		return $ddd;
 	}
 	public function suggestBook()

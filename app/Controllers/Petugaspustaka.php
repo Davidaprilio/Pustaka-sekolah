@@ -167,7 +167,7 @@ class Petugaspustaka extends BaseController
 			'buku' => $this->buku->notSuggestBook(),
 			'suggest' => $this->buku->suggestBook(),
 		];
-		dd($data['buku'], $data['suggest']);
+		// dd($data['buku'], $data['suggest']);
 		if (is_null($p)) {
 			return view('adminPustaka/rekomendasi', $data);
 		} else {
@@ -230,6 +230,15 @@ class Petugaspustaka extends BaseController
 			'bukuDibaca' => count($read),
 		];
 		return view('adminPustaka/cardUser', $data);
+	}
+
+	public function desain()
+	{
+		$data = [
+			'tema' => $this->theme,
+			'dataAdmin' => $this->dataAdmin
+		];
+		return view('adminPustaka/addBook', $data);
 	}
 
 	public function infoBook($slug)

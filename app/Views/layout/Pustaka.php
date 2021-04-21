@@ -41,7 +41,7 @@
         <?php else : ?>
         <ul class="nav navbar-nav">
             <li class="nav-item" role="presentation">
-                <a class="nav-link btn btn-sm btn-warning py-1 mt-1" href="http://appsschool.smektaliterasi.com/Akun/masuk/?ke=http://smektaliterasi.com/Engine/sycUser/">Log in</a>
+                <a class="nav-link btn btn-sm btn-warning py-1 mt-1" href="<?= base_url('/Login') ?>?ke=http://smektaliterasi.com/">Log in</a>
             </li>
         </ul>
         <?php endif ?>

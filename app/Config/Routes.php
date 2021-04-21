@@ -33,6 +33,8 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+$routes->get('/Login', 'Pustaka::login');
+// $routes->get('/Logout', 'Pustaka::login');
 $routes->get('/Petugaspustaka', 'Petugaspustaka::login');
 $routes->get('/Administrator', 'Administrator::login');
 

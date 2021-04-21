@@ -151,6 +151,33 @@ class Engine extends BaseController
 		}
 		
 	}
+
+	public function login()
+	{
+		$to = $this->request->getPost('direct');
+		$u = $this->request->getPost('uname');
+		$p = $this->request->getPost('pass');
+		$get = $this->user->where('uname', $u)->first();
+		if ($get) {
+			if ( PASSWORD_DEFAULT($p, $get['pass']) ) {
+				$data = [
+					'role' => $get['role'],
+					'nama' => $get['name'],
+					'id' => $get['idUniq'],
+					'foto' => $get['foto'],
+					'jk' => $get['jk'],
+				]; 
+				session()->set('userLogin', $data);
+				return redirect()->to($to);
+			} else {
+				# password salah
+				return redirect()->back()->with('failPass', 'Password salah')->withInput();
+			}
+		} else {
+			return redirect()->back()->with('failUname', 'username tidak ada')->withInput();
+			# username gak ada
+		}
+	}
  	
  	public function register()
  	{

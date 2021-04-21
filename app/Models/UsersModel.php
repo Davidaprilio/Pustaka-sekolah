@@ -8,7 +8,7 @@ class UsersModel extends Model
 	protected $table = 'user';
 	protected $useTimestamps = true;
 	protected $primaryKey = 'id';
-	protected $allowedFields = ['idUniq','nama','kelas','jk','state','openBook','bookColection','bookRead','favoriteBook'];
+	protected $allowedFields = ['idUniq','nama','foto','kelas','jk','state','openBook','bookColection','bookRead','favoriteBook','role','uname','pass'];
 
 	public function sysUserState()
 	{

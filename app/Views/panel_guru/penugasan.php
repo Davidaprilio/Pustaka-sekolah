@@ -14,11 +14,41 @@
 		box-shadow: 5px 0 5px grey;
 	}
 </style>
+<!-- Modal -->
+<div class="modal fade" id="addNew" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addNewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      	<form action="">
+		    <div class="modal-header border-0">
+		        <h5 class="modal-title" id="addNewLabel">Membuat Tugas baru</h5>
+		        <div>
+			        <button type="submit" class="btn btn-primary">Simpan</button>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+		        </div>
+		    </div>
+		    <div class="modal-body">
+		        <figure class="figure position-relative">
+		            <img width="90" height="150" src="<?= base_url('/img/book/default.jpg') ?>" class="figure-img img-fluid rounded mb-0">
+		            <figcaption class="figure-caption">
+		              <small>Pustaka E-book</small>
+		            </figcaption>
+		      	</figure>
+		      	<br>
+		      	<label for="text"><small>Penjelasan tugas</small></label>
+	      		<textarea class="form-control" id="text"></textarea>
+		    </div>
+      	</form>
+    </div>
+  </div>
+</div>
+
 <div class="container-xxl p-md-2">
 	<div class="card p-3 shadow-sm" style="min-height: 88vh;">
 		<ul class="nav border-bottom rounded-0 mb-1">
 		  <li class="nav-item">
-		    <a class="nav-link active" href="#">+ Buat</a>
+		    <a class="nav-link active" href="javascript:void(0)" data-toggle="modal" data-target="#addNew">+ Buat</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" href="#">Link</a>
