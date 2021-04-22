@@ -25,7 +25,7 @@ function cekP(id) {
 function send() {
     $('.progress').css('height','10px');
     $('.invalid-feedback').html('NISN Tidak terdaftar');
-    $.post( window.location.origin + '/OAuth/daftar', {nisn: nisn ,nxtPage: urlNxt}).done(function( data ) { 
+    $.post( window.location.origin + '/Auth/daftar', {nisn: nisn ,nxtPage: urlNxt}).done(function( data ) { 
         if (data != 'false') {
             $('#delEl1').css({'transition': '.5s','opacity': 0});
             $('#delEl2').css({'transition': '.5s','opacity': 0});

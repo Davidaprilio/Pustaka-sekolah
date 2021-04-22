@@ -17,7 +17,6 @@ class Pustaka extends BaseController
 		helper('helpmy');
 		// $uL = getSession('appsSch', 'userLogin');
 		$uL = session()->get('userLogin');
-		// dd($uL);
 		$this->userInfo = ($uL)? (object) $uL : null;
 		$this->kate = new KategoriModel();
 		$this->buku = new BukuModel();
@@ -37,7 +36,6 @@ class Pustaka extends BaseController
 			'bK' => 'Semua Buku',
 			'userInfo' => $this->userInfo
 		];
-		// dd($data['baseM']);
 		// if ($dataKate['status']) {
 			return view('pustaka/index', $data);
 		// } else {
@@ -162,6 +160,13 @@ class Pustaka extends BaseController
 	{
 		$direct = $this->request->getGet('ke');
 		return view('layout/loginUser', [
+			'direct' => $direct,
+		]);
+	}
+	public function register()
+	{
+		$direct = $this->request->getGet('ke');
+		return view('layout/registerUser', [
 			'direct' => $direct,
 		]);
 	}

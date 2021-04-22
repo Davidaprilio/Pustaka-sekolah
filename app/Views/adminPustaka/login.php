@@ -18,7 +18,7 @@
 		<small style="color: red !important;">
 		<?= (isset($pesan)) ? $pesan : ' '; ?>
 		</small>
-		<form action="<?= base_url('/Engine/loginPetugasPustaka') ?>" method="POST">
+		<form action="<?= base_url('/Auth/admin') ?>" method="POST">
 			<?= csrf_field(); ?>
 			<div class="input">
 				<div class="inputBox">

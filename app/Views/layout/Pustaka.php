@@ -24,18 +24,18 @@
         <?php if ( $userInfo ): ?>
         <div class="dropdown d-inline-block no-arrow bg-transparent">
             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
-                <img class="rounded-circle img-pp" src="<?= base_url('/img/'.$userInfo->fotoprofile); ?>" style="width: 42px;">
+                <img class="rounded-circle img-pp" src="<?= base_url('/img/'.$userInfo->foto); ?>" style="width: 42px;">
             </a>
             <div class="dropdown-menu dropdown-menu-right" role="menu" style="margin-top: 10px;">
                 <span class="dropdown-item">
-                    <?= $userInfo->nama_lengkap ?></span>
+                    <?= $userInfo->panggilan ?></span>
                 <div class="dropdown-divider"></div>
-                <?php if ($userInfo->akun == 'guru'): ?>
+                <?php if ($userInfo->role == 'guru'): ?>
                     <a class="dropdown-item" role="presentation" href="<?= base_url('/PanelGuru/dashboard') ?>">Dashboard Guru</a>
                 <?php else : ?>                    
                     <a class="dropdown-item" role="presentation" href="<?= base_url('/') ?>">Dashboard</a>
                 <?php endif ?>
-                <a class="dropdown-item" role="presentation" href="<?= base_url('/Engine/out') ?>">Log out</a>
+                <a class="dropdown-item" role="presentation" href="<?= base_url('/Logout') ?>">Log out</a>
             </div>
         </div>
         <?php else : ?>

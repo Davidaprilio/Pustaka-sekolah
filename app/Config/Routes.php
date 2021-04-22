@@ -34,10 +34,11 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 
 $routes->get('/Login', 'Pustaka::login');
-// $routes->get('/Logout', 'Pustaka::login');
-$routes->get('/Petugaspustaka', 'Petugaspustaka::login');
-$routes->get('/Administrator', 'Administrator::login');
+$routes->get('/Register', 'Pustaka::register');
+// $routes->get('/Petugaspustaka', 'Petugaspustaka::login');
+$routes->get('/Login/Administrator', 'Petugaspustaka::login');
 
+$routes->get('/Logout/(:segment)', 'Auth::out/$1');
 $routes->get('/DetailBuku/(:segment)', 'Pustaka::detail/$1');
 $routes->get('/unduh/(:segment)', 'Pustaka::downloadbuku/$1');
 $routes->get('/Baca/(:segment)', 'Pustaka::Read/$1');

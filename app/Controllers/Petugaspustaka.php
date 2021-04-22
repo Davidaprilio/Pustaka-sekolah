@@ -18,9 +18,11 @@ class Petugaspustaka extends BaseController
 		helper(['helpmy','text']);
 		$sesi = session()->get('adminApp');
 		if (is_null($sesi)) {
-			direct('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
+			if ($_SERVER['PATH_INFO'] !== '/Login/Administrator') {
+				throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+			}
 		}
-		$this->dataAdmin = $sesi;
+		$this->dataAdmin = (object)$sesi;
 		$this->buku = new BukuModel();
 		$this->user = new UsersModel();
 		$this->reader = new BookReaderModel();
@@ -202,7 +204,8 @@ class Petugaspustaka extends BaseController
 	public function login()
 	{
 		if (is_null( session()->get('adminApp') )) {
-			return redirect()->to('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
+			// return redirect()->to('http://appsschool.smektaliterasi.com/Authorize/Petugas/Pustaka');
+			return view('adminPustaka/login');
 		}
 		return redirect()->to(base_url('/Petugaspustaka/dashboard'));
 
