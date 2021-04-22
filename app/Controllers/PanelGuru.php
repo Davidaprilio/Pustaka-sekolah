@@ -13,8 +13,9 @@ class PanelGuru extends BaseController
 	public function __construct()
 	{
 		helper('helpmy');
-		$sesi = getSession('appsSch', 'userLogin');
-		if (is_null($sesi) || $sesi['akun'] != 'guru') {
+		// $sesi = getSession('appsSch', 'userLogin');
+		$sesi = session()->get('userLogin');
+		if (is_null($sesi) || $sesi['role'] != 'guru') {
 			direct(base_url('/'));
 		}
 		// $this->dataAdmin = $sesi;
@@ -29,9 +30,15 @@ class PanelGuru extends BaseController
 	public function dashboard()
 	{
 		helper('text');
-	    $result = curl_getAPI('http://appsschool.smektaliterasi.com/API/kelas');
-	    $jsonKelas = json_decode($result, true);
-
+		$kelasModel = new \App\Models\KelasModel();
+		$kelas = $kelasModel->findAll();
+		$dataKelas = [];
+		foreach ($kelas as $key) {
+			array_push($dataKelas, [
+				'kelas' => $key['kelas'],
+				'kode_kelas' => $key['idkelas']
+			]);
+		}
 	    $filter = $this->request->getGet('filter');
 	    if (isset($_POST['key']) && !is_null($filter)) {
 	    	$keyw = $this->request->getPost('key');
@@ -70,7 +77,7 @@ class PanelGuru extends BaseController
 	    }
 		$data = [
 			'tema' => $this->theme,
-			'dataKelas' => $jsonKelas['items'],
+			'dataKelas' => $dataKelas,
 			'users' => $dataUser,
 			'filter' => $filter,
 		];
