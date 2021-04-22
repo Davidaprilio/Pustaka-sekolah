@@ -78,17 +78,24 @@ class Auth extends BaseController
 		$u = $this->request->getPost('uname');
 		$p = $this->request->getPost('pass');
 		$get = $this->Users->where('uname', $u)->first();
+		$role = 'siswa';
+		if (is_null($get)) {
+			$get = $this->Guru->where('uname', $u)->first();
+			$role = 'guru';
+		}
 		if ($get) {
 			if ( password_verify($p, $get['pass']) ) {
 				$data = [
-					'role' => 'siswa',
+					'role' => $role,
 					'nama' => $get['nama'],
 					'panggilan' => $get['panggilan'],
-					'id' => $get['idUniq'],
+					'id' => $get[($role == 'siswa')? 'idUniq' : 'slug'],
 					'foto' => $get['foto'],
 					'jk' => $get['jk'],
 				];
-				$this->Users->set('state', 'online')->where('idUniq', $get['idUniq'])->update();
+				if ($role == 'siswa') {
+					$this->Users->set('state', 'online')->where('idUniq', $get['idUniq'])->update();
+				}
 				session()->set('userLogin', $data);
 				return redirect()->to(base_url('/'));
 			} else {
