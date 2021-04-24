@@ -93,8 +93,15 @@ class Petugaspustaka extends BaseController
 	public function monitor($sys = null)
 	{
 		helper('text');
-	    $result = curl_getAPI('http://appsschool.smektaliterasi.com/API/kelas');
-	    $jsonKelas = json_decode($result, true);
+	    $kelasModel = new \App\Models\KelasModel();
+		$kelas = $kelasModel->findAll();
+		$dataKelas = [];
+		foreach ($kelas as $key) {
+			array_push($dataKelas, [
+				'kelas' => $key['kelas'],
+				'kode_kelas' => $key['idkelas']
+			]);
+		}
 
 	    $filter = $this->request->getGet('filter');
 	    if (isset($_POST['key']) && !is_null($filter)) {
@@ -133,7 +140,7 @@ class Petugaspustaka extends BaseController
 	    	$no++;
 	    }
 		$data = [
-			'dataKelas' => $jsonKelas['items'],
+			'dataKelas' => $dataKelas,
 			'tema' => $this->theme,
 			'dataAdmin' => $this->dataAdmin,
 			'users' => $dataUser,

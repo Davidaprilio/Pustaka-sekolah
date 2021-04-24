@@ -8,10 +8,7 @@
     <link rel="stylesheet" href="<?= base_url('/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/fonts/font-awesome.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/admin/css/styles.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/css/dataTables.bootstrap4.min.css') ?>"/>
     <script src="<?= base_url('/js/jquery-3.5.1.min.js') ?>"></script>
-    <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/jquery.dataTables.min.js') ?>"></script>
-    <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/dataTables.bootstrap4.min.js') ?>"></script>
 </head>
 <body class="sb-nav-fixed <?= $tema ?> bg-light">
     <nav class="navbar navbar-expand shadow-sm sticky-top sb-topnav py-0 border-bottom border-warning">

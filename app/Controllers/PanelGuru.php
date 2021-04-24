@@ -12,7 +12,7 @@ class PanelGuru extends BaseController
 
 	public function __construct()
 	{
-		helper('helpmy');
+		helper(['helpmy','text']);
 		// $sesi = getSession('appsSch', 'userLogin');
 		$sesi = session()->get('userLogin');
 		if (is_null($sesi) || $sesi['role'] != 'guru') {
@@ -87,8 +87,14 @@ class PanelGuru extends BaseController
 
 	public function penugasan()
 	{
+		$Tugas = new \App\Models\TugasModel();
+		$Kelas = new \App\Models\KelasModel();
+		$dataTugas = $Tugas->getInfo();
 		$data = [
 			'tema' => $this->theme,
+			'dataTugas' => $dataTugas,
+			'buku' => $this->buku->select('slug_buku,judul_buku')->findAll(),
+			'kelas' => $Kelas->findAll(),
 		];
 		return view('panel_guru/penugasan', $data);
 	}
