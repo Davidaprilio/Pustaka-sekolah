@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use CodeIgniter\Model;
 use CodeIgniter\I18n\Time;
@@ -8,7 +10,7 @@ class UsersModel extends Model
 	protected $table = 'user';
 	protected $useTimestamps = true;
 	protected $primaryKey = 'id';
-	protected $allowedFields = ['idUniq','NISN','nama','panggilan','foto','kelas','jk','state','openBook','bookColection','bookRead','favoriteBook','role','uname','pass'];
+	protected $allowedFields = ['idUniq', 'NISN', 'nama', 'panggilan', 'foto', 'kelas', 'jk', 'state', 'openBook', 'bookColection', 'bookRead', 'favoriteBook', 'role', 'uname', 'pass'];
 
 	public function sysUserState()
 	{
@@ -29,17 +31,17 @@ class UsersModel extends Model
 			} else if ($data->state === 'offline') {
 				$lastActive = Time::createFromFormat('Y-m-d H:i:s', $data->updated_at, 'Asia/Jakarta');
 				$timeNow = Time::now('Asia/Jakarta');
-				$timeDiff = date_diff($lastActive, $timeNow);	
-				if( $timeDiff->y >= 3 ) {
+				$timeDiff = date_diff($lastActive, $timeNow);
+				if ($timeDiff->y >= 3) {
 					$updated['delete']++;
 					$sql = "DELETE FROM `user` WHERE idUniq='{$data->idUniq}'";
 					$db->query($sql)->getResult();
-				} 
+				}
 			}
 		}
 		return $updated;
 	}
-	public function filter(array $arrFilter, $kelasData, $search=false )
+	public function filter(array $arrFilter, $kelasData, $search = false)
 	{
 		$node = 0;
 		foreach ($arrFilter as $id) {
@@ -53,12 +55,12 @@ class UsersModel extends Model
 		$db = \Config\Database::connect();
 		$sql = "SELECT * FROM `user` WHERE ";
 		if ($search) {
-			$sql .= "(nama LIKE '%".$search."%') AND (";
+			$sql .= "(nama LIKE '%" . $search . "%') AND (";
 		}
 		$length = count($arrFilter);
 		$node = 1;
 		foreach ($arrFilter as $value) {
-			$sql .= "kelas='".$value."'";
+			$sql .= "kelas='" . $value . "'";
 			if ($node < $length) {
 				$sql .= " OR ";
 			}
@@ -70,5 +72,11 @@ class UsersModel extends Model
 		$sql .= " ORDER BY kelas DESC";
 		$result = $db->query($sql)->getResultArray();
 		return $result;
+	}
+
+	public function countUsers(string $idKelas)
+	{
+		$cekUser = $this->select('count(idUniq) AS users')->where('kode_kelas', $idKelas)->findAll();
+		return $cekUser[0];
 	}
 }

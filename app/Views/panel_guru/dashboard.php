@@ -61,7 +61,7 @@
 			    foreach ($users as $user): ?>
 			      <tr>
 			        <th scope="row"><?= $no++ ?></th>
-			        <td><span class="badge badge-success"><?= $user['kelas'] ?></span> <?= $user['nama'] ?></td>
+			        <td><span class="badge badge-success"><?= $user['kode_kelas'] ?></span> <?= $user['nama'] ?></td>
 			        <td><span class="badge badge-<?php 
 			          if ($user['state']=='baca') { 
 			            echo 'primary';

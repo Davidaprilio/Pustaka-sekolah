@@ -306,4 +306,23 @@ class Engine extends BaseController
 		];
 		return view('pustaka/detail', $data);
 	}
+
+	public function tugas()
+	{
+		$sesi = session()->get('userLogin');
+		if ($sesi['role'] == 'guru') {
+			helper('text');
+			$Tugas = new \App\Models\TugasModel();
+			$data = [
+				'kode_tugas' => random_string('alnum', 5),
+				'id_guru' => $sesi['id'],
+				'judul' => $this->request->getPost('inJudul'),
+				'deskripsi' => $this->request->getPost('inDeskripsi'),
+				'id_buku' => $this->request->getPost('selBuku'),
+				'id_kelas' => $this->request->getPost('selKelas')
+			];
+			$Tugas->insert($data);
+			return redirect()->to(base_url('/PanelGuru/penugasan'))->with('msg', 'Tugas Berhasil dibuat');
+		}
+	}
 }

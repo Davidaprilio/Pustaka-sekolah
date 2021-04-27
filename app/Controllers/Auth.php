@@ -1,4 +1,7 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
+
 use \App\Models\DataRegModel;
 use \App\Models\UsersModel;
 use \App\Models\GuruModel;
@@ -50,15 +53,15 @@ class Auth extends BaseController
 		$nisnSiswa = $this->request->getPost('nisn');
 		$data = [
 			'jk' => $this->request->getPost('jk'),
-			'nama' => $this->request->getPost('name'),
+			'nama' => $this->request->getPost('fullname'),
+			'panggilan' => $this->request->getPost('name'),
 			'NISN' => $nisnSiswa,
-			'foto' => ($this->request->getPost('jk') == 'L')? 'boy.jpg':'girl.png',
+			'foto' => ($this->request->getPost('jk') == 'L') ? 'boy.jpg' : 'girl.png',
 			'pass' => password_hash($this->request->getPost('pass'), PASSWORD_DEFAULT),
 			'kelas' => $this->request->getPost('class'),
 			'uname' => $this->request->getPost('user'),
 			'state' => 'offline',
-			'idUniq' => random_string('alpha',15),
-			'panggilan' => $this->request->getPost('fullname'),
+			'idUniq' => random_string('alpha', 15),
 		];
 		$hsh = $this->Users->insert($data);
 		$this->dataReg->where('NISN', $nisnSiswa)->delete();
@@ -68,7 +71,7 @@ class Auth extends BaseController
 			return redirect()->to(base_url('/Login'));
 		} else {
 			//GAGAL
-			return redirect()->to(base_url('/Register'))->with('fail','Maaf ada yang salah');
+			return redirect()->to(base_url('/Register'))->with('fail', 'Maaf ada yang salah');
 		}
 	}
 
@@ -84,12 +87,12 @@ class Auth extends BaseController
 			$role = 'guru';
 		}
 		if ($get) {
-			if ( password_verify($p, $get['pass']) ) {
+			if (password_verify($p, $get['pass'])) {
 				$data = [
 					'role' => $role,
 					'nama' => $get['nama'],
 					'panggilan' => $get['panggilan'],
-					'id' => $get[($role == 'siswa')? 'idUniq' : 'slug'],
+					'id' => $get[($role == 'siswa') ? 'idUniq' : 'slug'],
 					'foto' => $get['foto'],
 					'jk' => $get['jk'],
 				];
@@ -114,7 +117,7 @@ class Auth extends BaseController
 			$sesi = session()->get($nameSession);
 			if ($sesi) {
 				session()->destroy();
-				$this->Users->set(['state'=>'offline', 'openBook'=>null])->where('idUniq', $sesi['id'])->update();
+				$this->Users->set(['state' => 'offline', 'openBook' => null])->where('idUniq', $sesi['id'])->update();
 			}
 			return redirect()->to(base_url('/'));
 		} else if ($nameSession == 'adminApp') {
