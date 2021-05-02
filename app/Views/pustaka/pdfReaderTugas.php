@@ -113,7 +113,7 @@
 		pdfjsLib.GlobalWorkerOptions.workerSrc = '<?= base_url('/pdfjs/build/pdf.worker.js') ?>';
 
 		var pdfDoc = null,
-		    pageNum = 1,
+		    pageNum = <?= $read_pages[0] ?>,
 		    pageRendering = false,
 		    pageNumPending = null,
 		    scale = 1.5,
@@ -123,7 +123,7 @@
 		    ctx = canvas.getContext('2d'),
 		    nextP = false,
 		    time,
-		    lock = 2;
+		    lock = <?= $read_pages[0] ?> + 1;
 
 
 		/**

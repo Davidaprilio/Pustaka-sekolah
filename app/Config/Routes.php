@@ -37,8 +37,11 @@ $routes->get('/Register', 'Pustaka::register');
 // $routes->get('/Petugaspustaka', 'Petugaspustaka::login');
 $routes->get('/Login/Administrator', 'Petugaspustaka::login');
 $routes->get('/Logout', 'Auth::out');
+$routes->get('/User', 'User::index');
 
-$routes->get('/t/Baca/(:segment)', 'Pustaka::ReadTugas/$1');
+$routes->get('/User/t/(:segment)/view', 'User::lihatTugas/$1');
+$routes->get('/User/t/(:segment)/baca', 'User::bacaBuku/$1');
+
 $routes->get('/Baca/(:segment)', 'Pustaka::Read/$1');
 $routes->get('/unduh/(:segment)', 'Pustaka::downloadbuku/$1');
 $routes->get('/DetailBuku/(:segment)', 'Pustaka::detail/$1');

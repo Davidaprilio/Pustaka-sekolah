@@ -82,25 +82,6 @@ class Pustaka extends BaseController
 		return view('pustaka/pdfView', $data);
 	}
 
-	public function ReadTugas($id)
-	{
-		$userInfo = $this->userInfo;
-		if (is_null($userInfo)) {
-			return redirect()->to('http://smektaliterasi.com/Login?ke='.base_url('Pustaka/Read/'.$id));
-		}
-		$buku = $this->buku->select('slug_buku,file_enc')->where('slug_buku', $id)->first();
-		if (is_null($buku)) {
-			throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku yang dimaksud tidak dapat ditemukan');
-		}
-		$data = [
-			'titleBar' => 'Perpustakaan Elektronik | SMK Negeri 1 Tanjunganom',
-			'fileBook' => base_url('/').'/book/'.$buku['file_enc'],
-			'idB' => $buku['slug_buku'],
-			'idU' => $userInfo->id,
-		];
-		return view('pustaka/pdfReaderTugas', $data);
-	}
-
 	public function myprofile()
 	{
 		$dataKate = $this->kate->ambilKategori(null);
