@@ -7,8 +7,7 @@ $routes = Services::routes();
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
-if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
-{
+if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
 	require SYSTEMPATH . 'Config/Routes.php';
 }
 
@@ -37,11 +36,12 @@ $routes->get('/Login', 'Pustaka::login');
 $routes->get('/Register', 'Pustaka::register');
 // $routes->get('/Petugaspustaka', 'Petugaspustaka::login');
 $routes->get('/Login/Administrator', 'Petugaspustaka::login');
+$routes->get('/Logout', 'Auth::out');
 
-$routes->get('/Logout/(:segment)', 'Auth::out/$1');
-$routes->get('/DetailBuku/(:segment)', 'Pustaka::detail/$1');
-$routes->get('/unduh/(:segment)', 'Pustaka::downloadbuku/$1');
+$routes->get('/t/Baca/(:segment)', 'Pustaka::ReadTugas/$1');
 $routes->get('/Baca/(:segment)', 'Pustaka::Read/$1');
+$routes->get('/unduh/(:segment)', 'Pustaka::downloadbuku/$1');
+$routes->get('/DetailBuku/(:segment)', 'Pustaka::detail/$1');
 
 $routes->get('/(:segment)', 'Pustaka::index/$1');
 
@@ -58,7 +58,6 @@ $routes->get('/(:segment)', 'Pustaka::index/$1');
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php'))
-{
+if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

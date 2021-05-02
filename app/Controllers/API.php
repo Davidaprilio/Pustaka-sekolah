@@ -1,10 +1,13 @@
-<?php 
+<?php
+
 namespace App\Controllers;
+
 use \App\Models\BukuModel;
 use \App\Models\KategoriModel;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
+
 class API extends BaseController
 {
 	use ResponseTrait;
@@ -21,7 +24,7 @@ class API extends BaseController
 	}
 
 	//-----------------------	Json 	---------------------------
-	public function getBook($lotsV=15)
+	public function getBook($lotsV = 15)
 	{
 		$data = [];
 		if ($lotsV == 0) {
@@ -33,9 +36,9 @@ class API extends BaseController
 		$data['count'] = count($get);
 		$in = 0;
 		foreach ($get as $key) {
-			$data['items'][$in]['sampulMid'] = '/img/book/mid/'.$key['sampul'];
-			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
-			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['sampulMid'] = '/img/book/mid/' . $key['sampul'];
+			$data['items'][$in]['sampulMin'] = '/img/book/min/' . $key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
 			$data['items'][$in]['kategori'] = $key['forClass'];
 			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
 			$data['items'][$in]['idBuku'] = $key['slug_buku'];
@@ -43,7 +46,7 @@ class API extends BaseController
 		}
 		return $this->respond($data, 200);
 	}
-	public function getBookOn($kategori,$lotsV=3)
+	public function getBookOn($kategori, $lotsV = 3)
 	{
 		$data = [];
 		$get = (object) $this->buku->getLimit($kategori, $lotsV);
@@ -51,8 +54,8 @@ class API extends BaseController
 		$data['count'] = count((array)$get);
 		$in = 0;
 		foreach ($get as $key) {
-			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
-			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['sampulMin'] = '/img/book/min/' . $key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
 			$data['items'][$in]['pemilikBuku'] = $key['author'];
 			$data['items'][$in]['diunggah'] = $key['created_at'];
 			$data['items'][$in]['kategori'] = $key['forClass'];
@@ -66,7 +69,7 @@ class API extends BaseController
 		}
 		return $this->respond($data, 200);
 	}
-	public function searchBook($nameBook,$maxL = 5)
+	public function searchBook($nameBook, $maxL = 5)
 	{
 		$gett = $this->buku->like('judul_buku', $nameBook)->orLike('penulis', $nameBook)->orLike('penerbit', $nameBook)->findAll();
 		$data = [
@@ -76,8 +79,8 @@ class API extends BaseController
 		];
 		$in = 0;
 		foreach ($gett as $key) {
-			$data['items'][$in]['sampulMin'] = '/img/book/min/'.$key['sampul'];
-			$data['items'][$in]['sampulOri'] = '/img/book/'.$key['sampul'];
+			$data['items'][$in]['sampulMin'] = '/img/book/min/' . $key['sampul'];
+			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
 			$data['items'][$in]['pemilikBuku'] = $key['author'];
 			$data['items'][$in]['diunggah'] = $key['created_at'];
 			$data['items'][$in]['kategori'] = $key['forClass'];
@@ -103,11 +106,11 @@ class API extends BaseController
 			$data['message'] = 'Tidak menemukan buku yang dicari pastikan id buku benar, id terdiri 12 karakter acak dan di akhiri 2 angka';
 		} else {
 			$data['status'] = 'OK';
-			$data['items']['sampulMin'] = base_url('/').'/img/book/min/'.$get['sampul'];
-			$data['items']['sampulOri'] = base_url('/').'/img/book/'.$get['sampul'];
+			$data['items']['sampulMin'] = base_url('/') . '/img/book/min/' . $get['sampul'];
+			$data['items']['sampulOri'] = base_url('/') . '/img/book/' . $get['sampul'];
 			$data['items']['pemilikBuku'] = $get['author'];
 			$data['items']['diunggah'] = $get['created_at'];
-			$data['items']['diunggahParse'] = tgl_Id(date('Y-m-d', strtotime($get['created_at'])) );
+			$data['items']['diunggahParse'] = tgl_Id(date('Y-m-d', strtotime($get['created_at'])));
 			$data['items']['kategori'] = $get['forClass'];
 			$data['items']['judulBuku'] = $get['judul_buku'];
 			$data['items']['unduhan'] = $get['download'];
@@ -137,9 +140,9 @@ class API extends BaseController
 			$data['items']['nama'] = $get['nama'];
 			$data['items']['namaLengkap'] = $get['nama_lengkap'];
 			$data['items']['Jk'] = $get['JK'];
-			$data['items']['foto'] = '/'.$get['fotoprofile'];
-			$data['items']['tglLahir'] = tgl_Id( date('Y-m-d', strtotime($get['tgl_lahir'])));
-			$data['items']['waliKelas'] = (is_null($get['wali']))? 'tidak menjadi wali kelas' : $get['wali'];
+			$data['items']['foto'] = '/' . $get['fotoprofile'];
+			$data['items']['tglLahir'] = tgl_Id(date('Y-m-d', strtotime($get['tgl_lahir'])));
+			$data['items']['waliKelas'] = (is_null($get['wali'])) ? 'tidak menjadi wali kelas' : $get['wali'];
 			$data['items']['pengajar'] = $get['pengajar'];
 			$data['items']['alamat'] = $get['alamat'];
 			$data['items']['email'] = $get['email'];
