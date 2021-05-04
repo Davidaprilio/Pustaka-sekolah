@@ -25,7 +25,7 @@
 			        <p class="text-dark card-text" style="font-size: 14.5px;">
 			        	Hal : <?= $tugas['read_pages'] ?></p>
 			        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-			        <a href="<?= base_url('/User/t/'.$tugas['kode_tugas'].'/baca') ?>" class="btn badge-pill badge-primary">Mulai Baca</a>
+			        <a id="openBook" href="<?= base_url('/User/t/'.$tugas['kode_tugas'].'/baca') ?>" class="btn badge-pill badge-primary">Mulai Baca</a>
 			      </div>
 			    </div>
 			  </div>
@@ -45,5 +45,14 @@
 		</div>
   </div>
 </div>
-
+<script>
+	const btn = document.getElementById('openBook');
+	btn.addEventListener('click', function() {
+		const newBtn = document.createElement("button");
+    newBtn.classList.add('btn','badge-primary','badge-pill');
+    newBtn.setAttribute('disabled','');
+    newBtn.innerHTML = `<i class="fa fa-spinner fa-pulse"></i> Membuka...`;
+    btn.parentNode.replaceChild(newBtn,btn);
+	});
+</script>
 <?= $this->endSection(); ?>

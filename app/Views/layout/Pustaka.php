@@ -33,7 +33,7 @@
                 <?php if ($userInfo->role == 'guru'): ?>
                     <a class="dropdown-item" role="presentation" href="<?= base_url('/PanelGuru/dashboard') ?>">Dashboard Guru</a>
                 <?php else : ?>                    
-                    <a class="dropdown-item" role="presentation" href="<?= base_url('/') ?>">Dashboard</a>
+                    <a class="dropdown-item" role="presentation" href="<?= base_url('/User') ?>">Dashboard</a>
                 <?php endif ?>
                 <a class="dropdown-item" role="presentation" href="<?= base_url('/Logout') ?>">Log out</a>
             </div>

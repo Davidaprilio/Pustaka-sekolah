@@ -103,6 +103,13 @@ function inCategory (kategori) {
             }
     });
 }
+function addBookmark(id) {
+    $.post(bUrl+'/User/addBookmark', {book: id}, function(data) {
+        if (data == '0') {
+            alert('Sudah ada');
+        }
+    });
+}
 function cekKategori(htmlTextMenu) {
     let kategori = dpjsc.subMenu, cek = [];
     cek['status'] = false;
@@ -160,6 +167,7 @@ function detailBuku(id) {
                             <p class="card-text my-0"><small class="text-muted">Unggah `+result.items.diunggahParse+` . `+result.items.kategori+`</small></p>
                             <p class="mt-0">
                                 <span class="badge badge-primary">Dibaca `+result.items.dibaca+`</span>
+                                <span class="badge badge-info" data-id="`+result.items.idBuku+`" style="cursor: pointer" id="saveBook"> simpan</span>
                                 <span class="badge badge-danger" style="cursor: pointer" id="jasuh" `+ likeBtn +` Suka <span id="valLike">`+result.items.rating+`</span> </span>
                                 <a class="badge badge-success" href="`+bUrl+`/unduh/`+result.items.idBuku+`"><i class="fa fa-download"></i> Unduh `+result.items.unduhan+`</a>
                             </p>
@@ -382,6 +390,10 @@ $('#btnSearch').on('click', function() {
         runSearch();
     }
 });
+$('#buku').on('click', '#saveBook', function() {
+    const id = $('#saveBook').attr('data-id');
+    addBookmark(id);
+})
 
 
 $(document).ready(function() {

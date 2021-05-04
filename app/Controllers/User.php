@@ -29,6 +29,7 @@ class User extends BaseController
 		$this->User = $U;
 		$this->reader = new BookReaderModel();
 		$this->kategori = new KategoriModel();
+		$this->sesi = $sesi;
 		$this->dataUser = (object)$U->where('idUniq', $sesi['id'])->first();
 		$get = $sys->select('value')->where('keyword', 'themeAdmin')->first();
 		$this->theme = $get['value'];
@@ -40,7 +41,6 @@ class User extends BaseController
 		$Kelas = new \App\Models\KelasModel();
 		$Tugas = new \App\Models\TugasModel();
 		$tgs = $Tugas->where('id_kelas', $this->dataUser->kode_kelas)->findAll();
-
 		return view('panel_user/dashboard', [
 			'userInfo' => $this->dataUser,
 			'dataTugas' => $tgs,
@@ -79,5 +79,39 @@ class User extends BaseController
 			'read_pages' => preg_split("/-/", $getTugas['read_pages']),
 		];
 		return view('pustaka/pdfReaderTugas', $data);
+	}
+
+	public function mybook()
+	{
+		$Booksaved = new \App\Models\BookSavedModel();
+		$book = $Booksaved->select('savebook.*,book.judul_buku,book.sampul')->where('id_user', $this->sesi['id'])->join('book', 'book.slug_buku = savebook.id_book')->get()->getResultArray();
+		return view('panel_user/savedBook', [
+			'userInfo' => $this->dataUser,
+			'book' => $book,
+		]);
+	}
+
+	public function profile()
+	{
+		return view('panel_user/profile', [
+			'userInfo' => $this->dataUser,
+		]);
+	}
+
+	public function addBookmark()
+	{
+		$buku = $this->request->getPost('book');
+		$Booksaved = new \App\Models\BookSavedModel();
+		$user = $this->sesi['id'];
+		$cek = $Booksaved->where('id_user', $user)->where('id_book', $buku)->first();
+		if (is_null($cek)) {
+			$Booksaved->insert([
+				'id_user' => $user,
+				'id_book' => $buku,
+			]);
+			return '1';
+		} else {
+			return '0';
+		}
 	}
 }

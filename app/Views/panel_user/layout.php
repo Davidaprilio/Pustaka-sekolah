@@ -64,11 +64,14 @@
         <ul class="nav navbar-nav pt-2 pb-3 overflow-auto" id="menuBook" style="margin-bottom: 6rem!important;">
             <span>Menu</span>
             <li role="presentation" class="nav-item btn-bar-menu">
-                <a class="nav-link">Dashboard</a>
+                <a class="nav-link" href="<?= base_url('/User') ?>">Dashboard</a>
             </li> 
             <li role="presentation" class="nav-item btn-bar-menu">
-                <a class="nav-link">Buku disimpan</a>
+                <a class="nav-link" href="<?= base_url('/User/profile') ?>">Profile</a>
             </li> 
+            <li role="presentation" class="nav-item btn-bar-menu">
+                <a class="nav-link" href="<?= base_url('/User/mybook') ?>">Buku disimpan</a>
+            </li>
         </ul>
     </div>
     <!-- Konten -->
