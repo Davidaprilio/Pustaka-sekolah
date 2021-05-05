@@ -38,11 +38,15 @@
             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
                 <img class="rounded-circle img-pp" src="<?= base_url('/img/'.$userInfo->foto); ?>" style="width: 42px;">
             </a>
-            <div class="dropdown-menu dropdown-menu-right" role="menu" style="margin-top: 10px;">
-                <span class="dropdown-item">
-                    <?= $userInfo->panggilan ?></span>
+            <div class="dropdown-menu dropdown-menu-right w-100" role="menu" style="margin-top: 10px; max-width: 700px; min-width: 15rem">
+                <div class="w-100 text-center p-2">
+                    <img src="<?= base_url('/img/'.$userInfo->foto) ?>" width="100" class="rounded-circle">
+                    <small class="text-muted d-block" style="font-size: 14px"><?= $userInfo->panggilan ?></small>
+                </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" role="presentation" href="<?= base_url('/') ?>">Dashboard</a>
+                <a class="dropdown-item" role="presentation" href="<?= base_url('/User') ?>">Dashboard</a>
+                <a class="dropdown-item" role="presentation" href="<?= base_url('/User/profile') ?>">Profile</a>
+                <a class="dropdown-item" role="presentation" href="<?= base_url('/User/mybook') ?>">Buku disimpan</a>
                 <a class="dropdown-item" role="presentation" href="<?= base_url('/Logout') ?>">Log out</a>
             </div>
         </div>
