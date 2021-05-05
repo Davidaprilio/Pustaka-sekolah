@@ -143,7 +143,6 @@ function detailBuku(id) {
         dataType: 'json',
         success: function(result) {
             saveResult(result);
-            updateURL( bUrl+'/DetailBuku/'+id, 'DetailBukuPagexyz', 'detailBook-'+id, id);
             if (result.status == 'OK') {
                 let likeBtn = '';
                 let cB = getCookie('Bk-'+result.items.idBuku);
@@ -310,13 +309,11 @@ function loading() {
         </div>
     `);
 }
-/*
-<script>alert(1)</script>
-*/
-function runSearch() {
+function runSearch(keyword) {
     window.scrollTo(0,0);
-    const keyword = $('#search-Book').val();
+    const keyUrl = keyword.replace(/ /g,"+");
     loading();
+    updateURL( bUrl + '/Semua-Buku?search='+keyUrl , 'searchPage','search='+keyUrl, keyUrl);
     $('#mySidenav').removeClass('show');
     $('#menuBook .nav-link').removeClass('activeMenu');
     $('[spacialatt]').addClass('activeMenu');
@@ -374,6 +371,7 @@ $('#buku').on('click', '#titleBook', function() {
     $('#buku').html('');
     var uib = $(this).attr('uisb');
     loading();
+    updateURL( bUrl+'/DetailBuku/'+uib, 'DetailBukuPagexyz', 'detailBook-'+uib, uib);
     $('.breadcrumb-item').removeClass('active');
     $('ol.breadcrumb').append('<li class="breadcrumb-item active" id="Dbuku" aria-current="page"></li>');
     detailBuku(uib);
@@ -381,13 +379,15 @@ $('#buku').on('click', '#titleBook', function() {
 $('#search-Book').on('keyup', function(e){
     if (e.keyCode === 13) {
         if ($('#search-Book').val() != '') {
-            runSearch();
+            const key = $('#search-Book').val();
+            runSearch(key);
         }
     }
 });
 $('#btnSearch').on('click', function() {
     if ($('#search-Book').val() != '') {
-        runSearch();
+        const key = $('#search-Book').val();
+        runSearch(key);
     }
 });
 $('#buku').on('click', '#saveBook', function() {
@@ -424,16 +424,19 @@ $(document).ready(function() {
 
 window.onpopstate = function (event) {
     var p = history.state.idPage.replace(/-/g," "),
-        uC = history.state.previousMenu,
-        menu = $('[key='+uC+']');
+        uC = history.state.previousMenu;
+    var menu = $('[key='+uC+']');
     $('#menuBook .nav-link').removeClass('activeMenu');
     menu.addClass('activeMenu');
     $('#buku').html('');
     loading();
-    console.log(p+' - '+uC);
+    // console.log(p+' - '+uC);
     if (p == 'DetailBukuPagexyz') {
         detailBuku(history.state.book);
-        updateBreadcrumb( $('#k'+menu.attr('id')).html(), p, 'detail');
+        updateBreadcrumb( tmpData.pathBook.arr[1], tmpData.pathBook.arr[2], 'detail');
+    } else if (p == 'searchPage') {
+        console.log(history.state.book.replace(/+/g," "));
+        // runSearch(history.state.book.replace(/+/g," "));
     } else if (p == 'Semua Buku') {
         allBook();
         updateBreadcrumb( $('#k'+menu.attr('id')).html(), p );
