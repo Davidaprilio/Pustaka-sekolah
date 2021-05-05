@@ -63,20 +63,26 @@ class User extends BaseController
 	public function bacaBuku($id)
 	{
 		$Tugas = new \App\Models\TugasModel();
+		$Submit = new \App\Models\SubmitedModel();
 		$getTugas = $Tugas->where('kode_tugas', $id)->first();
 		if (!$getTugas) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException('Tugas ini tidak ada');
+		}
+		if ($this->dataUser->kode_kelas !== $getTugas['id_kelas']) {
+			return redirect()->to(base_url('/User'));
 		}
 		$buku = $this->Buku->select('slug_buku,file_enc')->where('slug_buku', $getTugas['id_buku'])->first();
 		if (is_null($buku)) {
 			throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku yang dimaksud tidak dapat ditemukan');
 		}
-
+		$cek = $Submit->where('id_user', $this->sesi['id'])->where('tugas_kode', $id)->first();
+		$lastPage = ($cek) ? $cek['progress'] : preg_split("/-/", $getTugas['read_pages'])[0];
 		$data = [
 			'titleBar' => 'Perpustakaan Elektronik | SMK Negeri 1 Tanjunganom',
 			'fileBook' => base_url('/').'/book/'.$buku['file_enc'],
 			'idB' => $buku['slug_buku'],
-			'read_pages' => preg_split("/-/", $getTugas['read_pages']),
+			'idTugas' => $id,
+			'read_pages' => $lastPage,
 		];
 		return view('pustaka/pdfReaderTugas', $data);
 	}
@@ -98,6 +104,8 @@ class User extends BaseController
 		]);
 	}
 
+
+	// =========================================== Ajax Request
 	public function addBookmark()
 	{
 		$buku = $this->request->getPost('book');
@@ -113,5 +121,25 @@ class User extends BaseController
 		} else {
 			return '0';
 		}
+	}
+
+	public function systreading()
+	{ 
+		if ($this->request->isAJAX()) {
+			$page = $this->request->getPost('progress');
+			$tugas = $this->request->getPost('id');
+			if (isset($page)) {
+				$Submit = new \App\Models\SubmitedModel();
+				$cek = $Submit->where('id_user', $this->sesi['id'])->where('tugas_kode', $tugas)->first();
+				$send = $Submit->save([
+					'id' => is_null($cek) ? null : $cek['id'],
+					'id_user' => $this->sesi['id'],
+					'tugas_kode' => $tugas,
+					'progress' => $page,
+				]);
+			}			
+			return false;
+		}
+		// throw \CodeIgniter\Exceptions\PageNotFoundException::forControllerNotFound('User', 'systreading');
 	}
 }

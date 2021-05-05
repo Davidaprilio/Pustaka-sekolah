@@ -5,7 +5,8 @@ use CodeIgniter\Model;
 class SubmitedModel extends Model
 {
 	protected $table = 'submited';
+	protected $primaryKey = 'id';
 	protected $useTimestamps = true;
-	protected $allowedFields = ['id_user', 'kode_tugas', 'progress'];
+	protected $allowedFields = ['id_user', 'tugas_kode', 'progress'];
 		
 }

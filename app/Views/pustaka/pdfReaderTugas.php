@@ -102,7 +102,7 @@
 		</div>
 	</main>
 
-
+	<script src="<?= base_url('/js/jquery-3.5.1.min.js') ?>"></script>
 	<script>
 		// If absolute URL from the remote server is provided, configure the CORS
 		// header on that server.
@@ -113,7 +113,7 @@
 		pdfjsLib.GlobalWorkerOptions.workerSrc = '<?= base_url('/pdfjs/build/pdf.worker.js') ?>';
 
 		var pdfDoc = null,
-		    pageNum = <?= $read_pages[0] ?>,
+		    pageNum = <?= $read_pages ?>,
 		    pageRendering = false,
 		    pageNumPending = null,
 		    scale = 1.5,
@@ -123,7 +123,7 @@
 		    ctx = canvas.getContext('2d'),
 		    nextP = false,
 		    time,
-		    lock = <?= $read_pages[0] ?> + 1;
+		    lock = <?= $read_pages ?> + 1;
 
 
 		/**
@@ -133,10 +133,12 @@
 		function renderPage(num) {
 	      loading.style.display = "block";
 	      loading.classList.add('fa-pulse');
-	      if (num >= lock) {
-	      	renderPage(lock -1);
+	      if (nextP && num <= lock) {
+	      	document.getElementById('next').disabled = false;
+	      } else if (num >= lock) {
+	      	renderPage(lock-1);
 	      	return false;
-	      } else if (num == lock -1) {
+	      } else if (num == lock-1) {
 	      	document.getElementById('next').disabled = true;
 	      }
 
@@ -177,7 +179,6 @@
 		 * finised. Otherwise, executes rendering immediately.
 		 */
 		function queueRenderPage(num) {
-		  document.getElementById('next').disabled = false;
 		  if (pageRendering) {
 		    pageNumPending = num;
 		  } else {
@@ -211,18 +212,14 @@
 		  if (pageNum == lock && nextP) {
 		  	lock++;
 		  	nextP = false;
-		  	console.log('Buka Halaman');
 		  	timer();
 		  	queueRenderPage(pageNum);
 		  } else if (pageNum == lock - 1) {
-		  	console.log('Halaman penentu');
 		  	timer();
 			queueRenderPage(pageNum);
 		  } else if (pageNum < lock) {
-		  	console.log('next Biasa');
 			queueRenderPage(pageNum);
 		  } else {
-		  	console.log('mbuh');
 		  	pageNum--;
 		  	return false;
 		  }
@@ -250,7 +247,9 @@
 			time = setTimeout(function() {
 				document.getElementById('next').disabled = false;
 				nextP = true;
-				console.log('Lanjut');
+				$.post(window.location.origin+'/User/systreading', {progress: lock-1, id: '<?= $idTugas ?>'}, function(data) {
+					console.log(data);
+				})
 			},1000 * 15);
 		}
 		/**
