@@ -22,10 +22,14 @@ class Pustaka extends BaseController
 		$this->buku = new BukuModel();
 		$this->user = new UsersModel();
 	}
-	public function index($getKategori='Semua Buku')
+	public function index($getKategori='Semua-Buku')
 	{
-		$dataKate = $this->kate->getCategory(($getKategori === 'Semua Buku')? '/' : $getKategori);
-
+		$keySearch = $this->request->getGet('search');
+		$dataKate = $this->kate->getCategory(($getKategori === 'Semua-Buku')? '/' : $getKategori);
+			
+		if ($getKategori === 'Semua-Buku' && $keySearch) {
+			$getKategori = 'searchPage';
+		} 
 		// return $this->respond($dataKate, 200);
 		$data = [
 			'titleBar' => 'Perpustakaan Elektronik | SMK Negeri 1 Tanjunganom',

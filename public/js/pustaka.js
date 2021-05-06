@@ -408,6 +408,10 @@ $(document).ready(function() {
             updateBreadcrumb(br[1],br[2],tmpData.items.judulBuku);
         }, 1500);
         $('[spacialatt]').addClass('activeMenu');
+    } else if (p == 'searchPage') {
+        const url = new URL(window.location.href);
+        const key = url.searchParams.get('search');
+        runSearch(key);
     } else if (p == 'Semua Buku') { //jika akses ke semua buku
         allBook();
         updateURL(bUrl + '/Semua-Buku' , 'Semua Buku', '4llB00k-xyz');
@@ -425,22 +429,26 @@ $(document).ready(function() {
 window.onpopstate = function (event) {
     var p = history.state.idPage.replace(/-/g," "),
         uC = history.state.previousMenu;
-    var menu = $('[key='+uC+']');
     $('#menuBook .nav-link').removeClass('activeMenu');
-    menu.addClass('activeMenu');
     $('#buku').html('');
-    loading();
-    // console.log(p+' - '+uC);
+    // loading();
+    console.log(p);
     if (p == 'DetailBukuPagexyz') {
         detailBuku(history.state.book);
+        console.log(tmpData);
         updateBreadcrumb( tmpData.pathBook.arr[1], tmpData.pathBook.arr[2], 'detail');
     } else if (p == 'searchPage') {
-        console.log(history.state.book.replace(/+/g," "));
-        // runSearch(history.state.book.replace(/+/g," "));
+        const url = new URL(window.location.href);
+        const key = url.searchParams.get('search');
+        runSearch(key);
     } else if (p == 'Semua Buku') {
+        var menu = $('[key='+uC+']');
+        menu.addClass('activeMenu');
         allBook();
         updateBreadcrumb( $('#k'+menu.attr('id')).html(), p );
     } else {
+        var menu = $('[key='+uC+']');
+        menu.addClass('activeMenu');
         inCategory( uC );
         updateBreadcrumb( $('#k'+menu.attr('id')).html(), p );
     }
