@@ -57,12 +57,14 @@
 <div class="container-xxl">
     <div id="mySidenav" class="sidenav position-fixed vh-100 scrollBar" style="width: 230px;">
         <div class="head border-bottom p-2 position-sticky" style="top: 0px;">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Cari Buku ..." aria-label="Cari Buku ..." aria-describedby="button-addon2" id="search-Book">
-                <div class="input-group-append">
-                    <button class="btn" type="button" id="btnSearch"><i class="fa fa-search text-muted"></i></button>
+            <form action="<?= base_url('/') ?>" method="GET">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Cari Buku ..." aria-label="Cari Buku ..." aria-describedby="button-addon2" name="search" id="search-Book">
+                    <div class="input-group-append">
+                        <button class="btn" type="submit" id="btnSearch"><i class="fa fa-search text-muted"></i></button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <ul class="nav navbar-nav pt-2 pb-3 overflow-auto" id="menuBook" style="margin-bottom: 6rem!important;">
