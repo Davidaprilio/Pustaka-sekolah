@@ -45,17 +45,19 @@ class Petugaspustaka extends BaseController
 		];
 		return view('adminPustaka/index', $data);
 	}
+
 	public function tambahbuku()
 	{
 		$data = [
 			'tema' => $this->theme,
-			'menuKte' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Kelas')->findAll(),
-			'manuUmum' => $this->kategori->select('kat_menu')->where('kat_grub', 'Lainnya')->findAll(),
-			'manuProdi' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Produktif')->findAll(),
+			// 'menuKte' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Kelas')->findAll(),
+			// 'manuUmum' => $this->kategori->select('kat_menu')->where('kat_grub', 'Lainnya')->findAll(),
+			// 'manuProdi' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Produktif')->findAll(),
 			'dataAdmin' => $this->dataAdmin
 		];
 		return view('adminPustaka/tamabahBuku', $data);
 	}
+
 	public function kelolabuku($cari=false)
 	{
 		$keySearch = $this->request->getGet('keyword');

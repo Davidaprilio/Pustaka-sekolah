@@ -8,12 +8,15 @@
     <link rel="stylesheet" href="<?= base_url('/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/fonts/font-awesome.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('/admin/css/styles.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/css/dataTables.bootstrap4.min.css') ?>"/>
     <script src="<?= base_url('/js/jquery-3.5.1.min.js') ?>"></script>
-    <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/jquery.dataTables.min.js') ?>"></script>
-    <script src="<?= base_url('/dataTable/DataTables-(B4)/DataTables-1.10.23/js/dataTables.bootstrap4.min.js') ?>"></script>
+    <script src="<?= base_url('/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <style type="text/css">
+        .toast {
+            width: 100vh;
+        }
+    </style>
 </head>
-<body class="sb-nav-fixed <?= $tema ?> bg-light">
+<body class="sb-nav-fixed <?= $tema ?> bg-light" >
     <nav class="navbar navbar-expand shadow-sm sticky-top sb-topnav py-0 border-bottom border-warning">
         <div class="container-fluid">
             <button class="btn btn-link btn-sm ml-2 text-light order-1 order-md-2" id="sidebarToggle" type="button">
@@ -117,7 +120,63 @@
         </div>
     </div>
 
-    <script src="<?= base_url('/bootstrap/js/bootstrap.min.js') ?>"></script>
+
+    <div class="position-fixed" style="bottom: 0; right: 0; z-index: 10">
+      <div aria-live="polite" aria-atomic="true" class="position-relative" style="min-height: 200px;">
+        <div class="position-absolute" onshow="console.log('loaded');" id="containerToast" style=" bottom: 10px; right: 5px;">
+          <!-- Then put toasts within -->
+        </div>
+      </div>
+    </div>
+
+
+    <script type="text/javascript">
+        function notif(title, message, autoHide=false) {
+            $('.toast.hide').remove();
+            const id = randomString(7);
+            const hide = (autoHide) ? `data-delay="${autoHide}"` : `data-autohide="false"`;
+            const progress = `
+            <div class="progress" id="${id}" style="height: 3px;">
+              <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>`;
+            const notifDOM = `
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" ${hide}>
+                <div class="toast-header">
+                  <img src="<?= base_url('/img/boy.jpg') ?>" class="rounded mr-2" width="30">
+                  <strong class="mr-auto">${title}</strong>
+                  <small class="text-muted">2 seconds ago</small>
+                  <button type="button" class="ml-2 mb-1 close" id="closeToast" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="toast-body">${message}</div>
+                ${(autoHide)?progress:''}
+            </div>`;
+            $('#containerToast').append(notifDOM);
+            $('.toast').toast('show');
+            if (autoHide) {
+                runProgress(document.getElementById(id).children[0], autoHide);
+            }
+        }
+        function runProgress(bar, time) {
+            var t = time / 1000;
+            bar.style.transition = t + 's linear';
+            bar.style.width = '100%';
+        }
+        function randomString(length) {
+            var result           = [];
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+              result.push(characters.charAt(Math.floor(Math.random() * 
+         charactersLength)));
+           }
+           return result.join('');
+        }
+
+        $('.toast').toast('show');
+    </script>
+
     <script src="<?= base_url('/admin/js/script.min.js') ?>"></script>
     <script src="<?= base_url('/admin/js/liveSearch.js') ?>"></script>
 </body>

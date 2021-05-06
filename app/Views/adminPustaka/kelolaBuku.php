@@ -1,7 +1,9 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
+
 <div class="container-xxl mt-4 p-2 position-relative" style="min-height: 90vh;">
-  <div class="d-flex justify-content-between mb-3 bg-white rounded border shadow-sm p-2 mx-1 mx-md-3 mx-xl-5 position-sticky" style="top: 60px; z-index: 2">
+
+  <div class="d-flex justify-content-between mb-3 bg-white rounded border shadow-sm p-2 mx-1 mx-md-3 mx-xl-5 position-sticky" style="top: 30px; z-index: 2">
     <select id="" class="form-control" style="max-width: 70px;">
       <option value="5">5</option>
       <option value="10">10</option>
@@ -93,8 +95,8 @@
             <input type="text" class="form-control" id="target" name="target">
           </div>
           <div class="form-group">
-            <label for="target">Katego</label>
-            <input type="text" class="form-control" id="target" name="target">
+            <label for="kate">Katego</label>
+            <input type="text" class="form-control" id="kate" name="kate">
           </div>
         </form>
       </div>
@@ -104,6 +106,8 @@
     </div>
   </div>
 </div>
+
+
 
 <script>
   $('#searchInput').on('keyup', function() {

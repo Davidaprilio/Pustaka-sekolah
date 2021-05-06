@@ -1,6 +1,12 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
 <link href="<?= base_url('/css/inputTag.css') ?>" rel="stylesheet" type="text/css">
+<style>
+	.card-item {
+		border: none;
+		border-top: 5px solid var(--warning);
+	}
+</style>
 <div class="container">
 	<?php 
 	// session()->getFlashdata('pesan')
@@ -12,70 +18,71 @@
 		  </button>
 		</div>
 	<?php endif ?>
-	<div class="row p-3" style="max-width: 1000px">
-		<div class="col-12 col-sm-4 text-center text-md-right">
-			<form action="<?= base_url('/Engine/upBook') ?>" method="POST" enctype="multipart/form-data">
-			<div class="img-Sampul">
-				<img src="<?= base_url('img/book/default.jpg'); ?>" class="img-thumbnail">
-				<label class="labelInput" for="fileSampul" data-browse="Sampul Buku">
-					<i class="fa fa-camera"></i>
-					<span>Pilih Sampul</span>
-				 	<input type="file" class="custom-file-input" id="fileSampul" accept="image/x-png,image/jpeg,image/jpg" onchange="previewIMG()" name="imgSampul">
-				</label>
+	<form action="<?= base_url('/Engine/upBook') ?>" method="POST" enctype="multipart/form-data">
+		<div class="row p-3" style="max-width: 1000px">
+			<div class="col-12 col-sm-4 text-center text-md-right">
+				<div class="img-Sampul">
+					<img src="<?= base_url('img/book/default.jpg'); ?>" class="img-thumbnail">
+					<label class="labelInput" for="fileSampul" data-browse="Sampul Buku">
+						<i class="fa fa-camera"></i>
+						<span>Pilih Sampul</span>
+					 	<input type="file" class="custom-file-input" id="fileSampul" accept="image/x-png,image/jpeg,image/jpg" onchange="previewIMG()" name="imgSampul">
+					</label>
+				</div>
+			</div>
+			<div class="col-12 col-sm-8 pt-3">
+				<div class="card card-item">
+					<div class="card-body">
+						<div class="custom-file input-group-sm">
+						  	<input type="file" class="custom-file-input" required="" id="inputBook" name="book" onchange="viewFilename()" accept="application/pdf">
+						  	<label class="custom-file-label text-nowrap overflow-hidden" style="text-overflow: ellipsis;" for="inputBook" data-browse="Cari file" id="viewname">Pilih Buku dengan format PDF</label>
+						</div>
+						<div class="form-group input-group-sm">
+						    <label for="judulbuku">Judul</label>
+						    <input type="text" required="" class="form-control" id="judulbuku" name="titlebook">
+						</div>
+						<div class="form-group input-group-sm">
+						    <label for="penulis">Penulis</label>
+						    <input type="text" required="" class="form-control" id="penulis" name="writer">
+						</div>
+						<div class="form-group input-group-sm">
+						    <label for="penerbit">Penerbit</label>
+						    <input type="text" required="" class="form-control" id="penerbit" name="publisher">
+						</div>
+						<div class="form-group">
+						    <label for="kate">Target</label>
+						    <select class="form-control" required="" onchange="runSelect(this)" id="iniS" name="Kategori">
+						    	<optgroup label="Untuk Kelas">
+								    <option selected="" value="Buku Kelas 10">Kelas 10</option>
+								    <option value="Buku Kelas 11">Kelas 11</option>
+								    <option value="Buku Kelas 12">Kelas 12</option>
+						    		<option value="Publik">Laninya</option>
+						    	</optgroup>
+						    </select>
+						</div>
+						<div class="form-group" id="kateThis">
+						    <label for="kate">Kategori</label>
+						    <select class="form-control" name="tag[]" multiple="multiple" id="selectHere">
+						    	<optgroup label="pilih satu atau lebih">
+								    	<option value="">icnweuh</option>
+						    	</optgroup>
+						    </select>
+						</div>
+						<div class="form-group input-group-sm">
+						    <label for="tag">Tag</label>
+						    <input type="text" required="" class="form-control" id="tag" name="tag">
+						</div>
+						<div class="form-group input-group-sm">
+						    <label for="kate">Deskripsi</label>
+						    <textarea class="form-control" required="" name="deskripsi"></textarea>
+						</div>
+						
+						<button type="submit" class="btn btn-primary" name="upload">Submit</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-12 col-sm-8 bg-white rounded py-4 shadow">
-				<div class="custom-file input-group-sm">
-				  	<input type="file" class="custom-file-input" required="" id="inputBook" name="book" onchange="viewFilename()" accept="application/pdf">
-				  	<label class="custom-file-label text-nowrap overflow-hidden" style="text-overflow: ellipsis;" for="inputBook" data-browse="Cari file" id="viewname">Pilih Buku dengan format PDF</label>
-				</div>
-				<div class="form-group input-group-sm">
-				    <label for="judulbuku">Judul</label>
-				    <input type="text" required="" class="form-control" id="judulbuku" name="titlebook">
-				</div>
-				<div class="form-group input-group-sm">
-				    <label for="penulis">Penulis</label>
-				    <input type="text" required="" class="form-control" id="penulis" name="writer">
-				</div>
-				<div class="form-group input-group-sm">
-				    <label for="penerbit">Penerbit</label>
-				    <input type="text" required="" class="form-control" id="penerbit" name="publisher">
-				</div>
-				<div class="form-group">
-				    <label for="kate">Target</label>
-				    <select class="form-control" required="" onchange="runSelect(this)" id="iniS" name="Kategori">
-				    	<optgroup label="Untuk Kelas">
-						    <option selected="" value="Buku Kelas 10">Kelas 10</option>
-						    <option value="Buku Kelas 11">Kelas 11</option>
-						    <option value="Buku Kelas 12">Kelas 12</option>
-				    		<option value="Publik">Laninya</option>
-				    	</optgroup>
-				    </select>
-				</div>
-				<div class="form-group" id="kateThis">
-				    <label for="kate">Kategori</label>
-				    <select class="form-control" name="tag[]" multiple="multiple" id="selectHere">
-				    	<optgroup label="pilih satu atau lebih">
-				    		<?php foreach ($manuProdi as $val): ?>
-						    	<option value="<?= $val['kat_menu'] ?>"><?= str_replace('Buku', '', $val['kat_menu']) ?></option>
-				    		<?php endforeach ?>
-				    	</optgroup>
-				    </select>
-				</div>
-				<div class="form-group input-group-sm">
-				    <label for="tag">Tag</label>
-				    <input type="text" required="" class="form-control" id="tag" name="tag">
-				</div>
-				<div class="form-group input-group-sm">
-				    <label for="kate">Deskripsi</label>
-				    <textarea class="form-control" required="" name="deskripsi"></textarea>
-				</div>
-				
-				<button type="submit" class="btn btn-primary" name="upload">Submit</button>
-			</form>
-		</div>
-
-	</div>
+	</form>
 </div>
 <script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
@@ -102,21 +109,9 @@
 		let k = $("select#iniS option:selected").val();
 		console.log(k);
 		if (k == 'Publik') {
-			$('#selectHere').html(`
-		    	<optgroup label="pilih satu atau lebih">
-			    	<?php foreach ($manuUmum as $val): ?>
-				    	<option value="<?= $val['kat_menu'] ?>"><?= str_replace('Buku', '', $val['kat_menu']) ?></option>
-		    		<?php endforeach ?>
-		    	</optgroup>
-			`);
+			$('#selectHere').html(``);
 		} else {
-			$('#selectHere').html(`
-		    	<optgroup label="pilih satu atau lebih">
-			    	<?php foreach ($manuProdi as $val): ?>
-				    	<option value="<?= $val['kat_menu'] ?>"><?= str_replace('Buku', '', $val['kat_menu']) ?></option>
-		    		<?php endforeach ?>
-		    	</optgroup>
-			`);
+			$('#selectHere').html(``);
 		}
 	}
 </script>
