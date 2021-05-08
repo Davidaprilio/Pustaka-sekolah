@@ -1,6 +1,10 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
-
+<style>
+  #btnRemove, .rowList {
+    transition: .5s linear;
+  }
+</style>
 <div class="container-xxl mt-4 p-2 position-relative" style="min-height: 90vh;">
 
   <div class="d-flex justify-content-between mb-3 bg-white rounded border shadow-sm p-2 mx-1 mx-md-3 mx-xl-5 position-sticky" style="top: 30px; z-index: 2">
@@ -29,7 +33,7 @@
         <?php
         $no =  1 + (5 * ($currentPage-1)) ;
         foreach ($table as $data) : ?>
-          <tr id="<?= $data['slug_buku'] ?>" class="border-bottom">
+          <tr id="<?= $data['slug_buku'] ?>" class="border-bottom rowList">
             <th scope="row"><?= $no++ ?></th>
             <td title="<?= $data['judul_buku'] ?>" fc="1" class="tdup"><?= $data['judul_buku'] ?></td>
             <td title="<?= $data['download'] ?>"><?= $data['download'] ?></td>
@@ -42,9 +46,10 @@
               <a class="badge badge-primary text-white" title="Edit data buku" style="cursor: pointer;" data-toggle="modal" data-target="#modalEdit" data-edit="$data['slug_buku'] ?>" class="badge badge-primary">
                 <i class="fa fa-pencil-square-o"></i>
               </a>
-              <a href="<?= base_url('/Engine/dropBuku/').'/'.$data['slug_buku'] ?>" title="Hapus buku ini" class="badge badge-danger" onclick="return confirm('Anda ingin menghapus data ini')">
+              <!-- <a href=" base_url('/Engine/dropBuku/').'/'.$data['slug_buku']" title="Hapus buku ini" class="badge badge-danger" onclick="return confirm('Anda ingin menghapus data ini')"> -->
+              <buttton title="Hapus buku ini" class="badge badge-danger" data-id="<?= $data['slug_buku'] ?>" onclick="remove(this)">
                 <i class="fa fa-trash"></i>
-              </a>
+              </buttton>
             </td>
           </tr>
         <?php endforeach ?>
@@ -107,9 +112,65 @@
   </div>
 </div>
 
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dropBuku">
+  Launch static backdrop modal
+</button> -->
 
+<!-- Modal -->
+<div class="modal fade" id="dropBuku" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="dropBukuLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-transparent">
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">
+          <h5 class="modal-title" id="dropBukuLabel">Menghapus Buku ini?</h5>
+        </h4>
+        <p>Buku ini akan dihapus secara permanen termasuk foto sampul juga akan dihapus. buku yang sudah dihapus tidak dapat di kembalikan lagi!</p>
+        <hr>
+        <div class="text-center">
+          <p class="mb-0">Tetap hapus buku ini?...</p>
+          <small id="nameBook" class="pb-3 pt-0"></small>
+          <br>
+          <input type="hidden" id="inpId" value="">
+          <button type="button" class="btn btn-sm badge-pill badge-warning" data-dismiss="modal">Tidak jadi</button>
+          <button type="button" onclick="runRemove(this)" id="btnRemove" class="text-white btn btn-sm badge-pill badge-danger">Tetap Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+  let elListBook = '';
+  function remove(a) {
+    const id = a.getAttribute('data-id');
+    $('#nameBook').text(a.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent);
+    elListBook = a;
+    $('#inpId').val(id);
+    console.log(id);
+    $('#dropBuku').modal('show');
+  }
+  function runRemove(a) {
+    const id = $('#inpId').val();
+    $('#inpId').val('');
+    a.disabled = true;
+    a.innerHTML = '<i class="fa fa-spinner fa-pulse"></i> Menghapus';
+    setTimeout(function() {
+      a.previousElementSibling.hidden = true;
+      a.innerHTML = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTerhapus&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+      setTimeout(function() {
+        $('#dropBuku').modal('hide');
+        $('#nameBook').text('');
+        a.disabled = false;
+        a.previousElementSibling.hidden = false;
+        a.innerHTML = 'tetap Hapus';
+        elListBook.parentElement.parentElement.style.transform = 'scale(0)';
+        setTimeout(function() {
+          elListBook.parentElement.parentElement.remove();
+        },1000);
+      },700);
+    },2000);
+  }
   $('#searchInput').on('keyup', function() {
     $.get('/Petugaspustaka/kelolabuku/cari?keyword=' + $('#searchInput').val(), function(data) {
       $('#Tbody').html(data);
