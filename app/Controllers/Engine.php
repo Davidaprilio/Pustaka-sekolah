@@ -17,6 +17,11 @@ class Engine extends BaseController
 		$this->kate = new KategoriModel();
 		$this->read = new BookReaderModel();
 	}
+
+
+	/** ====================================================
+	 *	Engine Buku
+	 */
 	public function upBook()
 	{
 		$test = $this->request->getPost('upload');
@@ -70,19 +75,32 @@ class Engine extends BaseController
 		}
 	}
 
-	public function dropBuku($idBuku)
+	public function dropBuku()
 	{
-		$tes = $this->buku->select('file_enc,sampul')->where('slug_buku', $idBuku)->first();
-		$this->buku->where('slug_buku', $idBuku)->delete();
-		//hapus Sampul
-		if ($tes['sampul'] != 'default.jpg') {
-			//hapus gambar
-			unlink('img/book/' . $tes['sampul']);
-			unlink('img/book/min/' . $tes['sampul']);
+		if ($this->request->isAjax()) {
+			$idBuku = $this->request->getPost('data');
+			$cek = $this->buku->select('file_enc,sampul')->where('slug_buku', $idBuku)->first();
+			if ($cek) {
+				$this->buku->where('slug_buku', $idBuku)->delete();
+				//hapus Sampul
+				if ($cek['sampul'] != 'default.jpg') {
+					// unlink('img/book/mid/' . $cek['sampul']);
+					unlink('img/book/min/' . $cek['sampul']);
+					unlink('img/book/' . $cek['sampul']);
+				}
+				unlink('book/'.$cek['file_enc']);
+				return 'success';
+			}
+			return 'FileNotFound';
+		} else {
+			throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
 		}
-		unlink('book/'.$tes['file_enc']);
-		return redirect()->to(base_url('/Petugaspustaka/kelolabuku'));
 	}
+
+
+	/** ====================================================
+	 *	-
+	 */
 
 	public function addKategori()
 	{

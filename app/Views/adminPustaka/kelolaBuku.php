@@ -155,6 +155,9 @@
     $('#inpId').val('');
     a.disabled = true;
     a.innerHTML = '<i class="fa fa-spinner fa-pulse"></i> Menghapus';
+    $.post(window.location.origin+'/Engine/dropBuku', {data: id}, function(res) {
+      console.log(res);
+    })
     setTimeout(function() {
       a.previousElementSibling.hidden = true;
       a.innerHTML = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTerhapus&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
