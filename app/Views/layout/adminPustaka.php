@@ -11,6 +11,10 @@
     <script src="<?= base_url('/js/jquery-3.5.1.min.js') ?>"></script>
     <script src="<?= base_url('/bootstrap/js/bootstrap.min.js') ?>"></script>
     <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400&display=swap');
+        .raleway {
+          font-family: 'Raleway', sans-serif;
+        }
         .toast {
             width: 100vh;
         }

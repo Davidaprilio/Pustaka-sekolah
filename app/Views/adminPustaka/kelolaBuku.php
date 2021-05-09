@@ -55,6 +55,11 @@
         <?php endforeach ?>
       </tbody>
     </table>
+    <?php if (count($table) == 0): ?>
+      <div class="w-100 text-center">
+        <h4 class="text-muted mb-0 mt-1">Kosong</h4>
+      </div>
+    <?php endif ?>
     <?= $pager->links(); ?>
   </div>
 </div>
