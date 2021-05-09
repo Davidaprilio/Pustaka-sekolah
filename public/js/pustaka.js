@@ -60,8 +60,8 @@ function allBook() {
                             </div>
                         `);
                     });
-                    $('#loadingStart').remove();
                 }
+                $('#loadingStart').remove();
             },
             error: function(result) {
                 // ERRRORR...
