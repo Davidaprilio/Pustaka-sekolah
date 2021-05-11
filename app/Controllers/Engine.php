@@ -24,6 +24,7 @@ class Engine extends BaseController
 	 */
 	public function upBook()
 	{
+		dd($this->request->getVar());
 		$test = $this->request->getPost('upload');
 		if ( isset($test) ) {
 			$sampul = $this->request->getFile('imgSampul');

@@ -23,7 +23,8 @@ class API extends BaseController
 		return view('API/index');
 	}
 
-	//-----------------------	Json 	---------------------------
+	//-----------------------	Books 	---------------------------
+
 	public function getBook($lotsV = 15)
 	{
 		$data = [];
@@ -46,6 +47,7 @@ class API extends BaseController
 		}
 		return $this->respond($data, 200);
 	}
+
 	public function getBookOn($kategori, $lotsV = 3)
 	{
 		$data = [];
@@ -69,6 +71,7 @@ class API extends BaseController
 		}
 		return $this->respond($data, 200);
 	}
+
 	public function searchBook($nameBook, $maxL = 5)
 	{
 		$gett = $this->buku->like('judul_buku', $nameBook)->orLike('penulis', $nameBook)->orLike('penerbit', $nameBook)->findAll();
@@ -94,7 +97,8 @@ class API extends BaseController
 		}
 		return $this->respond($data, 200);
 	}
-	public function book($slugBook)
+
+	public function book($slugBook) // Detail Buku
 	{
 		$data = [];
 		helper('helpmy');
@@ -127,6 +131,25 @@ class API extends BaseController
 		];
 		return $this->respond($data, 200);
 	}
+
+	public function abstractBook($key, $limit = 0)
+	{
+		$db = \Config\Database::connect();
+		$query = $db->table('abstrak')->select('name')->where('type', $key);
+		if ($limit > 0 ) { 
+			$query = $query->limit($limit);
+		}
+		$result = $query->get()->getResultArray();
+		$data = ['request' => $key, 'response' => [] ];
+		foreach ($result as $val) {
+			array_push($data['response'], $val['name']);
+		}
+		return $this->respond($data, 200);
+	}
+
+
+	// ------------------------ Users -------------------------
+
 	public function getDataGuru($idU)
 	{
 		$get = $this->guru->where('idUniq', $idU)->first();

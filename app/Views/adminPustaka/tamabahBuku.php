@@ -9,6 +9,11 @@
 	.row .col-sm-9{
 		margin-top: 25px;
 	}
+	@media (max-width: 576px) {
+		.border.rounded {
+			border: none !important;
+		}
+	}
 </style>
 <div class="container">
 	<?php 
@@ -22,12 +27,12 @@
 		</div>
 	<?php endif ?>
 	<form action="<?= base_url('/Engine/upBook') ?>" method="POST" enctype="multipart/form-data">
-		<div class="card card-item mt-2 shadow-sm">
-			<h3 class="raleway text-muted text-center py-2">Tambah Buku</h3>
+		<div class="card card-item mt-2 mb-3 shadow-sm">
+			<h3 class="raleway text-muted text-center pt-3">Tambah Buku</h3>
 			<div class="card-body p-3 p-md-5">
 				<div class="row">
-					<div class="col-12 col-sm-9 pt-3 border rounded">
-							<span>Pilih Buku</span>
+					<div class="col-12 col-sm-9 pt-3 mt-0 border rounded">
+						<span>Pilih Buku</span>
 						<div class="custom-file input-group-sm mb-2">
 						  	<label class="custom-file-label text-nowrap overflow-hidden" style="text-overflow: ellipsis;" for="inputBook" data-browse="Cari file" id="viewname">Pilih Buku dengan format PDF</label>
 						  	<input type="file" class="custom-file-input" required="" id="inputBook" name="book" onchange="viewFilename()" accept="application/pdf">
@@ -92,13 +97,15 @@
 						    <textarea class="form-control" rows="7" required="" name="deskripsi"></textarea>
 						</div>
 					</div>
-					<div class="col-12 col-sm-3">
+					<div class="col-12 col-sm-9 col-xl-3 d-flex align-content-end">
 						<div class="card">
 							<div class="card-body">
-								<h4>Unggah Buku</h4>
-								<p>Isikan semua data yang diminta lalu cantumkan sinopsis buku di deskripsi agar memiliki standar yang rapi, dan berikan Hastag yang relevan agar pencarian lebih optimal</p>
-								<small>Jika sudah form di isi silahkan Unggah buku</small>
-								<button type="submit" class="btn btn-primary" name="upload">Unggah Buku ini</button>
+								<h4 class="raleway">Unggah Buku</h4>
+								<p class="text-justify text-dark" style="font-size: 14px">Isikan semua data yang diminta lalu cantumkan sinopsis buku di deskripsi agar memiliki standar yang rapi, dan berikan Hastag yang relevan agar pencarian lebih optimal</p>
+								<small class="d-block">Jika sudah form di isi silahkan Unggah buku</small>
+								<button type="submit" class="btn btn-primary" name="upload">
+									<i class="fa fa-upload"></i>&nbsp Unggah Buku ini
+								</button>
 							</div>
 						</div>
 					</div>
@@ -107,6 +114,7 @@
 		</div>
 	</form>
 </div>
+<script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
 
@@ -137,5 +145,47 @@
 			$('#selectHere').html(``);
 		}
 	}
+</script>
+<script>
+
+function getData(url) {
+	var writer = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  prefetch: {
+	    url: url,
+	    filter: function(list) {
+	      	return $.map(list, function(cityname) {
+	        	return { name: cityname }; 
+	    	});
+	    }
+	  }
+	});
+	writer.initialize();
+	return writer.ttAdapter();
+}
+
+$('#tag').tagsinput({
+  typeaheadjs: {
+  	maxTags: 7,
+  	name: 'tag',
+    displayKey: 'name',
+    source: getData(window.location.origin + '/API/abstractBook/tag/5'),
+  }
+});	
+$('#penerbit').tagsinput({
+  typeaheadjs: {
+  	name: 'publisher',
+    displayKey: 'name',
+    source: getData(window.location.origin + '/API/abstractBook/publisher/5'),
+  }
+});	
+$('#penulis').tagsinput({
+  typeaheadjs: {
+  	name: 'writer',
+    displayKey: 'name',
+    source: getData(window.location.origin + '/API/abstractBook/writer/5'),
+  }
+});	
 </script>
 <?= $this->endSection(); ?>">
