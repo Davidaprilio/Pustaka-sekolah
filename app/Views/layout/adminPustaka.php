@@ -137,10 +137,10 @@
 
 
     <script type="text/javascript">
-        function notif(title, message, autoHide=false) {
+        function notif(title, message, timeHide=false) {
             $('.toast.hide').remove();
             const id = randomString(7);
-            const hide = (autoHide) ? `data-delay="${autoHide}"` : `data-autohide="false"`;
+            const hide = (timeHide) ? `data-delay="${timeHide}"` : `data-autohide="false"`;
             const progress = `
             <div class="progress" id="${id}" style="height: 3px;">
               <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -150,18 +150,18 @@
                 <div class="toast-header">
                   <img src="<?= base_url('/img/boy.jpg') ?>" class="rounded mr-2" width="30">
                   <strong class="mr-auto">${title}</strong>
-                  <small class="text-muted">2 seconds ago</small>
+                  <small class="text-muted">Baru saja</small>
                   <button type="button" class="ml-2 mb-1 close" id="closeToast" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="toast-body">${message}</div>
-                ${(autoHide)?progress:''}
+                ${(timeHide)?progress:''}
             </div>`;
             $('#containerToast').append(notifDOM);
             $('.toast').toast('show');
-            if (autoHide) {
-                runProgress(document.getElementById(id).children[0], autoHide);
+            if (timeHide) {
+                runProgress(document.getElementById(id).children[0], timeHide);
             }
         }
         function runProgress(bar, time) {
