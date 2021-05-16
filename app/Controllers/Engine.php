@@ -67,11 +67,14 @@ class Engine extends BaseController
 					'reader' => 0
 				];
 				$this->buku->insert($data);
-				session()->setFlashdata('pesan', 'Buku berhasil di upload');
+				session()->setFlashdata('success', base_url('/DetailBuku/'.$slugBook));
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
 			}
 		} else {
-			return redirect()->to(base_url('/Petugaspustaka/tambahbuku'))->with('formKosong','Maaf anda belum mengisi formulir pengunggahan buku silahkan mengirim formulir terlebih dulu');
+
+				session()->setFlashdata('success', base_url('/DetailBuku/n9Gv42ww'));
+				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
+			// return redirect()->to(base_url('/Petugaspustaka/tambahbuku'))->with('formKosong','Maaf anda belum mengisi formulir pengunggahan buku silahkan mengisi formulir terlebih dulu');
 		}
 	}
 

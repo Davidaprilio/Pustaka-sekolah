@@ -122,11 +122,11 @@
 		</div>
 	</form>
 </div>
+	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
-
 	function previewIMG() {
 		const sampul = document.querySelector('#fileSampul'),
 			  imgPreview =  document.querySelector('.img-thumbnail'),
@@ -168,6 +168,15 @@
 			    ['height', ['height']]
 			]
         });
+
+
+
+		<?php 
+		if (!is_null( session()->getFlashdata('formKosong') )): ?>
+			notif('Formulir Kosong!', '<?= session()->getFlashdata('formKosong') ?>', 900);
+		<?php elseif (!is_null( session()->getFlashdata('success') )) : ?>
+			notif('Buku berhasil diunggah', 'Buku berhasil diunggah, anda bisa melihatnya pada tautan berikut <p class="w-100"><a class="badge-primary badge-pill py-1 px-3" style="font-size: 13px; cursor: pointer" href="<?= session()->getFlashdata('success') ?>">Lihat buku</a></p>', 999, 6000);
+		<?php endif ?>
     });
 
 function getData(uRl) {
