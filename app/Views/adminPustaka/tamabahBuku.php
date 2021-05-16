@@ -110,7 +110,7 @@
 							<div class="card-body">
 								<h4 class="raleway">Unggah Buku</h4>
 								<p class="text-justify text-dark" style="font-size: 14px">Isikan semua data yang diminta lalu cantumkan sinopsis buku di deskripsi agar memiliki standar yang rapi, dan berikan Hastag yang relevan agar pencarian lebih optimal</p>
-								<small class="d-block">Jika sudah form di isi silahkan Unggah buku</small>
+								<small class="d-block">Jika semua form sudah di isi silahkan klik Unggah buku</small>
 								<button type="submit" class="btn btn-primary" name="upload">
 									<i class="fa fa-upload"></i>&nbsp Unggah Buku ini
 								</button>
