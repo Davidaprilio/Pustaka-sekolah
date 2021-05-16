@@ -24,7 +24,6 @@ class Engine extends BaseController
 	 */
 	public function upBook()
 	{
-		dd($this->request->getVar());
 		$test = $this->request->getPost('upload');
 		if ( isset($test) ) {
 			$sampul = $this->request->getFile('imgSampul');
@@ -72,7 +71,7 @@ class Engine extends BaseController
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
 			}
 		} else {
-			// return redirect()->to(base_url('/Administrator/tambahbuku'));
+			return redirect()->to(base_url('/Petugaspustaka/tambahbuku'))->with('formKosong','Maaf anda belum mengisi formulir pengunggahan buku silahkan mengirim formulir terlebih dulu');
 		}
 	}
 
