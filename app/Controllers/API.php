@@ -140,9 +140,9 @@ class API extends BaseController
 			$query = $query->limit($limit);
 		}
 		$result = $query->get()->getResultArray();
-		$data = ['request' => $key, 'response' => [] ];
+		$data = [];
 		foreach ($result as $val) {
-			array_push($data['response'], $val['name']);
+			array_push($data, $val['name']);
 		}
 		return $this->respond($data, 200);
 	}

@@ -1,13 +1,22 @@
 <?= $this->extend('layout/adminPustaka'); ?>
 <?= $this->section('Admin'); ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link href="<?= base_url('/')?>/summernote/summernote-lite.min.css" rel="stylesheet">
+<script src="<?= base_url('/')?>/summernote/summernote-lite.min.js"></script>
 <link href="<?= base_url('/css/inputTag.css') ?>" rel="stylesheet" type="text/css">
 <style>
+	.note-dropdown-menu.dropdown-style {
+		width: 200px;
+	}
 	.card-item {
 		border: none;
 		border-top: 5px solid var(--warning);
 	}
 	.row .col-sm-9{
 		margin-top: 25px;
+	}
+	label[for=penerbit] ~ span.twitter-typeahead {
+		display: block !important;
 	}
 	@media (max-width: 576px) {
 		.border.rounded {
@@ -61,13 +70,14 @@
 						</div>
 						<div class="form-group input-group-sm">
 						    <label for="penerbit">Penerbit</label>
-						    <input type="text" required="" class="form-control" id="penerbit" name="publisher">
+						    <input type="text" required="" class="form-control w-100" id="penerbit" name="publisher">
 						</div>
 					</div>
+					
 					<div class="col-sm-9 pt-3 border rounded">
 						<div class="form-group">
 						    <label for="kate">Target</label>
-						    <select class="form-control" required="" onchange="runSelect(this)" id="iniS" name="Kategori">
+						    <select class="form-control selectpicker show-tick border rounded mb-1" data-width="100%" data-show-subtext="true" required="" id="iniS" name="Kategori">
 						    	<optgroup label="Buku Pelajaran">
 								    <option selected value="Buku Kelas 10">Kelas 10</option>
 								    <option value="Buku Kelas 11">Kelas 11</option>
@@ -80,10 +90,8 @@
 						</div>
 						<div class="form-group" id="kateThis">
 						    <label for="kate">Kategori</label>
-						    <select class="form-control" name="tag[]" multiple="multiple" id="selectHere">
-						    	<optgroup label="pilih satu atau lebih">
-								    	<option value="">icnweuh</option>
-						    	</optgroup>
+						    <select class="selectpicker show-tick border rounded mb-1" required="" data-width="100%" name="menu" id="selectHere" data-show-subtext="true">
+						    	<option value="semua">semua</option>
 						    </select>
 						</div>
 					</div>
@@ -93,11 +101,11 @@
 						    <input type="text" class="form-control" id="tag" name="tag">
 						</div>
 						<div class="form-group input-group-sm">
-						    <label for="kate">Deskripsi</label>
-						    <textarea class="form-control" rows="7" required="" name="deskripsi"></textarea>
+						    <label for="editDesk">Deskripsi</label>
+						    <textarea id="editDesk" class="form-control" rows="7" required="" name="deskripsi"></textarea>
 						</div>
 					</div>
-					<div class="col-12 col-sm-9 col-xl-3 d-flex align-content-end">
+					<div class="col-12 col-sm-9 col-xl-3 d-flex align-items-end">
 						<div class="card">
 							<div class="card-body">
 								<h4 class="raleway">Unggah Buku</h4>
@@ -114,6 +122,7 @@
 		</div>
 	</form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
 <script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
@@ -148,12 +157,25 @@
 </script>
 <script>
 
-function getData(url) {
-	var writer = new Bloodhound({
+	$(document).ready(function() {
+        $('#editDesk').summernote({
+        	placeholder: 'Deskripsi Buku atau isikan sinopsis buku',
+        	minHeight: 200,
+        	toolbar: [
+			    ['style', ['style', 'bold', 'italic', 'underline']],
+			    ['font', ['strikethrough', 'superscript', 'subscript']],
+			    ['para', ['ul', 'ol', 'paragraph']],
+			    ['height', ['height']]
+			]
+        });
+    });
+
+function getData(uRl) {
+	var resource = new Bloodhound({
 	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
 	  queryTokenizer: Bloodhound.tokenizers.whitespace,
 	  prefetch: {
-	    url: url,
+	    url: uRl,
 	    filter: function(list) {
 	      	return $.map(list, function(cityname) {
 	        	return { name: cityname }; 
@@ -161,30 +183,60 @@ function getData(url) {
 	    }
 	  }
 	});
-	writer.initialize();
-	return writer.ttAdapter();
+	resource.initialize();
+	return resource.ttAdapter();
 }
+function substringMatcher (strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+    matches = [];
+    substrRegex = new RegExp(q, 'i');
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
 
+    cb(matches);
+  };
+};
+
+var states;
+$.ajax({
+  url: window.location.origin + '/API/abstractBook/publisher',
+  dataType: 'json',
+  async: false,
+  data: 'get',
+  success: function(data) {
+	states = data;
+  }
+});
+
+
+$('#penulis').tagsinput({
+  typeaheadjs: {
+  	name: 'citynames',
+    displayKey: 'name',
+    valueKey: 'name',
+    source: getData(window.location.origin + '/API/abstractBook/writer'),
+  }
+});	
+$('#penerbit').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'states',
+  source: substringMatcher(states)
+});
 $('#tag').tagsinput({
   typeaheadjs: {
   	maxTags: 7,
-  	name: 'tag',
+  	name: 'citynames',
     displayKey: 'name',
-    source: getData(window.location.origin + '/API/abstractBook/tag/5'),
-  }
-});	
-$('#penerbit').tagsinput({
-  typeaheadjs: {
-  	name: 'publisher',
-    displayKey: 'name',
-    source: getData(window.location.origin + '/API/abstractBook/publisher/5'),
-  }
-});	
-$('#penulis').tagsinput({
-  typeaheadjs: {
-  	name: 'writer',
-    displayKey: 'name',
-    source: getData(window.location.origin + '/API/abstractBook/writer/5'),
+    valueKey: 'name',
+    source: getData(window.location.origin + '/API/abstractBook/tag'),
   }
 });	
 </script>
