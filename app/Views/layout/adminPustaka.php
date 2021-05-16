@@ -137,20 +137,22 @@
 
 
     <script type="text/javascript">
-        function notif(title, message, timeHide=false) {
+        function notif(title, message, timeShow=0, timeHide=false) {
             $('.toast.hide').remove();
-            const id = randomString(7);
+            const id = randomString(7),
+            textTime = (timeShow < 1000) ? 'Baru saja' : timeShow ;
+
             const hide = (timeHide) ? `data-delay="${timeHide}"` : `data-autohide="false"`;
             const progress = `
             <div class="progress" id="${id}" style="height: 3px;">
               <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>`;
             const notifDOM = `
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" ${hide}>
+            <div class="toast" data-id="${id}" role="alert" aria-live="assertive" aria-atomic="true" ${hide}>
                 <div class="toast-header">
                   <img src="<?= base_url('/img/boy.jpg') ?>" class="rounded mr-2" width="30">
                   <strong class="mr-auto">${title}</strong>
-                  <small class="text-muted">Baru saja</small>
+                  <small class="text-muted">${textTime}</small>
                   <button type="button" class="ml-2 mb-1 close" id="closeToast" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -158,11 +160,13 @@
                 <div class="toast-body">${message}</div>
                 ${(timeHide)?progress:''}
             </div>`;
-            $('#containerToast').append(notifDOM);
-            $('.toast').toast('show');
-            if (timeHide) {
-                runProgress(document.getElementById(id).children[0], timeHide);
-            }
+            setTimeout(function() {
+                $('#containerToast').append(notifDOM);
+                $('.toast[data-id='+id).toast('show');
+                if (timeHide) {
+                    runProgress(document.getElementById(id).children[0], timeHide);
+                }
+            }, timeShow);
         }
         function runProgress(bar, time) {
             var t = time / 1000;
