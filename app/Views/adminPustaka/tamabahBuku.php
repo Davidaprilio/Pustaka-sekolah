@@ -162,7 +162,7 @@
         	placeholder: 'Deskripsi Buku atau isikan sinopsis buku',
         	minHeight: 200,
         	toolbar: [
-			    ['style', ['style', 'bold', 'italic', 'underline']],
+			    ['style', ['bold', 'italic', 'underline']],
 			    ['font', ['strikethrough', 'superscript', 'subscript']],
 			    ['para', ['ul', 'ol', 'paragraph']],
 			    ['height', ['height']]
