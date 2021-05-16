@@ -24,6 +24,7 @@ class Engine extends BaseController
 	 */
 	public function upBook()
 	{
+		$db = \Config\Database::connect();
 		$test = $this->request->getPost('upload');
 		if ( isset($test) ) {
 			$sampul = $this->request->getFile('imgSampul');
@@ -37,6 +38,29 @@ class Engine extends BaseController
 			if ( $book->getError() == 4 ) {
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
 			} else {
+
+				foreach ( preg_split('[\,]', $kateProdi) as $val ) {
+					$result = $db->table('abstrak')->where('name', $val)->get()->getResultArray();
+					if (count($result) == 0) {
+						$out = $db->table('abstrak')->insert(['name' => $val, 'type' => 'tag']);
+						d($out);
+					}
+				}
+
+				$result = $db->table('abstrak')->where('name', $publisher)->get()->getResultArray();
+				if (count($result) == 0) {
+					$out = $db->table('abstrak')->insert(['name' => $publisher, 'type' => 'publisher']);
+					d($out);
+				}
+
+				foreach ( preg_split('[\,]', $writer) as $val ) {
+					$result = $db->table('abstrak')->where('name', $val)->get()->getResultArray();
+					if (count($result) == 0) {
+						$out = $db->table('abstrak')->insert(['name' => $val, 'type' => 'writer']);
+						d($out);
+					}
+				}
+
 				
 				if ( $sampul->getError() == 4 ) {
 					$namesampul = 'default.jpg';
@@ -60,7 +84,7 @@ class Engine extends BaseController
 					'penulis' => $writer,
 					'penerbit' => $publisher,
 					'sampul' => $namesampul,
-					'kategori' => json_encode($kateProdi),
+					'kategori' => $kateProdi,
 					'forClass' => $kate,
 					'deskripsi' => $deskr,
 					'download' => 0,
