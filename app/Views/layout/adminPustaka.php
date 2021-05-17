@@ -71,7 +71,7 @@
                                 </div><span>Dashboard</span></a>
                             <a class="nav-link" href="<?= base_url('/Petugaspustaka/monitor'); ?>">
                                 <div class="sb-nav-link-icon">
-                                    <i class="fa fa-dashboard"></i>
+                                    <i class="fa fa-fa-area-chart"></i>
                                 </div><span>Monitoring</span></a>
                             <a class="nav-link" href="<?= base_url('/Petugaspustaka/rekomendasi'); ?>">
                                 <div class="sb-nav-link-icon">
