@@ -24,11 +24,16 @@
 	                <div class="p-2">
 	                    <a href="<?= base_url('/DetailBuku/'.$val['id_book']) ?>" class="text-dark my-0 py-0 buku_title" id="titleBook" uisb="`+data.idBuku+`" title="<?= $val['judul_buku'] ?>"><?= ellipsize($val['judul_buku'], 12, 1, '...') ?></a>
 	                    <p href="#" class="d-block my-0 authorBook">
-	                        <small class="text-muted">`+data.penulis+`</small>
+	                        <small class="text-muted"><?= $val['penulis'] ?></small>
 	                    </p>
 	                </div>
 	            </div>
-			<?php endforeach ?>
+			<?php endforeach; if (count($book) == 0 ) { ?>
+				<h1 class="display-4">
+					Tidak ada buku yang disimpan
+				</h1>
+			<?php }	?>
+
 		</div>
 	</div>
 </div>

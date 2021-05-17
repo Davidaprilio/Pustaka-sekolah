@@ -93,7 +93,7 @@ class User extends BaseController
 	public function mybook()
 	{
 		$Booksaved = new \App\Models\BookSavedModel();
-		$book = $Booksaved->select('savebook.*,book.judul_buku,book.sampul')->where('id_user', $this->sesi['id'])->join('book', 'book.slug_buku = savebook.id_book')->get()->getResultArray();
+		$book = $Booksaved->select('savebook.*,book.judul_buku,book.sampul,book.penulis')->where('id_user', $this->sesi['id'])->join('book', 'book.slug_buku = savebook.id_book')->get()->getResultArray();
 		return view('panel_user/savedBook', [
 			'userInfo' => $this->dataUser,
 			'book' => $book,
