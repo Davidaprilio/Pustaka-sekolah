@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-12 col-md-7 mb-2">
 				<div class="card" id="">
-					
+					<h6>Comming Soon</h6>
 				</div>
 			</div>
 			<div class="col-12 col-md-5">
