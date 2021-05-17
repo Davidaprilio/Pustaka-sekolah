@@ -10,7 +10,8 @@ class BukuModel extends Model
 	protected $db;
 	public function getLimit($where,$limit)
 	{
-		$kode = str_replace('Formal', '', $where);
+		// $kode = str_replace('Formal', '', $where);
+		$kode = $where;
 		if ($limit == 0) {
 			$ddd = $this->table('book')->where('menu', $kode)->findAll();
 		} else {
