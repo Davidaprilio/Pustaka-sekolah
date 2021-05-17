@@ -48,13 +48,19 @@ class Petugaspustaka extends BaseController
 
 	public function tambahbuku()
 	{
+		$dataKate = $this->kategori->getCategory('/');
 		$data = [
 			'tema' => $this->theme,
-			// 'menuKte' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Kelas')->findAll(),
-			// 'manuUmum' => $this->kategori->select('kat_menu')->where('kat_grub', 'Lainnya')->findAll(),
-			// 'manuProdi' => $this->kategori->select('kat_menu')->where('kat_grub', 'Buku Produktif')->findAll(),
-			'dataAdmin' => $this->dataAdmin
+			'dataAdmin' => $this->dataAdmin,
+			'menu' => $dataKate['data'],
 		];
+		// foreach ($dataKate['data'] as $value) {
+		// 	d($value[0]);
+			// foreach ($value as $key) {
+			// 	d($key);
+			// }
+		// }
+		// dd('and');
 		return view('adminPustaka/tamabahBuku', $data);
 	}
 

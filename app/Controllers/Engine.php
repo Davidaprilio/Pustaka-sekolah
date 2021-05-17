@@ -61,16 +61,17 @@ class Engine extends BaseController
 					}
 				}
 
-				
+				//File Buku
+				$namebook = $book->getRandomName();
+				$book->move('book', $namebook);
+				$slugBook = randomString(3).date('m').randomString(5).date('d');
+				//Sampul Buku
 				if ( $sampul->getError() == 4 ) {
 					$namesampul = 'default.jpg';
 				} else {
 					$resizeIMG = \Config\Services::image();
-					$namebook = $book->getRandomName();
-					$slugBook = randomString(3).date('m').randomString(5).date('d');
 					$namesampul = date('y').randomString(5).date('md').'.'.$sampul->getClientExtension();
 
-					$book->move('book', $namebook);
 					$sampul->move('img/book', $namesampul);
 					$resizeIMG->withFile('img/book/'.$namesampul)->resize(240, 300, false, 'height')->save('img/book/mid/'.$namesampul);
 					$resizeIMG->withFile('img/book/'.$namesampul)->resize(140, 200, false, 'height')->save('img/book/min/'.$namesampul);

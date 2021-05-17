@@ -8,6 +8,21 @@
 	.note-dropdown-menu.dropdown-style {
 		width: 200px;
 	}
+	.dropdown-item {
+	    padding: .25rem 1.5rem !important;
+	    font-size: 14.5px !important;
+	}
+	.dropdown-item.active::before {
+	    content: '';
+	    background-color: var(--primary);
+	    width: 5px;
+	    border-bottom-right-radius: 10px;
+	    border-top-right-radius: 10px;
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	}
 	.card-item {
 		border: none;
 		border-top: 5px solid var(--warning);
@@ -76,24 +91,24 @@
 					
 					<div class="col-sm-9 pt-3 border rounded">
 						<div class="form-group">
-						    <label for="kate">Target</label>
+						    <label for="kate">Simpan buku di menu</label>
 						    <select class="form-control selectpicker show-tick border rounded mb-1" data-width="100%" data-show-subtext="true" required="" id="iniS" name="Kategori">
-						    	<optgroup label="Buku Pelajaran">
-								    <option selected value="Buku Kelas 10">Kelas 10</option>
-								    <option value="Buku Kelas 11">Kelas 11</option>
-								    <option value="Buku Kelas 12">Kelas 12</option>
-						    	</optgroup>
-						    	<optgroup label="Buku Umum">
-						    		<option value="Publik">Umum</option>
-						    	</optgroup>
+					    		<?php foreach ($menu as $val): ?>
+							    	<optgroup label="<?= $val[0] ?>">
+							    		<?php unset($val[0]);
+							    		foreach ($val as $value): ?>
+										    <option value="<?= $value['kode'] ?>"><?= $value['alias'] ?></option>
+							    		<?php endforeach ?>
+							    	</optgroup>
+					    		<?php endforeach ?>
 						    </select>
 						</div>
-						<div class="form-group" id="kateThis">
+						<!-- <div class="form-group" id="kateThis">
 						    <label for="kate">Kategori</label>
 						    <select class="selectpicker show-tick border rounded mb-1" required="" data-width="100%" name="menu" id="selectHere" data-show-subtext="true">
 						    	<option value="semua">semua</option>
 						    </select>
-						</div>
+						</div> -->
 					</div>
 					<div class="col-sm-9 pt-3 border rounded">
 						<div class="form-group input-group-sm">
@@ -158,6 +173,13 @@
 <script>
 
 	$(document).ready(function() {
+		$(window).keydown(function(event){
+		    if(event.keyCode == 13) {
+		      event.preventDefault();
+		      return false;
+		    }
+		});
+
         $('#editDesk').summernote({
         	placeholder: 'Deskripsi Buku atau isikan sinopsis buku',
         	minHeight: 200,
