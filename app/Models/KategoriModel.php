@@ -118,20 +118,20 @@ class KategoriModel extends Model
 	public function findPathBook($idBook)
 	{
 		$db = \Config\Database::connect();
-		$sql = "SELECT kategori,judul_buku FROM `book` WHERE slug_buku='{$idBook}'";
+		$sql = "SELECT menu,judul_buku FROM `book` WHERE slug_buku='{$idBook}'";
 		$book = $db->query($sql)->getResult();
-		$kodePath = $book[0]->kategori;
+		$kodePath = $book[0]->menu;
 		$sql = "SELECT * FROM `tb_subKategoriBuku` INNER JOIN `tb_kategoriBuku` ON tb_subKategoriBuku.path=tb_kategoriBuku.kode_kategori WHERE slug_subKbuku='{$kodePath}'";
 		$path = $db->query($sql)->getResult();
 		$aPath = [
 			'book' => $book[0]->judul_buku,
 			'idBook' => $idBook,
-			// 'path' => [
-			// 	0 => 'Pustaka',
-			// 	1 => $path[0]->nama,
-			// 	2 => $path[0]->sub_nama,
-			// ],
-			// 'parse' => 'Pustaka/' . $path[0]->nama . '/' . $path[0]->sub_nama,
+			'path' => [
+				0 => 'Pustaka',
+				1 => $path[0]->nama,
+				2 => $path[0]->sub_nama,
+			],
+			'parse' => 'Pustaka/' . $path[0]->nama . '/' . $path[0]->sub_nama,
 		];
 		return $aPath;
 	}
