@@ -29,9 +29,11 @@
 	                </div>
 	            </div>
 			<?php endforeach; if (count($book) == 0 ) { ?>
-				<h1 class="display-4">
-					Tidak ada buku yang disimpan
-				</h1>
+				<div class="d-flex text-center w-100 pt-5 flex-column">
+					<i class="fa fa-search text-muted fa-3x mb-4"></i>
+					<h4 class="raleway text-muted">Tidak ada buku yang disimpan</h4>
+					<span style="font-size: 14px" class="pt-1 raleway">Cari buku untuk memulai membaca lebih banyak buku</span>
+				</div>
 			<?php }	?>
 
 		</div>
