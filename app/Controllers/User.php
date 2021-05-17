@@ -52,6 +52,9 @@ class User extends BaseController
 		$Tugas = new \App\Models\TugasModel();
 		$tgs = $Tugas->select('tugas.*,guru.nama,guru.foto')->where('kode_tugas', $kodeTugas)->join('guru', 'tugas.id_guru = guru.slug')->first();
 		$buku = $this->Buku->where('slug_buku', $tgs['id_buku'])->first();
+		if (is_null($buku)) {
+			throw new \CodeIgniter\Exceptions\PageNotFoundException('Buku dari tugas ini mungkin sudah dihapus oleh petugas');
+		}
 		return view('panel_user/lihatTugas', [
 			'userInfo' => $this->dataUser,
 			'tugas' => $tgs,
