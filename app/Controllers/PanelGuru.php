@@ -47,12 +47,12 @@ class PanelGuru extends BaseController
 		$filter = $this->request->getGet('filter');
 		if (isset($_POST['key']) && !is_null($filter)) {
 			$keyw = $this->request->getPost('key');
-			$dataUser = $this->user->filter($filter, $jsonKelas, $keyw);
+			$dataUser = $this->user->filter($filter, $keyw);
 		} else if (isset($_POST['key'])) {
 			$keyw = $this->request->getPost('key');
 			$dataUser = $this->user->like('nama', $keyw)->findAll();
 		} else if (!is_null($filter)) {
-			$dataUser = $this->user->filter($filter, $jsonKelas);
+			$dataUser = $this->user->filter($filter);
 		} else {
 			$dataUser = $this->user->findAll();
 		}
@@ -78,6 +78,12 @@ class PanelGuru extends BaseController
 			$dataUser[$no]['sampulBuku'] = $bookIMG;
 			$dataUser[$no]['judulBuku'] = $bookT;
 			$no++;
+		}
+		$kodeKelastmp = array_column($dataKelas, 'kode_kelas');
+		$index = 0;
+		foreach ($dataUser as $val) {
+			$dataUser[$index]['kelas'] = $dataKelas[array_search($val['kode_kelas'], $kodeKelastmp)]['kelas'];
+			$index++;
 		}
 		$data = [
 			'tema' => $this->theme,
