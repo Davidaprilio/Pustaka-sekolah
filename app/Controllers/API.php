@@ -125,10 +125,10 @@ class API extends BaseController
 			$data['items']['idBuku'] = $get['slug_buku'];
 			$data['items']['deskripsi'] = $get['deskripsi'];
 		}
-		$data['pathBook'] = [
-			'arr' => $pathBook['path'],
-			'parse' => $pathBook['parse'],
-		];
+		// $data['pathBook'] = [
+		// 	'arr' => $pathBook['path'],
+		// 	'parse' => $pathBook['parse'],
+		// ];
 		return $this->respond($data, 200);
 	}
 

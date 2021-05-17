@@ -85,8 +85,8 @@ class Engine extends BaseController
 					'penulis' => $writer,
 					'penerbit' => $publisher,
 					'sampul' => $namesampul,
-					'kategori' => $kateProdi,
-					'forClass' => $kate,
+					'hastag' => $kateProdi,
+					'menu' => $kate,
 					'deskripsi' => $deskr,
 					'download' => 0,
 					'reader' => 0
