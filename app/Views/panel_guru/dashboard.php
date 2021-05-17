@@ -51,12 +51,10 @@
 			      <th scope="col">baca</th>
 			      <th scope="col">waktu</th>
 			      <th scope="col">mulai</th>
-			      <th scope="col">detail</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    <?php 
-			    for ($i=0; $i < 10; $i++) { 
 			    $no = 1;
 			    foreach ($users as $user): ?>
 			      <tr>
@@ -73,9 +71,8 @@
 			        <td><?= (is_null($user['judulBuku']))? '-' : $user['judulBuku']; ?></td>
 			        <td><?= (is_null($user['readTime']))? '-' : $user['readTime']; ?></td>
 			        <td><?= (is_null($user['start']))? '-' : $user['start']; ?></td>
-			        <td><button class="badge badge-info border-0" id="btnInfo" data-info="<?= $user['idUniq'] ?>" data-toggle="modal" data-target="#modalInfo">&nbsp&nbspInfo&nbsp&nbsp</button></td>
 			      </tr>
-			    <?php endforeach; } ?>
+			    <?php endforeach; ?>
 			  </tbody>
 			  <caption>Menampilkan <?= count($users) ?> dari 380 pengguna</caption>
 			</table>
