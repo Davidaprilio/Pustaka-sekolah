@@ -28,7 +28,7 @@
             <button class="btn btn-link btn-sm ml-2 text-light order-1 order-md-2" id="sidebarToggle" type="button">
                 <i class="fa fa-bars"></i>
             </button>
-            <a href="<?= base_url('/Pustaka'); ?>" class="order-3">
+            <a href="<?= base_url('/'); ?>" class="order-3">
             <button class="btn btn-link btn-sm text-light d-none d-sm-inline-block" type="button">
                 <i class="fa fa-home"></i>
             </button></a>
