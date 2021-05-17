@@ -123,7 +123,7 @@
 		    ctx = canvas.getContext('2d'),
 		    nextP = false,
 		    time,
-		    lock = <?= $read_pages ?> + 1;
+		    lock = pageNum + 1;
 
 
 		/**
