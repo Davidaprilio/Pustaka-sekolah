@@ -11,11 +11,10 @@ class BukuModel extends Model
 	public function getLimit($where,$limit)
 	{
 		$kode = str_replace('Formal', '', $where);
-		$fieldTB = ($where == $kode)? 'kategori' : 'forClass';
 		if ($limit == 0) {
-			$ddd = $this->table('book')->where($fieldTB, $kode)->findAll();
+			$ddd = $this->table('book')->where('menu', $kode)->findAll();
 		} else {
-			$ddd = $this->table('book')->where($fieldTB, $kode)->limit($limit)->get()->getResultArray();
+			$ddd = $this->table('book')->where('menu', $kode)->limit($limit)->get()->getResultArray();
 		}
 		return $ddd;
 	}
