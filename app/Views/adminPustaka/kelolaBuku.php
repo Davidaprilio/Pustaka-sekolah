@@ -23,21 +23,22 @@
         <tr class="text-white">
           <th scope="col">no.</th>
           <th scope="col">Judul</th>
-          <th scope="col">Download</th>
-          <th scope="col">Reader</th>
-          <th scope="col">Rating</th>
+          <th scope="col">Size</th>
+          <th scope="col">Upload</th>
+          <th scope="col">Halaman</th>
           <th scope="col">Opsi</th>
         </tr>
       </thead>
       <tbody up="no">
         <?php
         $no =  1 + (5 * ($currentPage-1)) ;
-        foreach ($table as $data) : ?>
+        foreach ($table as $data) : 
+          $tgl = tgl_ID(date('Y-m-d', strtotime($data['created_at']))); ?>
           <tr id="<?= $data['slug_buku'] ?>" class="border-bottom rowList">
             <th scope="row"><?= $no++ ?></th>
             <td title="<?= $data['judul_buku'] ?>" fc="1" class="tdup"><?= $data['judul_buku'] ?></td>
-            <td title="<?= $data['download'] ?>"><?= $data['download'] ?></td>
-            <td title="<?= $data['reader'] ?>"><?= $data['reader'] ?></td>
+            <td title="besar file buku ini <?= $data['size'] ?>"><?= $data['size'] ?></td>
+            <td title="diunggah pada <?= $tgl ?>"><?= $tgl ?></td>
             <td title="<?= $data['rating'] ?>"><?= $data['rating'] ?></td>
             <td id="opsi">
               <a class="badge badge-info text-white mb-1" title="Detail buku" id="getInfo" data-check="<?= $data['slug_buku'] ?>" style="cursor: pointer;" data-toggle="modal" data-target="#detailBuku">
