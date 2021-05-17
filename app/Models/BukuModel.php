@@ -6,7 +6,7 @@ class BukuModel extends Model
 {
 	protected $table = 'book';
 	protected $useTimestamps = true;
-	protected $allowedFields = ['file_enc','slug_buku','author','judul_buku','penulis','penerbit','sampul','hastag','menu','type','deskripsi','download','reader','rating','status','pesan'];
+	protected $allowedFields = ['file_enc','slug_buku','author','judul_buku','penulis','penerbit','sampul','hastag','menu','size''type','deskripsi','download','reader','rating','status','pesan'];
 	protected $db;
 	public function getLimit($where,$limit)
 	{

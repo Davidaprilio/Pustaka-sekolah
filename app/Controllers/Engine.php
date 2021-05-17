@@ -35,6 +35,8 @@ class Engine extends BaseController
 			$kateProdi = $this->request->getPost('tag');
 			$publisher = $this->request->getPost('publisher');
 			$deskr = $this->request->getPost('deskripsi');
+			helper('number');
+
 			if ( $book->getError() == 4 ) {
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
 			} else {
@@ -87,10 +89,12 @@ class Engine extends BaseController
 					'sampul' => $namesampul,
 					'hastag' => $kateProdi,
 					'menu' => $kate,
+					'size' => number_to_size($book->getSize()),
 					'deskripsi' => $deskr,
 					'download' => 0,
 					'reader' => 0
 				];
+				dd($data);
 				$this->buku->insert($data);
 				session()->setFlashdata('success', base_url('/DetailBuku/'.$slugBook));
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));
