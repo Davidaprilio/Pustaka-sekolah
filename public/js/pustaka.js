@@ -158,7 +158,7 @@ function detailBuku(id) {
                             <h5 class="card-title mb-3 mt-1 text-wrap text-center">`+result.items.judulBuku+`</h5>
                         </div>
                         <div class="col-3 col-md-3 pl-md-5 text-center">
-                            <img src="`+result.items.sampulOri+`" class="card-img shadow-sm" style="max-width: 200px">
+                            <img src="`+result.items.sampulMid+`" class="card-img shadow-sm" style="max-width: 200px">
                         </div>
                         <div class="col-9 col-md-8">
                           <div class="card-body pt-0">
