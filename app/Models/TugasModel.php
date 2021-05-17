@@ -28,23 +28,45 @@ class TugasModel extends Model
 			'size' => $buku[0]['size'],
 			'page' => $buku[0]['page'],
 		];
-		$siswa = $db->table('user')->where('kode_kelas', $tugas[0]['id_kelas'])->get()->getResultArray();
+		$siswa = $db->table('user')->select('nama,idUniq,foto,state')->where('kode_kelas', $tugas[0]['id_kelas'])->get()->getResultArray();
 		$tugas[0]['data'] = [
-			'selesai' => count($siswa),
-			'progress' => count($siswa),
-			'belum' => count($siswa),
+			'selesai' => '-',
+			'progress' => '-',
+			'belum' => '-',
 		];
 		$in = 0;
+
+		$t = preg_split("/-/", $tugas[0]['read_pages']);
+		$pageHarusDibaca = $t[1] - $t[0] + 1;
+		$s = 0; $p = 0; $b = 0;
 		foreach ($siswa as $key) {
+			$data = $db->table('submited')->where('id_user', $key['idUniq'])->where('tugas_kode', $idTugas)->get()->getResultArray();
+			if (count($data) == 0) {
+				$readPage = 0;
+			} else {
+				$readPage = (int)$data[0]['progress'];
+			}
+			$progres = $readPage * 100 / $pageHarusDibaca;
+			if ($progres == 100) {
+				$s++;
+			} elseif ($progres > 0) {
+				$p++;
+			} else {
+				$b++;
+			}
 			$tugas[0]['data']['siswa'][$in] = [
 				'nama' => $key['nama'],
 				'id' => $key['idUniq'],
 				'foto' => $key['foto'],
 				'state' => $key['state'],
-				'progress' => ' ',
+				'readlastPage' => $readPage,
+				'progress' => $progres,
 			];
 			$in++;
 		}
+		$tugas[0]['data']['selesai'] = $s;
+		$tugas[0]['data']['progress'] = $p;
+		$tugas[0]['data']['belum'] = $b;
 		return $tugas;
 	}
 }
