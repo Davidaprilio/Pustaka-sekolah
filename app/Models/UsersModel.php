@@ -41,17 +41,9 @@ class UsersModel extends Model
 		}
 		return $updated;
 	}
-	public function filter(array $arrFilter, $kelasData, $search = false)
+	public function filter(array $arrFilter, $search = false)
 	{
 		$node = 0;
-		foreach ($arrFilter as $id) {
-			foreach ($kelasData['items'] as $kelas) {
-				if ($kelas['kode_kelas'] == $id) {
-					$arrFilter[$node] = $kelas['kelas'];
-				}
-			}
-			$node++;
-		}
 		$db = \Config\Database::connect();
 		$sql = "SELECT * FROM `user` WHERE ";
 		if ($search) {
@@ -60,7 +52,7 @@ class UsersModel extends Model
 		$length = count($arrFilter);
 		$node = 1;
 		foreach ($arrFilter as $value) {
-			$sql .= "kelas='" . $value . "'";
+			$sql .= "kode_kelas='" . $value . "'";
 			if ($node < $length) {
 				$sql .= " OR ";
 			}
@@ -69,7 +61,7 @@ class UsersModel extends Model
 		if ($search) {
 			$sql .= ")";
 		}
-		$sql .= " ORDER BY kelas DESC";
+		$sql .= " ORDER BY kode_kelas DESC";
 		$result = $db->query($sql)->getResultArray();
 		return $result;
 	}

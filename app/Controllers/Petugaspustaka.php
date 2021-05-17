@@ -102,7 +102,7 @@ class Petugaspustaka extends BaseController
 	{
 		helper('text');
 	    $kelasModel = new \App\Models\KelasModel();
-		$kelas = $kelasModel->findAll();
+		$kelas = $kelasModel->select('kelas, idkelas')->findAll();
 		$dataKelas = [];
 		foreach ($kelas as $key) {
 			array_push($dataKelas, [
@@ -114,15 +114,16 @@ class Petugaspustaka extends BaseController
 	    $filter = $this->request->getGet('filter');
 	    if (isset($_POST['key']) && !is_null($filter)) {
 	    	$keyw = $this->request->getPost('key');
-		    $dataUser = $this->user->filter($filter, $jsonKelas, $keyw);
+		    $dataUser = $this->user->filter($filter, $keyw);
 	    } else if (isset($_POST['key'])) {
 	    	$keyw = $this->request->getPost('key');
 		    $dataUser = $this->user->like('nama', $keyw)->findAll();
 	    } else if (!is_null($filter)) {
-		    $dataUser = $this->user->filter($filter, $jsonKelas);
+		    $dataUser = $this->user->filter($filter);
 	    } else {
 		    $dataUser = $this->user->findAll();
 	    }
+
 		$no = 0;
 	    foreach ($dataUser as $key) {
 	    	if ($key['state'] == 'baca') {
@@ -147,6 +148,14 @@ class Petugaspustaka extends BaseController
 	    	$dataUser[$no]['judulBuku'] = $bookT;
 	    	$no++;
 	    }
+
+	    $index = 0;
+	    $kodeKelas = array_column($dataKelas, 'kode_kelas');
+	    foreach ($dataUser as $val) {
+	    	$dataUser[$index]['kelas'] = $dataKelas[array_search($val['kode_kelas'], $kodeKelas)]['kelas'];
+	    	$index++;
+	    }
+
 		$data = [
 			'dataKelas' => $dataKelas,
 			'tema' => $this->theme,
@@ -154,6 +163,7 @@ class Petugaspustaka extends BaseController
 			'users' => $dataUser,
 			'filter' => $filter,
 		];
+
 		if ($sys == 'sync') {
 			return view('adminPustaka/tabelMon', $data);	
 		} else {
