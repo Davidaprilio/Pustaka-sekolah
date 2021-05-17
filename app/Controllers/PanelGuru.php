@@ -127,12 +127,13 @@ class PanelGuru extends BaseController
 	{
 		$Tugas = new \App\Models\TugasModel();
 		$tugas = $Tugas->detail($kodeTugas);
-		return $this->respond($tugas, 200);
+		// return $this->respond($tugas, 200);
 		if (!is_null($tugas) && $tugas['id_guru'] == session()->get('userLogin')['id']) {
 			$data = [
 				'tema' => $this->theme,
 				'tugas' => $tugas,
 			];
+			dd($tugas);
 			return view('panel_guru/viewtugas', $data);
 		} else {
 			return redirect()->to(base_url('/PanelGuru/penugasan'));

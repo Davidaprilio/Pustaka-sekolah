@@ -67,6 +67,6 @@ class TugasModel extends Model
 		$tugas[0]['data']['selesai'] = $s;
 		$tugas[0]['data']['progress'] = $p;
 		$tugas[0]['data']['belum'] = $b;
-		return $tugas;
+		return $tugas[0];
 	}
 }
