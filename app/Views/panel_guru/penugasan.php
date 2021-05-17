@@ -95,6 +95,7 @@
 								<div class="form-group">
 									<label for="text"><small>Penjelasan tugas untuk membaca buku</small></label>
 									<textarea name="inDeskripsi" class="form-control" rows="3" placeholder="deskripsi atau pesan perintah untuk tugas" id="text"></textarea>
+									<small class="text-muted float-right"><span id="maxTextDesk">0</span>/60.000</small>
 								</div>
 								<div class="form-group">
 									<label for="kelas"><small>Penerima tugas</small></label>
@@ -160,5 +161,8 @@
 			}
 		});
 	});
+	$('#text').on('keyup', function(e) {
+		$('#maxTextDesk').text(document.getElementById('text').value.length);		
+	})
 </script>
 <?= $this->endSection(); ?>">
