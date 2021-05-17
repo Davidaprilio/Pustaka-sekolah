@@ -58,7 +58,7 @@ class Auth extends BaseController
 			'NISN' => $nisnSiswa,
 			'foto' => ($this->request->getPost('jk') == 'L') ? 'boy.jpg' : 'girl.png',
 			'pass' => password_hash($this->request->getPost('pass'), PASSWORD_DEFAULT),
-			'kelas' => $this->request->getPost('class'),
+			'kode_kelas' => $this->request->getPost('class'),
 			'uname' => $this->request->getPost('user'),
 			'state' => 'offline',
 			'idUniq' => random_string('alpha', 15),

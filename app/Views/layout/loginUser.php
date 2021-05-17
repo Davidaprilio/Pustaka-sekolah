@@ -22,7 +22,7 @@
 		            <div class="invalid-feedback" id="inputUser">
 		                <?= session()->getFlashdata('failUname'); ?>
 		            </div>
-		            <label for="inputUser">Email</label>
+		            <label for="inputUser">Email/Username</label>
 		        </div>
 		        <div class="form-label-group position-relative" style="height: 60px">
 		            <input type="password" onkeypress="c(this)" id="inputPassword" class="form-control <?= (session()->getFlashdata('failPass'))? 'is-invalid' : ''?>" placeholder="Password" name="pass" required oninvalid="this.setCustomValidity('Password diperlukan')" oninput="setCustomValidity('')">
