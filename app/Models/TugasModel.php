@@ -29,14 +29,14 @@ class TugasModel extends Model
 			'page' => $buku[0]['page'],
 		];
 		$siswa = $db->table('user')->where('kode_kelas', $tugas[0]['id_kelas'])->get()->getResultArray();
-		$tugas[0]['siswa'] = [
+		$tugas[0]['data'] = [
 			'selesai' => count($siswa),
 			'progress' => count($siswa),
 			'belum' => count($siswa),
 		];
 		$in = 0;
 		foreach ($siswa as $key) {
-			$tugas[0]['siswa']['data'][$in] = [
+			$tugas[0]['data']['siswa'][$in] = [
 				'nama' => $key['nama'],
 				'id' => $key['idUniq'],
 				'foto' => $key['foto'],

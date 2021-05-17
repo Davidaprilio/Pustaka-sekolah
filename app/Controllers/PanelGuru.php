@@ -138,4 +138,10 @@ class PanelGuru extends BaseController
 			return redirect()->to(base_url('/PanelGuru/penugasan'));
 		}
 	}
+
+	public function out()
+	{
+		session()->destroy();
+		return redirect()->to(base_url());
+	}
 }
