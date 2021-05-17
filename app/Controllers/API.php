@@ -40,7 +40,7 @@ class API extends BaseController
 			$data['items'][$in]['sampulMid'] = '/img/book/mid/' . $key['sampul'];
 			$data['items'][$in]['sampulMin'] = '/img/book/min/' . $key['sampul'];
 			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
-			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['kategori'] = $key['menu'];
 			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
 			$data['items'][$in]['idBuku'] = $key['slug_buku'];
 			$in++;
@@ -60,7 +60,7 @@ class API extends BaseController
 			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
 			$data['items'][$in]['pemilikBuku'] = $key['author'];
 			$data['items'][$in]['diunggah'] = $key['created_at'];
-			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['kategori'] = $key['menu'];
 			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
 			$data['items'][$in]['unduhan'] = $key['download'];
 			$data['items'][$in]['dibaca'] = $key['reader'];
@@ -86,7 +86,7 @@ class API extends BaseController
 			$data['items'][$in]['sampulOri'] = '/img/book/' . $key['sampul'];
 			$data['items'][$in]['pemilikBuku'] = $key['author'];
 			$data['items'][$in]['diunggah'] = $key['created_at'];
-			$data['items'][$in]['kategori'] = $key['forClass'];
+			$data['items'][$in]['kategori'] = $key['menu'];
 			$data['items'][$in]['judulBuku'] = $key['judul_buku'];
 			$data['items'][$in]['unduhan'] = $key['download'];
 			$data['items'][$in]['dibaca'] = $key['reader'];
@@ -115,7 +115,7 @@ class API extends BaseController
 			$data['items']['pemilikBuku'] = $get['author'];
 			$data['items']['diunggah'] = $get['created_at'];
 			$data['items']['diunggahParse'] = tgl_Id(date('Y-m-d', strtotime($get['created_at'])));
-			$data['items']['kategori'] = $get['forClass'];
+			$data['items']['kategori'] = $get['menu'];
 			$data['items']['judulBuku'] = $get['judul_buku'];
 			$data['items']['unduhan'] = $get['download'];
 			$data['items']['dibaca'] = $get['reader'];
