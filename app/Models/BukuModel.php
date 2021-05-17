@@ -21,13 +21,13 @@ class BukuModel extends Model
 	}
 	public function suggestBook()
 	{
-		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.forClass FROM `rekomendasi` JOIN book ON rekomendasi.slug_book=book.slug_buku";
+		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.menu FROM `rekomendasi` JOIN book ON rekomendasi.slug_book=book.slug_buku";
 		$res = $this->db->query($sql)->getResultArray();
 		return $res;
 	}
 	public function notSuggestBook()
 	{
-		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.forClass FROM `rekomendasi` LEFT JOIN book ON rekomendasi.slug_book=book.slug_buku WHERE book.slug_buku IS NULL" ;
+		$sql = "SELECT book.slug_buku,book.judul_buku,book.sampul,book.menu FROM `rekomendasi` LEFT JOIN book ON rekomendasi.slug_book=book.slug_buku WHERE book.slug_buku IS NULL" ;
 		$res = $this->db->query($sql)->getResultArray();
 		return $res;
 	}
