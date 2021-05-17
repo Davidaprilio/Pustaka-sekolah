@@ -67,7 +67,7 @@
 								<div class="border rounded p-2 shadow-sm mb-2 hoverCard">
 									<div class="d-flex justify-content-between">
 										<h5 class="mb-1">Tugas <?= $data['kelas'] ?></h5>
-										<span><i class="fa fa-user-o"></i> <?= $data['progress'] . '/' . $data['users'] ?></span>
+										<span><i class="fa fa-user-o"></i> <?= $data['users'] ?> siswa</span>
 									</div>
 									<a href="<?= base_url('/PanelGuru/tugas/' . $data['kode_tugas']) ?>" class="text-blue"><?= $data['judul'] ?></a>
 									<hr class="mb-1 mt-0">
