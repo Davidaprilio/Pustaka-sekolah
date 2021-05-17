@@ -133,7 +133,6 @@ class PanelGuru extends BaseController
 				'tema' => $this->theme,
 				'tugas' => $tugas,
 			];
-			dd($tugas);
 			return view('panel_guru/viewtugas', $data);
 		} else {
 			return redirect()->to(base_url('/PanelGuru/penugasan'));

@@ -25,7 +25,7 @@
 		</p>
 		<div class="d-flex justify-content-start bg-light p-2 rounded shadow-sm">
 			<figure class="figure position-relative">
-				<img width="90" height="150" src="<?= base_url('/img/book/default.jpg') ?>" class="figure-img img-fluid rounded mb-0">
+				<img width="90" height="150" src="<?= base_url('/img/book/min/'.$tugas['buku']['sampul']) ?>" class="figure-img img-fluid rounded mb-0">
 				<figcaption class="figure-caption">
 					<small>Pustaka E-book</small>
 				</figcaption>
@@ -33,7 +33,7 @@
 			<div class="ml-2 pl-2">
 				<ul style="font-size: 14px" class="list-unstyled">
 					<li>Lorem ipsum dolor sit, amet consectetur.</li>
-					<li>Hal 153</li>
+					<li>Hal <?= $tugas['buku']['page'] ?></li>
 				</ul>
 			</div>
 		</div>
@@ -47,35 +47,23 @@
 				</tr>
 			</thead>
 			<tbody class="text-dark">
+				<?php 
+				$no=0;
+				foreach ($tugas['data']['siswa'] as $val): ?>
 				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>25%
+					<th scope="row"><?= $no++ ?></th>
+					<td><?= $val['nama'] ?></td>
+					<td><?= $val['progress'] ?>%
 						<div class="progress" style="height: 8px">
-							<div class="progress-bar progress-bar-striped" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar progress-bar-striped" role="progressbar" style="width: <?= $val['progress'] ?>%;" aria-valuenow="<?= $val['progress'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Thornton</td>
-					<td>100%
-						<div class="progress" style="height: 8px">
-							<div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Bagas Arisandi</td>
-					<td>35%
-						<div class="progress" style="height: 8px">
-							<div class="progress-bar progress-bar-striped" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-					</td>
-				</tr>
+				<?php endforeach ?>
 			</tbody>
 		</table>
+
+		<button class="btn btn-danger mx-md-5">Stop Tugas</button>
 
 	</div>
 </div>
