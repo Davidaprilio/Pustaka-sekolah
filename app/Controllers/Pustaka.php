@@ -48,7 +48,7 @@ class Pustaka extends BaseController
 	}
 	public function detail($id)
 	{
-		$buku = $this->buku->select('forClass')->where('slug_buku', $id)->first();
+		$buku = $this->buku->select('menu')->where('slug_buku', $id)->first();
 
 
 		if (is_null($buku)) {
@@ -62,7 +62,7 @@ class Pustaka extends BaseController
 			'baseM' => 'DetailBuku',
 			'dataJson' => json_encode($dataKate),
 			'bGk' => 'Buku Kelas',
-			'bK' => $buku['forClass'],
+			'bK' => $buku['menu'],
 			'userInfo' => $this->userInfo
 		];
 		return view('pustaka/index', $data);
