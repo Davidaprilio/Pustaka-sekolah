@@ -178,6 +178,10 @@ class Petugaspustaka extends BaseController
 
 	public function rekomendasi($p=null)
 	{
+		return view('adminPustaka/Csoon', [
+			'tema' => $this->theme,
+			'dataAdmin' => $this->dataAdmin,
+		]);
 		if (is_null($p)) {
 			// null
 		} else if ($p == 'drop') {
@@ -193,7 +197,6 @@ class Petugaspustaka extends BaseController
 			throw new \CodeIgniter\Exceptions\PageNotFoundException();
 		}
 		$data = [
-			'tema' => $this->theme,
 			'dataAdmin' => $this->dataAdmin,
 			'buku' => $this->buku->notSuggestBook(),
 			'suggest' => $this->buku->suggestBook(),
