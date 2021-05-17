@@ -126,12 +126,12 @@ class KategoriModel extends Model
 		$aPath = [
 			'book' => $book[0]->judul_buku,
 			'idBook' => $idBook,
-			'path' => [
-				0 => 'Pustaka',
-				1 => $path[0]->nama,
-				2 => $path[0]->sub_nama,
-			],
-			'parse' => 'Pustaka/' . $path[0]->nama . '/' . $path[0]->sub_nama,
+			// 'path' => [
+			// 	0 => 'Pustaka',
+			// 	1 => $path[0]->nama,
+			// 	2 => $path[0]->sub_nama,
+			// ],
+			// 'parse' => 'Pustaka/' . $path[0]->nama . '/' . $path[0]->sub_nama,
 		];
 		return $aPath;
 	}
