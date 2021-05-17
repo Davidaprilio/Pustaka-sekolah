@@ -29,6 +29,7 @@ class Engine extends BaseController
 		if ( isset($test) ) {
 			$sampul = $this->request->getFile('imgSampul');
 			$book = $this->request->getFile('book');
+			$page = $this->request->getPost('page');
 			$title = $this->request->getPost('titlebook');
 			$writer = $this->request->getPost('writer');
 			$kate = $this->request->getPost('Kategori');
@@ -69,7 +70,7 @@ class Engine extends BaseController
 				$slugBook = randomString(3).date('m').randomString(5).date('d');
 				//Sampul Buku
 				if ( $sampul->getError() == 4 ) {
-					$namesampul = 'default.jpg';
+					$namesampul = '../default.jpg';
 				} else {
 					$resizeIMG = \Config\Services::image();
 					$namesampul = date('y').randomString(5).date('md').'.'.$sampul->getClientExtension();
@@ -90,11 +91,11 @@ class Engine extends BaseController
 					'hastag' => $kateProdi,
 					'menu' => $kate,
 					'size' => number_to_size($book->getSize()),
+					'page' => $page,
 					'deskripsi' => $deskr,
 					'download' => 0,
 					'reader' => 0
 				];
-				dd($data);
 				$this->buku->insert($data);
 				session()->setFlashdata('success', base_url('/DetailBuku/'.$slugBook));
 				return redirect()->to(base_url('/Petugaspustaka/tambahbuku'));

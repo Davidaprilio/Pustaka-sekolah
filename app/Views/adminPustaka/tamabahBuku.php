@@ -51,6 +51,8 @@
 		</div>
 	<?php endif ?>
 	<form action="<?= base_url('/Engine/upBook') ?>" method="POST" enctype="multipart/form-data">
+		<?= csrf_field() ?>
+		<input type="hidden" name="page" id="cpage">
 		<div class="card card-item mt-2 mb-3 shadow-sm">
 			<h3 class="raleway text-muted text-center pt-3">Tambah Buku</h3>
 			<div class="card-body p-3 p-md-5">
@@ -140,6 +142,7 @@
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+<script src="<?= base_url('/pdfjs/build/pdf.js') ?>"></script>
 <script src="<?= base_url('/js/inputTag.js') ?>"></script>
 <script>
 	function previewIMG() {
@@ -156,9 +159,19 @@
 		const book =  document.querySelector('#inputBook'),
 			  judul =  document.querySelector('#judulbuku'),
 			  label =  document.querySelector('#viewname'),
-			  nameFile = book.files[0].name;
+			  nameFile = book.files[0].name,
+			  pdfjsLib = window['pdfjs-dist/build/pdf'],
+			  fRead = new FileReader();
 		label.textContent = nameFile;
 		judul.value = nameFile.replace(".pdf","");
+		fRead.readAsDataURL(book.files[0]);
+		fRead.onload = function(e) {
+			pdfjsLib.getDocument(e.target.result).promise.then(function(pdfDoc_) {
+			  pdfDoc = pdfDoc_;
+			  document.getElementById('cpage').value = pdfDoc.numPages;
+			});
+		}
+
 	}
 	function runSelect(id) {
 		let k = $("select#iniS option:selected").val();
@@ -169,6 +182,18 @@
 			$('#selectHere').html(``);
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 <script>
 
