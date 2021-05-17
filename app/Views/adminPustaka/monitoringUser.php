@@ -76,7 +76,7 @@
 			      </tr>
 			    <?php endforeach; ?>
 			  </tbody>
-			  <caption>Menampilkan <?= count($users) ?> dari 380 pengguna</caption>
+			  <caption>Menampilkan <?= count($users) ?> dari <?= $alluser ?> pengguna</caption>
 			</table>
 		</div>
 		<div class="card">

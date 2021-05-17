@@ -112,6 +112,7 @@ class Petugaspustaka extends BaseController
 		}
 
 	    $filter = $this->request->getGet('filter');
+
 	    if (isset($_POST['key']) && !is_null($filter)) {
 	    	$keyw = $this->request->getPost('key');
 		    $dataUser = $this->user->filter($filter, $keyw);
@@ -124,10 +125,11 @@ class Petugaspustaka extends BaseController
 		    $dataUser = $this->user->findAll();
 	    }
 
+    	//jika user sedang membaca ambil info buku yang dibaca
 		$no = 0;
 	    foreach ($dataUser as $key) {
 	    	if ($key['state'] == 'baca') {
-	    		$result = $this->reader->select('bookReader.startTime, bookReader.time, bookReader.start, book.judul_buku, book.sampul')->where('idUser',$key['idUniq'])->where('idBook',$key['openBook'])->join('book','book.slug_buku = bookReader.idBook')->first();
+	    		$result = $this->reader->select('historyReading.startTime, historyReading.time, historyReading.start, book.judul_buku, book.sampul')->where('idUser',$key['idUniq'])->where('idBook',$key['openBook'])->join('book','book.slug_buku = historyReading.idBook')->first();
 	    		$timeS = $result['startTime'];
 	    		$timeR = $result['time'];
 	    		$timeST = $result['start'];
@@ -149,6 +151,7 @@ class Petugaspustaka extends BaseController
 	    	$no++;
 	    }
 
+	    //add nama kelas dengan acuan kode_kelas
 	    $index = 0;
 	    $kodeKelas = array_column($dataKelas, 'kode_kelas');
 	    foreach ($dataUser as $val) {
@@ -161,6 +164,7 @@ class Petugaspustaka extends BaseController
 			'tema' => $this->theme,
 			'dataAdmin' => $this->dataAdmin,
 			'users' => $dataUser,
+			'alluser' => count($this->user->select('id')->findAll()),
 			'filter' => $filter,
 		];
 
