@@ -67,7 +67,3 @@ Untuk **Linux** beri permission pada folder
 /public/img/logo
 /writable
 ```
-
-## Penting
-
-Aplikasi ini berjalan bergantung pada aplikasi [AppsSchool](https://github.com/Dav0x0/Apps-School) untuk mengambil data siswa dan data sekolah lainnya dan layanan loginnya juga
