@@ -1,3 +1,7 @@
+### Project ini telah diremake ke Laravel freamwork [Pustaka Sekolah (remake)](https://github.com/Davidaprilio/pustaka-sekolah-remake).
+project diremake karena banyak table dan column yang gak sinkron dengan migration dan sql schema nya sudah hilang, dan juga kode berantakan. karena gak mau pusing maka saya remake menggunakan laravel freamwork karena lebih mudah (terbiasa berkutat dengan freamwork ini).
+
+
 # Pustaka Elektronik Sekolah (PES)
 ![Tampilan depan](public/img/viewPage.png)
 
